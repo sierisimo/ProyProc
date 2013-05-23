@@ -1,0 +1,43 @@
+/*
+	main.css
+
+
+body {
+	margin: 0px;
+	padding: 0px;
+}
+*/
+article, aside, details, figure, footer, header, nav, section, summary {
+	display: block;
+}
+
+.graphic {
+	display: inline;
+	position: relative;
+	width: 1000px;
+	height: 600px;
+}
+.graphic-panel, canvas {
+	width: 500px;
+	height: 300px;
+	display: inline;
+	top: 0;
+	left: 0;
+}
+
+.graphic-config {
+	position: relative;
+	display: inline;
+	left: 400px;
+}
+
+header {
+	/*background-color: yellow;*/
+	height: 50px;
+	padding: 0;
+	position: relative;
+}
+
+footer {
+	text-align: right;
+}
