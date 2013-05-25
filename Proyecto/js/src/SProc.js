@@ -1,20 +1,19 @@
-(function(){
-	var version = "0.0.1", 
-		SProc = {
-		System: function(config){
-			this.canvas = config.canvas || $("canvas")[0]
-			this.container = config.container || "#main"; /* ID esperado del canvas donde se dibujara */
-			this.servers = config.servers || []; // Number of servers on the System
-			this.active = false;
-			this._queue = config.Queue;
 
-		},
-		getVersion: function(){
+/* 
+	SProc:
+
+*/
+var SProc = function(config){
+
+};
+
+
+SProc.prototype.getVersion = function(){
 				return "Version: " + version;
-		}		
-	};
+};
 
-	SProc.System.prototype.draw = function(){
+/*
+	System.prototype.draw = function(){
 		var configs = this.canvas, width = configs.width || 400, 
 			height = configs.height || 400,
 			canvas = $(this.container)[0].getContext('2d');
@@ -85,8 +84,4 @@
 		this.capacity = config.capacity;
 		this.attentionTime = config.attentionTime;
 	};
-
-
-
-	window.SProc = SProc;
-})();
+*/
