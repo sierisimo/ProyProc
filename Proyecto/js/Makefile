@@ -2,7 +2,7 @@
 NAMES=head SProc System Queue Server Task bottom
 SOURCES=$(addsuffix .js,$(addprefix ./src/,$(NAMES)))
 
-all:
+all: clean
 	cat $(SOURCES) > ProyProc.js
 
 clean:
