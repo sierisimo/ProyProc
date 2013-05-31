@@ -1,3 +1,4 @@
+//codigo abierto
 /*
 	Task: Class example. 
 */
