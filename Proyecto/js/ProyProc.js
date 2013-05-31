@@ -90,30 +90,20 @@ SProc.prototype.redraw = function(){
 
 };
 
-SProc.prototype.clear = function(){
-
+// Should be changed in future version tod implement this.canvas
+SProc.prototype.clear = function(id){
+	var canvas = document.getElementById(id).getContext("2d"), 
+		width = canvas.canvas.width, height = canvas.canvas.height;
+	canvas.clearRect(0,0,width,height)
 };
 
 SProc.prototype.stop = function(){
 
 };
 
-SProc.prototype.check = function(){
+SProc.prototype.cycle = function(){
 
 };
-/*
-	System.prototype.draw = function(){
-		var configs = this.canvas, width = configs.width || 400, 
-			height = configs.height || 400,
-			canvas = $(this.container)[0].getContext('2d');
-
-		canvas.lineWidth = configs.lineWidth || 3;
-		canvas.moveTo(0,height/2);
-		canvas.lineTo(width/4,height/2);
-		canvas.stroke();
-		setLines(this.servers.length);
-	};
-*/
 /*
 	SProc.System:
 */
@@ -121,12 +111,49 @@ SProc.prototype.check = function(){
 SProc.System = function(config){
 
 };
+
+SProc.System.prototype.sayHello = function(){
+	return "Hello";
+};
 /*
 	SProc.Queue:
 */
 /*
 	SProc.Server:
-*//*
+
+	var servidor1 = new SProc.Server({})
+*/
+
+SProc.Server = function(config){
+	if(config == undefined){
+		throw "You must provide a config object";
+	}
+
+	if(config instanceof Object && !config.MuS)
+		throw "You need to provide MuS for creating a new Server Object";
+
+	this.MuS = config.MuS ? config.MuS : config;
+	this.busy = false;
+	this.attendedTasks = 0;
+	this.task = {};
+};
+
+SProc.Server.prototype.free = function(){
+
+};
+
+SProc.Server.prototype.refresh = function(){
+
+};
+
+SProc.Server.prototype.valueOf = function() {
+	return this.attendedTasks;
+};
+
+SProc.Server.prototype.toString = function() {
+	return "Hi";
+}
+/*
 	Task: Class example. 
 */
 SProc.Task = function(config){

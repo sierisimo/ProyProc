@@ -1,3 +1,4 @@
+
 /*
 	Task: Class example. 
 */
