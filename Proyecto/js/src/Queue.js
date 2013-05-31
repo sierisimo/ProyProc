@@ -2,36 +2,49 @@
 /*
 	SProc.Queue:
 */
-sProc.Queue = function(config){
+SProc.Queue = function(config){
 	this.Mu_a = 4;
 	this.capacity = 20;
 	this.Task = new Array();
 };
 
-sProc.Queue.prototype.getMu_a = function(){
+SProc.Queue.prototype.getMu_a = function(){
 	return this.Mu_a;
 };
 
-sProc.Queue.prototype.getCapacity = function(){
+SProc.Queue.prototype.getCapacity = function(){
 	return this.capacity;
 };
 
-sProc.Queue.prototype.getNumberTask = function(){
+SProc.Queue.prototype.getNumberTask = function(){
 	return this.Task.length;
 };
 
-sProc.Queue.prototype.getFirstTask = function(){
+SProc.Queue.prototype.getFirstTask = function(){
 	return this.Task[this.capacity-1];
 };
 
-sProc.Queue.prototype.setMu_a = function(newMu_a){
+SProc.Queue.prototype.setMu_a = function(newMu_a){	
 	this.Mu_a = newMu_a;
 };
 
-sProc.Queue.prototype.setCapacity = function(newCapacity){
+SProc.Queue.prototype.setCapacity = function(newCapacity){
 	this.capacity = newCapacity;
 };
 
-sProc.Queue.prototype.setTask = function(newTask){
+SProc.Queue.prototype.setTask = function(newTask){
 	this.Task = newTask;
 };
+
+SProc.Queue.prototype.attention = function(system){
+
+	if(this.getNumberTask()>=1) {
+		for(var i=0;i<system.servers.length;i++){
+			if(!system.servers[i].busy){
+				break; //Change this to a better sustitution
+					//policy in next version
+			}
+
+		}	 
+	}
+}
