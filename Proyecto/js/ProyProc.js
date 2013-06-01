@@ -1,7 +1,13 @@
 (function(version){
 	
+
 /* 
 	SProc:
+	t = tiempo virtual del sistema
+	n = ciclo 
+	delta = momento de vision del sistema
+
+	al setear n se cambia la velocidad con la que avansa el sistema
 */
 
 /*
@@ -21,6 +27,7 @@ var SProc = function(config){
 	//Should be implemented in future versions to have more than one system.
 	//this.canvasId = config.id || "main";
 
+	this.Canvas = SProc.Canvas;
 
 };
 
@@ -28,7 +35,46 @@ SProc.prototype.getVersion = function(){
 	return "Version: " + version;
 };
 
-SProc.prototype.draw = function(id){
+SProc.prototype.getTime = function() {
+	// TODO
+};
+
+SProc.prototype.play = function(){
+
+};
+
+SProc.prototype.stop = function(){
+
+};
+
+SProc.prototype.cycle = function(){
+
+};
+/*
+	SProc.Canvas:
+*/
+
+/*
+	TODO: check if canvas methods are needed
+*/
+SProc.Canvas = function(obj){
+	if(obj.type == undefined)
+		throw "Can't create from a undefined object";
+	
+	this.x = obj.x;
+	this.y = obj.y;
+	this.color = obj.color;
+	switch(obj.type){
+		case "Server":
+			this.width = obj.width;
+			this.height = obj.height;
+			break;
+		default:
+			throw "Unknow type, cant create object.\nType can be: 'Server' or 'Task'";
+	}
+};
+
+SProc.Canvas.draw = function(id){
 	// Only one canvas... this should be changed in next version.
 	//
 	// context should come in a config object in future version.
@@ -86,23 +132,15 @@ SProc.prototype.draw = function(id){
 };
 
 // This method is still on doubt because we don't know if we need this method or a setInterval to draw().
-SProc.prototype.redraw = function(){
+SProc.Canvas.redraw = function(){
 
 };
 
 // Should be changed in future version tod implement this.canvas
-SProc.prototype.clear = function(id){
+SProc.Canvas.clear = function(id){
 	var canvas = document.getElementById(id).getContext("2d"), 
 		width = canvas.canvas.width, height = canvas.canvas.height;
 	canvas.clearRect(0,0,width,height)
-};
-
-SProc.prototype.stop = function(){
-
-};
-
-SProc.prototype.cycle = function(){
-
 };
 /*
 	SProc.System:
@@ -136,22 +174,52 @@ SProc.Server = function(config){
 	this.busy = false;
 	this.attendedTasks = 0;
 	this.task = {};
+	this.canvas = new SProc.Canvas({
+		type: SProc.Canvas.RECT,
+		x:config.x,
+		y:config.y,
+		width:SProc.Canvas.serverWidth,
+		height:SProc.Canvas.serverHeight,
+		color:"#FFFFFF"
+	});
 };
 
 SProc.Server.prototype.free = function(){
-
+		
 };
 
 SProc.Server.prototype.refresh = function(){
 
 };
 
+SProc.Server.prototype.getState = function(){
+	return this.busy;
+};
+
+SProc.Server.prototype.setState = function(){
+	this.busy = !this.busy;
+}
+
 SProc.Server.prototype.valueOf = function() {
 	return this.attendedTasks;
 };
 
+SProc.Server.prototype.attend = function(task){
+	if(!task)
+		throw "Can't attend an invisible client!!";
+
+	this.task = task;
+	/*
+		Logica de dibujo
+	*/
+};
+
+/*
+	TO-DO:
+		Implement a toString method.
+*/
 SProc.Server.prototype.toString = function() {
-	return "Hi";
+	return ;
 }
 /*
 	Task: Class example. 
