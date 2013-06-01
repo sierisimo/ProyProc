@@ -36,15 +36,52 @@ SProc.Queue.prototype.setTask = function(newTask){
 	this.Task = newTask;
 };
 
-SProc.Queue.prototype.attention = function(system){
-
-	if(this.getNumberTask()>=1) {
-		for(var i=0;i<system.servers.length;i++){
-			if(!system.servers[i].busy){
+SProc.Queue.prototype.attention = function(mysystem){
+	if(this.getNumberTask()>=1 && mysystem.tasksOnService() != mysystem.servers.length){
+		for(var i=0;i<mysystem.servers.length;i++){
+			if(mysystem.servers[i].isBusy() == false){
 				break; //Change this to a better sustitution
 					//policy in next version
 			}
-
+			var firstTask = this.getFirstTask();
+			firstTask.time.setTimeStartService(SProc.getTime()); 
+			mysystem.servers[i].attend(firstTask);
+			console.log("Se mandó una tarea al servidor");
+			this.step(mysystem.queue);
 		}	 
 	}
+	else if(this.getNumberTask()>=1 && mysystem.tasksOnService() == mysystem.servers.length){
+		console.log("Hay una tarea en espera pero no hay servidor disponible.");
+	}
+	else if(this.getNumberTask()==0){
+		console.log("Cola vacía");
+	}
+
+	else {
+		console.log("Error, este if en Queue.attention() no debe de aparecer.");
+	}
+}
+SProc.Queue.prototype.step = function(myqueue){
+	var lastIndex = myqueue.tasks.length - 2;
+	var tasksCount = myqueue.tasks.length;
+
+	for (var i = 0; i < tasksCount;i++){
+		myqueue.tasks[lastIndex + 1] = myqueue.tasks[lastIndex--];
+	}
+
+}
+SProc.Queue.prototype.arrival = function(myqueue){
+	var tasksCount = myqueue.tasks.length;
+	var capacity = myqueue.capacity;
+	if (tasksCount == capacity){
+		console.log("La cola está llena.");
+	}
+	else if(tasksCount < capacity){
+		//crear nueva tarea
+		//agregarla a tasks[capacity - taskscount - 1]
+	}
+}
+SProc.Queue.prototype.refresh = function(){
+	//attention()
+	//arrival()
 }
