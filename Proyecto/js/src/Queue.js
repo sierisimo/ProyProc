@@ -83,7 +83,7 @@ SProc.Queue.prototype.arrival = function(myqueue){
 		console.log("La cola está llena.");
 	}
 	else if(tasksCount < capacity){
-		var new configObject = new Object();
+		var configObject = new Object();
 		//creates new task
 		configObject.timeArrival = Sproc.getTime();
 		configObject.timeStartService = -1;
