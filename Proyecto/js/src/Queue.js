@@ -2,10 +2,13 @@
 /*
 	SProc.Queue:
 */
-SProc.Queue = function(config){
-	this.Mu_a = 4;
-	this.capacity = 20;
-	this.Task = new Array();
+SProc.Queue = function(configObject){
+	if (configObject.Mu_a === undefined || configObject.capacity === undefined || configObject === undefined){
+		//return error or set default values
+	}
+	this.Mu_a = configObject.Mu_a;
+	this.capacity = configObject.capacity;
+	this.Task = configObject.Task
 };
 
 SProc.Queue.prototype.getMu_a = function(){
@@ -43,12 +46,13 @@ SProc.Queue.prototype.attention = function(mysystem){
 				break; //Change this to a better sustitution
 					//policy in next version
 			}
-			var firstTask = this.getFirstTask();
-			firstTask.time.setTimeStartService(SProc.getTime()); 
-			mysystem.servers[i].attend(firstTask);
-			console.log("Se mandó una tarea al servidor");
-			this.step(mysystem.queue);
-		}	 
+		}
+		var firstTask = this.getFirstTask();
+		firstTask.setTimeStartService(SProc.getTime()); 
+		mysystem.servers[i].attend(firstTask);
+		console.log("Se mandó una tarea al servidor");
+		this.step(mysystem.queue);
+		 
 	}
 	else if(this.getNumberTask()>=1 && mysystem.tasksOnService() == mysystem.servers.length){
 		console.log("Hay una tarea en espera pero no hay servidor disponible.");
