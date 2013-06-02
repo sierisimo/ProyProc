@@ -6,9 +6,11 @@ SProc.Queue = function(configObject){
 	if (configObject.Mu_a === undefined || configObject.capacity === undefined || configObject === undefined){
 		//return error or set default values
 	}
+	else{
 	this.Mu_a = configObject.Mu_a;
 	this.capacity = configObject.capacity;
 	this.Task = configObject.Task
+	}
 };
 
 SProc.Queue.prototype.getMu_a = function(){
@@ -81,8 +83,14 @@ SProc.Queue.prototype.arrival = function(myqueue){
 		console.log("La cola está llena.");
 	}
 	else if(tasksCount < capacity){
-		//crear nueva tarea
-		//agregarla a tasks[capacity - taskscount - 1]
+		var new configObject = new Object();
+		//creates new task
+		configObject.timeArrival = Sproc.getTime();
+		configObject.timeStartService = -1;
+		configObject.timeDeparture = -1;
+		var newTask = new SProc.Task(configObject);
+		//Puts the incoming task at the end of the queue
+		myqueue.tasks[capacity - tasksCount - 1] = newTask;
 	}
 }
 SProc.Queue.prototype.refresh = function(){

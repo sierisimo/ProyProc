@@ -1,26 +1,34 @@
-//codigo abierto
+
 /*
 	Task: Class example. 
 */
-SProc.Task = function(config){
-	this.name = "Tarea";
-	this.atributo = config.atributo;
-	this.edad = 10;
+SProc.Task = function(configObject){
+	if (configObject.timeArrival === undefined || configObject.timeStartService === undefined || configObject.timeDeparture === undefined){
+		//return error or ser default values
+	}
+	else{
+	this.timeArrival = configObject.timeArrival;
+	this.timeStartService = configObject.timeStartService;
+	this.timeDeparture = configObject.timeDeparture;
+	}
 };
 
-SProc.Task.prototype.getName = function(){
-	return this.name;
+SProc.Task.prototype.getTimeArrival = function(){
+	return this.timeArrival;
+};
+SProc.Task.prototype.getTimeStartService = function(){
+	return this.timeStartService;
+};
+SProc.Task.prototype.getTimeDeparture = function(){
+	return this.timeDeparture;
 };
 
-SProc.Task.prototype.setName = function(newName){
-	function nombre(){
-		console.log("se escribe el nuevo nombre en la tarea " + this.name);
-	};
-	nombre();
-	this.name = newName;
+SProc.Task.prototype.setTimeArrival = function(newTimeArrival){
+	this.timeArrival = newTimeArrival;
 }
-
-SProc.Task.prototype.bornAge = function(){
-	var today = new Date();
-	return today.getYear() - this.edad;
+SProc.Task.prototype.setTimeStartService = function(newTimeStartService){
+	this.timeStartService = newTimeStartService;
+}
+SProc.Task.prototype.setTimeDeparture = function(newTimeDeparture){
+	this.timeArrival = newTimeDeparture;
 }
