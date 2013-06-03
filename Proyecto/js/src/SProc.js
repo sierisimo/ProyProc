@@ -25,7 +25,7 @@ var SProc = function(config){
 	this.Cycle = 0;
 	this.Delta = config.Delta;
 	this._id = config.id;
-
+	this.Parent = this;
 	//Should be implemented in future versions to have more than one system.
 	//this.canvasId = config.id || "main";
 

@@ -23,7 +23,10 @@ var SProc = function(config){
 		throw "You cannot create a new SProc whitout a System.";
 
 	this.System = config.System;
-
+	this.Cycle = 0;
+	this.Delta = config.Delta;
+	this._id = config.id;
+	this.Parent = this;
 	//Should be implemented in future versions to have more than one system.
 	//this.canvasId = config.id || "main";
 
@@ -36,10 +39,11 @@ SProc.prototype.getVersion = function(){
 };
 
 SProc.prototype.getTime = function() {
-	// TODO
+	return this.Cycle * this.Delta;
 };
 
 SProc.prototype.play = function(){
+	this.Canvas.draw(this._id);
 
 };
 
@@ -49,6 +53,10 @@ SProc.prototype.stop = function(){
 
 SProc.prototype.cycle = function(){
 
+
+
+
+	this.Cycle++;
 };
 /*
 	SProc.Canvas:
@@ -79,11 +87,7 @@ SProc.Canvas.draw = function(id){
 	//
 	// context should come in a config object in future version.
 	// with some initialization like these:
-	/*
-		for(var i in config){
-			canvas[i] = config[i];
-		}
-	*/
+
 	var canvas = $('#'+id)[0].getContext("2d"),
 		width = canvas.width, height = canvas.height,
 		linesEndPts = [], recs = [], //arrays of objects on the style {x:number,y:number}
@@ -119,7 +123,7 @@ SProc.Canvas.draw = function(id){
 	// 		Implement the option to make the lines visible or not.
 	canvas.fillStyle = "white";
 	canvas.strokeStyle = "white";
-	canvas.lineWidth = 2;
+	canvas.lineWidth = 0.5;
 
 	//Main line/Visible Queue
 	canvas.moveTo(0,height/2);
@@ -198,7 +202,7 @@ SProc.Server.prototype.refresh = function(){
 
 };
 
-SProc.Server.prototype.getState = function(){
+SProc.Server.prototype.isBusy = function(){
 	return this.busy;
 };
 

@@ -28,11 +28,7 @@ SProc.Canvas.draw = function(id){
 	//
 	// context should come in a config object in future version.
 	// with some initialization like these:
-	/*
-		for(var i in config){
-			canvas[i] = config[i];
-		}
-	*/
+
 	var canvas = $('#'+id)[0].getContext("2d"),
 		width = canvas.width, height = canvas.height,
 		linesEndPts = [], recs = [], //arrays of objects on the style {x:number,y:number}
@@ -68,7 +64,7 @@ SProc.Canvas.draw = function(id){
 	// 		Implement the option to make the lines visible or not.
 	canvas.fillStyle = "white";
 	canvas.strokeStyle = "white";
-	canvas.lineWidth = 2;
+	canvas.lineWidth = 0.5;
 
 	//Main line/Visible Queue
 	canvas.moveTo(0,height/2);
