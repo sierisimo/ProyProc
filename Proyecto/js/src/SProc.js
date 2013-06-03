@@ -22,6 +22,9 @@ var SProc = function(config){
 		throw "You cannot create a new SProc whitout a System.";
 
 	this.System = config.System;
+	this.Cycle = 0;
+	this.Delta = config.Delta;
+	this._id = config.id;
 
 	//Should be implemented in future versions to have more than one system.
 	//this.canvasId = config.id || "main";
@@ -35,10 +38,11 @@ SProc.prototype.getVersion = function(){
 };
 
 SProc.prototype.getTime = function() {
-	// TODO
+	return this.Cycle * this.Delta;
 };
 
 SProc.prototype.play = function(){
+	this.Canvas.draw(this._id);
 
 };
 
@@ -48,4 +52,8 @@ SProc.prototype.stop = function(){
 
 SProc.prototype.cycle = function(){
 
+
+
+
+	this.Cycle++;
 };

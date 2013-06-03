@@ -35,7 +35,7 @@ SProc.Server.prototype.refresh = function(){
 
 };
 
-SProc.Server.prototype.getState = function(){
+SProc.Server.prototype.isBusy = function(){
 	return this.busy;
 };
 
