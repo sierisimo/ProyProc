@@ -3,14 +3,12 @@
 	SProc.Queue:
 */
 SProc.Queue = function(configObject){
-	if (configObject.Mu_a === undefined || configObject.capacity === undefined || configObject === undefined){
-		//return error or set default values
-	}
-	else{
-	this.Mu_a = configObject.Mu_a;
-	this.capacity = configObject.capacity;
-	this.Task = configObject.Task
-	}
+	if (configObject instanceof Object) //configObject == {}
+		throw "Se esperaba un objeto de configuración";
+	this.Mu_a = configObject.Mu_a || -1;
+	this.capacity = configObject.capacity || -1;
+	this.Task = configObject.Task || -1;
+	this.timeWithoutArrival || 0;
 };
 
 SProc.Queue.prototype.getMu_a = function(){
@@ -28,7 +26,9 @@ SProc.Queue.prototype.getNumberTask = function(){
 SProc.Queue.prototype.getFirstTask = function(){
 	return this.Task[this.capacity-1];
 };
-
+SProc.Queue.prototype.killFirstTask = function(){
+	delete this.Task[this.capacity-1];
+};
 SProc.Queue.prototype.setMu_a = function(newMu_a){	
 	this.Mu_a = newMu_a;
 };
@@ -52,6 +52,7 @@ SProc.Queue.prototype.attention = function(mysystem){
 		var firstTask = this.getFirstTask();
 		firstTask.setTimeStartService(SProc.getTime()); 
 		mysystem.servers[i].attend(firstTask);
+		this.killFirstTask;
 		console.log("Se mandó una tarea al servidor");
 		this.step(mysystem.queue);
 		 
@@ -85,15 +86,26 @@ SProc.Queue.prototype.arrival = function(myqueue){
 	else if(tasksCount < capacity){
 		var configObject = new Object();
 		//creates new task
-		configObject.timeArrival = Sproc.getTime();
-		configObject.timeStartService = -1;
-		configObject.timeDeparture = -1;
+		configObject.timeArrival = SProc.getTime();
 		var newTask = new SProc.Task(configObject);
 		//Puts the incoming task at the end of the queue
 		myqueue.tasks[capacity - tasksCount - 1] = newTask;
 	}
 }
 SProc.Queue.prototype.refresh = function(){
+	var mySystem = SProc.getSystem();
+	var t = SProc.getTime();
+	
+	this.attention(mySystem);
+	if (this.timeWithoutArrival == this.Mu_a){
+		this.arrival(SProc.getQueue());
+		if (SProc.getQueue.tasks.length == 1){
+			this.attention(mySystem);
+		}
+	}
+
+	
+
 	//attention()
 	//arrival()
 }

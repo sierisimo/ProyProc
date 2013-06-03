@@ -3,14 +3,9 @@
 	Task: Class example. 
 */
 SProc.Task = function(configObject){
-	if (configObject.timeArrival === undefined || configObject.timeStartService === undefined || configObject.timeDeparture === undefined){
-		//return error or ser default values
-	}
-	else{
-	this.timeArrival = configObject.timeArrival;
-	this.timeStartService = configObject.timeStartService;
-	this.timeDeparture = configObject.timeDeparture;
-	}
+	this.timeArrival = configObject.timeArrival || -1;
+	this.timeStartService = configObject.timeStartService || -1;
+	this.timeDeparture = configObject.timeDeparture || -1;
 };
 
 SProc.Task.prototype.getTimeArrival = function(){
@@ -31,4 +26,5 @@ SProc.Task.prototype.setTimeStartService = function(newTimeStartService){
 }
 SProc.Task.prototype.setTimeDeparture = function(newTimeDeparture){
 	this.timeArrival = newTimeDeparture;
+	
 }
