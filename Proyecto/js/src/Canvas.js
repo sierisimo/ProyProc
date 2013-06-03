@@ -54,7 +54,13 @@ SProc.Canvas.draw = function(id){
 	};
 
 	function setRects(){
-
+		var stPoint = segments/4, midlePoint = segments/2, step = stPoint;
+			equis = linesEndPts[linesEndPts.length-1].x;
+		
+		for(var i = 0 ; i< elements ; i++ ){
+			canvas.rect(equis,step,100,stPoint*2);
+			step += stPoint*4; 
+		}
 	};
 
 	// Configuration for the canvas, next version should take this from an config object.
