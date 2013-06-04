@@ -90,12 +90,15 @@ SProc.Queue.prototype.arrival = function(myqueue){
 		var newTask = new SProc.Task(configObject);
 		//Puts the incoming task at the end of the queue
 		myqueue.tasks[capacity - tasksCount - 1] = newTask;
+		this.timeWithoutArrival = -1;
 	}
+
 }
 SProc.Queue.prototype.refresh = function(){
 	var mySystem = this.Parent;
 	var t = this.Parent.Parent.getTime();
 	
+
 	this.attention(mySystem);
 	if (this.timeWithoutArrival == this.Mu_a){
 		this.arrival(SProc.getQueue());
@@ -103,6 +106,7 @@ SProc.Queue.prototype.refresh = function(){
 			this.attention(mySystem);
 		}
 	}
+	this.timeWithoutArrival++;
 	//attention()
 	//arrival()
 }
