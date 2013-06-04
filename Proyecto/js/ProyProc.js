@@ -1,4 +1,5 @@
-
+(function(version){
+	
 /* 
 	SProc:
 */
@@ -103,3 +104,79 @@ SProc.prototype.stop = function(){
 SProc.prototype.cycle = function(){
 
 };
+/*
+	SProc.System:
+*/
+
+SProc.System = function(config){
+
+};
+
+SProc.System.prototype.sayHello = function(){
+	return "Hello";
+};
+/*
+	SProc.Queue:
+*/
+/*
+	SProc.Server:
+
+	var servidor1 = new SProc.Server({})
+*/
+
+SProc.Server = function(config){
+	if(config == undefined){
+		throw "You must provide a config object";
+	}
+
+	if(config instanceof Object && !config.MuS)
+		throw "You need to provide MuS for creating a new Server Object";
+
+	this.MuS = config.MuS ? config.MuS : config;
+	this.busy = false;
+	this.attendedTasks = 0;
+	this.task = {};
+};
+
+SProc.Server.prototype.free = function(){
+
+};
+
+SProc.Server.prototype.refresh = function(){
+
+};
+
+SProc.Server.prototype.valueOf = function() {
+	return this.attendedTasks;
+};
+
+SProc.Server.prototype.toString = function() {
+	return "Hi";
+}
+/*
+	Task: Class example. 
+*/
+SProc.Task = function(config){
+	this.name = "Tarea";
+	this.atributo = config.atributo;
+	this.edad = 10;
+};
+
+SProc.Task.prototype.getName = function(){
+	return this.name;
+};
+
+SProc.Task.prototype.setName = function(newName){
+	function nombre(){
+		console.log("se escribe el nuevo nombre en la tarea " + this.name);
+	};
+	nombre();
+	this.name = newName;
+}
+
+SProc.Task.prototype.bornAge = function(){
+	var today = new Date();
+	return today.getYear() - this.edad;
+}
+	window.SProc = SProc;
+})("0.0.1");
