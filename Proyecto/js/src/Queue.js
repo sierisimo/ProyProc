@@ -50,9 +50,9 @@ SProc.Queue.prototype.attention = function(mysystem){
 			}
 		}
 		var firstTask = this.getFirstTask();
-		firstTask.setTimeStartService(SProc.getTime()); 
+		firstTask.setTimeStartService(this.Parent.Parent.getTime()); 
 		mysystem.servers[i].attend(firstTask);
-		this.killFirstTask;
+		this.killFirstTask();
 		console.log("Se mandó una tarea al servidor");
 		this.step(mysystem.queue);
 		 
@@ -86,15 +86,15 @@ SProc.Queue.prototype.arrival = function(myqueue){
 	else if(tasksCount < capacity){
 		var configObject = new Object();
 		//creates new task
-		configObject.timeArrival = SProc.getTime();
+		configObject.timeArrival = this.Parent.Parent.getTime();
 		var newTask = new SProc.Task(configObject);
 		//Puts the incoming task at the end of the queue
 		myqueue.tasks[capacity - tasksCount - 1] = newTask;
 	}
 }
 SProc.Queue.prototype.refresh = function(){
-	var mySystem = SProc.getSystem();
-	var t = SProc.getTime();
+	var mySystem = this.Parent;
+	var t = this.Parent.Parent.getTime();
 	
 	this.attention(mySystem);
 	if (this.timeWithoutArrival == this.Mu_a){
@@ -103,9 +103,6 @@ SProc.Queue.prototype.refresh = function(){
 			this.attention(mySystem);
 		}
 	}
-
-	
-
 	//attention()
 	//arrival()
 }
