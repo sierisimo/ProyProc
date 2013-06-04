@@ -4,7 +4,6 @@
 */
 
 SProc.System = function(config){
-
 };
 
 SProc.System.prototype.sayHello = function(){
