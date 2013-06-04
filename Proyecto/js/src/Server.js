@@ -18,7 +18,7 @@ SProc.Server = function(config){
 	this.attendedTasks = 0;
 	this.task = {};
 	this.canvas = new SProc.Canvas({
-		type: SProc.Canvas.RECT,
+		type: "Server",
 		x:config.x,
 		y:config.y,
 		width:SProc.Canvas.serverWidth,
@@ -28,23 +28,24 @@ SProc.Server = function(config){
 };
 
 SProc.Server.prototype.free = function(){
-		
+	this.setState();
+	this.canvas.color = "#FFFFFF";
+	this.task.timeDeparture = SProc.getTime();
+
+	/*
+		TO-DO
+			Implementar llamada a Chichona
+	*/
+
 };
 
 SProc.Server.prototype.refresh = function(){
-
-};
-
-SProc.Server.prototype.isBusy = function(){
-	return this.busy;
-};
-
-SProc.Server.prototype.setState = function(){
-	this.busy = !this.busy;
-}
-
-SProc.Server.prototype.valueOf = function() {
-	return this.attendedTasks;
+	if(this.getState()){
+		var actualTime = SProc.getTime();
+		if((this.task.timeStartService - actualTime)>= this.MuS){
+			this.free();
+			} 
+	}
 };
 
 SProc.Server.prototype.attend = function(task){
@@ -52,9 +53,8 @@ SProc.Server.prototype.attend = function(task){
 		throw "Can't attend an invisible client!!";
 
 	this.task = task;
-	/*
-		Logica de dibujo
-	*/
+	this.setState();
+	this.canvas.color = task.canvas.color;
 };
 
 /*
@@ -63,4 +63,16 @@ SProc.Server.prototype.attend = function(task){
 */
 SProc.Server.prototype.toString = function() {
 	return ;
-}
+};
+
+SProc.Server.prototype.getState = function(){
+	return this.busy;
+};
+
+SProc.Server.prototype.setState = function(){
+	this.busy = !this.busy;
+};
+
+SProc.Server.prototype.valueOf = function() {
+	return this.attendedTasks;
+};
