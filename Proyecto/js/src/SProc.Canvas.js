@@ -29,11 +29,11 @@ SProc.Canvas.draw = function(id){
 	// context should come in a config object in future version.
 	// with some initialization like these:
 
-	var canvas = $('#'+id)[0].getContext("2d"),
-		width = canvas.width, height = canvas.height,
-		linesEndPts = [], recs = [], //arrays of objects on the style {x:number,y:number}
-		mainLine = {x:width*0.35,y:height/2}, //0.35 == 35%
-		elements = this.System.server.length, segments = height/elements;
+	var canvas = document.getElementById("l").getContext("2d"),
+		width = canvas.canvas.width, height = canvas.canvas.height,	
+		linesEndPts = [], recEndPoints = [], //arrays of objects on the style {x:number,y:number}
+		mainLine = {x:width*0.45,y:height/2},
+		elements = 5, segments = height/elements;
 
 	function setLines(){
 		var len = elements, midlePoint = segments/2, 
@@ -50,12 +50,21 @@ SProc.Canvas.draw = function(id){
 	};
 
 	function setRects(){
-		var stPoint = segments/4, midlePoint = segments/2, step = stPoint;
-			equis = linesEndPts[linesEndPts.length-1].x;
+		var stPoint = segments/4, midlePoint = segments/2, 
+			step = stPoint, equis = linesEndPts[linesEndPts.length-1].x,
+			recWidth = (width-mainLine.x)-(equis/2);
 		
 		for(var i = 0 ; i< elements ; i++ ){
-			canvas.rect(equis,step,100,stPoint*2);
+			canvas.rect(equis,step,recWidth,stPoint*2);
+			recEndPoints.push({x:equis,y:step});
 			step += stPoint*4; 
+		}
+		equis+=recWidth;
+		step = recEndPoints[0].y + stPoint;
+		for(var i = 0 ; i < elements ; i++){
+			canvas.moveTo(equis,step);
+			canvas.lineTo(width,step);
+			step += stPoint*4;
 		}
 	};
 

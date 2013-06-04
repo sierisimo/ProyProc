@@ -41,7 +41,7 @@ SProc.Server.prototype.free = function(){
 
 SProc.Server.prototype.refresh = function(){
 	if(this.getState()){
-		var actualTime = SProc.getTime();
+		var actualTime = this.Parent.getTime();
 		if((this.task.timeStartService - actualTime)>= this.MuS){
 			this.free();
 			} 
