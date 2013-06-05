@@ -10,7 +10,7 @@ SProc.System = function(config){
 	if (!config.Mu_s){
 		throw "Debes especificar un tiempo promedio de servicio por defecto";
 	}
-	if (config.servers.length < 1){
+	if (!config.servers || config.servers.length < 1){
 		throw "No puedes crear un sistema sin servidores";
 	}
 	if (!config.Queue.Mu_a){

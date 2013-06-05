@@ -5,10 +5,10 @@
 SProc.Queue = function(configObject){
 	if (configObject instanceof Object) //configObject == {}
 		throw "Se esperaba un objeto de configuración";
-	this.Mu_a = configObject.Mu_a || -1;
-	this.capacity = configObject.capacity || -1;
-	this.tasks = configObject.tasks || [];
-	this.timeWithoutArrival || 0;
+	this.Mu_a = (configObject && configObject.Mu_a) || -1;
+	this.capacity = (configObject && configObject.capacity) || -1;
+	this.tasks = (configObject && configObject.tasks) || [];
+	this.timeWithoutArrival = 0;
 };
 
 SProc.Queue.prototype.getMu_a = function(){

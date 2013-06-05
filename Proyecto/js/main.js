@@ -1,10 +1,7 @@
 $(document).ready(function(){
-		//var s = new SProc.System({container:"#main",canvas:{width:400,height:400}});
-		//s.draw();
-		//Revisamos que la variable no este undefined o nula.
-		//!$canvas && return;
-		
-		//var server = new Queue.Server();
-		//Queue.addServer();
+		var Task = new SProc.Task();
+		var Server = new SProc.Server({"Mu_s":1,"Mu_a":2});
+		var Queue = new SProc.Queue();
+		//var System = new SProc.System({Queue:Queue, "Mu_s":1});
 	}
 );

@@ -159,11 +159,12 @@ SProc.Canvas.clear = function(id){
 		width = canvas.canvas.width, height = canvas.canvas.height;
 	canvas.clearRect(0,0,width,height)
 };
-
+/*
 SProc.Canvas.prototype.createTask = function(config){
 	var config = config && config.length ? 
 	if () {};
 };
+*/
 /*
 	SProc.System:
 */
@@ -175,7 +176,7 @@ SProc.System = function(config){
 	if (!config.Mu_s){
 		throw "Debes especificar un tiempo promedio de servicio por defecto";
 	}
-	if (config.servers.length < 1){
+	if (!config.servers || config.servers.length < 1){
 		throw "No puedes crear un sistema sin servidores";
 	}
 	if (!config.Queue.Mu_a){
@@ -218,7 +219,7 @@ SProc.System.prototype.refresh = function(){
 	}
 	this.queue.refresh();
 };
-SProc.System.protoype.totalDepartures = function(){
+SProc.System.prototype.totalDepartures = function(){
 	var count = 0;
 	for (var i = 0; i < this.server.length ; i++){
 		count += this.server[i];
@@ -231,10 +232,10 @@ SProc.System.protoype.totalDepartures = function(){
 SProc.Queue = function(configObject){
 	if (configObject instanceof Object) //configObject == {}
 		throw "Se esperaba un objeto de configuración";
-	this.Mu_a = configObject.Mu_a || -1;
-	this.capacity = configObject.capacity || -1;
-	this.tasks = configObject.tasks || [];
-	this.timeWithoutArrival || 0;
+	this.Mu_a = (configObject && configObject.Mu_a) || -1;
+	this.capacity = (configObject && 	configObject.capacity) || -1;
+	this.tasks = (configObject && configObject.tasks ) || [];
+	this.timeWithoutArrival = 0;
 };
 
 SProc.Queue.prototype.getMu_a = function(){
