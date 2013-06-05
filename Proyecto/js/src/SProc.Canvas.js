@@ -93,3 +93,8 @@ SProc.Canvas.clear = function(id){
 		width = canvas.canvas.width, height = canvas.canvas.height;
 	canvas.clearRect(0,0,width,height)
 };
+
+SProc.Canvas.prototype.createTask = function(config){
+	var config = config && config.length ? 
+	if () {};
+};

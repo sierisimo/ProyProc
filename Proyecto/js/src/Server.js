@@ -10,10 +10,10 @@ SProc.Server = function(config){
 		throw "You must provide a config object";
 	}
 
-	if(config instanceof Object && !config.MuS)
-		throw "You need to provide MuS for creating a new Server Object";
+	if(config instanceof Object && !config.Mu_s)
+		throw "You need to provide Mu_s for creating a new Server Object";
 
-	this.MuS = config.MuS ? config.MuS : config;
+	this.Mu_s = config.Mu_s;
 	this.busy = false;
 	this.attendedTasks = 0;
 	this.task = {};
@@ -42,7 +42,7 @@ SProc.Server.prototype.free = function(){
 SProc.Server.prototype.refresh = function(){
 	if(this.getState()){
 		var actualTime = SProc.getTime();
-		if((this.task.timeStartService - actualTime)>= this.MuS){
+		if((this.task.timeStartService - actualTime)>= this.Mu_s){
 			this.free();
 			} 
 	}
@@ -60,11 +60,11 @@ SProc.Server.prototype.attend = function(task){
 /*
 	TO-DO:
 		Implement a toString method.
-*/
+
 SProc.Server.prototype.toString = function() {
 	return ;
 };
-
+*/
 SProc.Server.prototype.getState = function(){
 	return this.busy;
 };
