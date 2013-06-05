@@ -53,3 +53,10 @@ SProc.System.prototype.refresh = function(){
 	}
 	this.queue.refresh();
 };
+SProc.System.protoype.totalDepartures = function(){
+	var count = 0;
+	for (var i = 0; i < this.server.length ; i++){
+		count += this.server[i];
+	}
+	return count;
+}
