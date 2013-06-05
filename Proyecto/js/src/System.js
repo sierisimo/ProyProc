@@ -28,7 +28,7 @@ SProc.System = function(config){
 
 	for (var i = 0; i < config.servers.length ; i++){
 		var tempObject = new Object();
-		tempObject.Mu_s = tempObject.servers[i];
+		tempObject.Mu_s = config.servers[i];
 		this.servers[i] = new SProc.Server(tempObject);
 		delete tempObject;	
 	}
