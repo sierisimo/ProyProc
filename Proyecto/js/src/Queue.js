@@ -7,7 +7,7 @@ SProc.Queue = function(configObject){
 		throw "Se esperaba un objeto de configuración";
 	this.Mu_a = configObject.Mu_a || -1;
 	this.capacity = configObject.capacity || -1;
-	this.Task = configObject.Task || -1;
+	this.tasks = configObject.tasks || [];
 	this.timeWithoutArrival || 0;
 };
 
@@ -20,14 +20,14 @@ SProc.Queue.prototype.getCapacity = function(){
 };
 
 SProc.Queue.prototype.getNumberTask = function(){
-	return this.Task.length;
+	return this.task.length;
 };
 
 SProc.Queue.prototype.getFirstTask = function(){
-	return this.Task[this.capacity-1];
+	return this.task[this.capacity-1];
 };
 SProc.Queue.prototype.killFirstTask = function(){
-	delete this.Task[this.capacity-1];
+	delete this.task[this.capacity-1];
 };
 SProc.Queue.prototype.setMu_a = function(newMu_a){	
 	this.Mu_a = newMu_a;
@@ -38,7 +38,7 @@ SProc.Queue.prototype.setCapacity = function(newCapacity){
 };
 
 SProc.Queue.prototype.setTask = function(newTask){
-	this.Task = newTask;
+	this.task = newTask;
 };
 
 SProc.Queue.prototype.attention = function(mysystem){
