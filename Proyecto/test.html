@@ -3,8 +3,8 @@
 	var canvas = document.getElementById("l").getContext("2d"),
 		width = canvas.canvas.width, height = canvas.canvas.height,	
 		linesEndPts = [], recEndPoints = [], //arrays of objects on the style {x:number,y:number}
-		mainLine = {x:width*0.35,y:height/2},
-		elements = 1, segments = height/elements;
+		mainLine = {x:width*0.55,y:height/2},
+		elements = 5, segments = height/elements;
 
 	//Dummy function, it need better implementation.
 	function setLines(){
@@ -22,11 +22,19 @@
 
 	function setRects(){
 		var stPoint = segments/4, midlePoint = segments/2, step = stPoint;
-			equis = linesEndPts[linesEndPts.length-1].x;
+			equis = linesEndPts[linesEndPts.length-1].x, widthR = mainLine.x-mainLine.x*.50;
 		
 		for(var i = 0 ; i< elements ; i++ ){
-			canvas.rect(equis,step,100,stPoint*2);
-			step += stPoint*4; 
+			canvas.rect(equis,step,widthR,stPoint*2);
+			step += stPoint*4;
+			recEndPoints.push({x:equis,y:step}); 
+		}
+		step=stPoint*2;
+		canvas.moveTo(equis+widthR,step);
+		for(var i = 0 ; i < elements ; i++){
+			canvas.lineTo(width,step);
+			step+=stPoint*4;
+			canvas.moveTo(equis+widthR,step);
 		}
 	};
 

@@ -32,7 +32,7 @@ SProc.Canvas.draw = function(id){
 	var canvas = $('#'+id)[0].getContext("2d"),
 		width = canvas.width, height = canvas.height,
 		linesEndPts = [], recs = [], //arrays of objects on the style {x:number,y:number}
-		mainLine = {x:width*0.35,y:height/2}, //0.35 == 35%
+		mainLine = {x:width*0.55,y:height/2}, //0.35 == 35%
 		elements = this.System.server.length, segments = height/elements;
 
 	function setLines(){
@@ -51,11 +51,18 @@ SProc.Canvas.draw = function(id){
 
 	function setRects(){
 		var stPoint = segments/4, midlePoint = segments/2, step = stPoint;
-			equis = linesEndPts[linesEndPts.length-1].x;
+			equis = linesEndPts[linesEndPts.length-1].x,widthR = mainLine.x-mainLine.x*.50;
 		
 		for(var i = 0 ; i< elements ; i++ ){
 			canvas.rect(equis,step,100,stPoint*2);
 			step += stPoint*4; 
+		}
+		step=stPoint*2;
+		canvas.moveTo(equis+widthR,step);
+		for(var i = 0 ; i < elements ; i++){
+			canvas.lineTo(width,step);
+			step+=stPoint*4;
+			canvas.moveTo(equis+widthR,step);
 		}
 	};
 
