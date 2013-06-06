@@ -12,7 +12,7 @@ $(document).ready(function(){
 
 	var mySystem = new SProc.System(obj);
 
-	var fSProc = new SProc(mySystem);
+	var fSProc = new SProc({System:mySystem});
 
 	window.fs = fSProc;
 	}

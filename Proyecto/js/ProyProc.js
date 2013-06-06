@@ -11,29 +11,27 @@
 */
 
 /*
-	TO-DO: Define 'config' object, properties and that things.
 		TO-DO:
 			Implement a Class called config, which is a factory for configs.
 */
-var SProc = function(config, id){
+var SProc = function(config){
 	if(config == null)
 		throw "You need to set a config object for creation of SProc.";
 
-	if( !(config instanceof SProc.System) && !config.System )
+	if(!config.System)
 		throw "You cannot create a new SProc whitout a System.";
 
-	var tSystem = (config instanceof SProc.System) ? config : config.System;
+	this.system = config.System instanceof SProc.System && config.System;
 
-	this.system = tSystem;
+	if(!this.system)
+		throw "System provided its not an SProc.System object.";
+	
 	this.system.Parent = this;
 	
 	this.Cycle = 0;
-	this.Delta = config && !config instanceof SProc.System && config.Delta || 1;
-	this._id = id || config && config.id || $('canvas').attr('id');
+	this.Delta = config && config.Delta || 1;
 
 	this.Parent = this;
-	//Should be implemented in future versions to have more than one system.
-	//this.canvasId = config.id || "main";
 
 	this.Canvas = SProc.Canvas;
 };
@@ -94,7 +92,7 @@ SProc.Canvas.draw = function(id){
 	// context should come in a config object in future version.
 	// with some initialization like these:
 
-	var canvas = this._id || $('#'+id)[0].getContext("2d"),
+	var canvas = id && $('#'+id)[0].getContext("2d") || $('canvas').attr('id'),
 		width = canvas.width, height = canvas.height,
 		linesEndPts = [], recs = [], //arrays of objects on the style {x:number,y:number}
 		mainLine = {x:width*0.55,y:height/2}, //0.35 == 35%

@@ -31,7 +31,7 @@ SProc.Canvas.draw = function(id){
 	// context should come in a config object in future version.
 	// with some initialization like these:
 
-	var canvas = this._id || $('#'+id)[0].getContext("2d"),
+	var canvas = id && $('#'+id)[0].getContext("2d") || $('canvas').attr('id'),
 		width = canvas.width, height = canvas.height,
 		linesEndPts = [], recs = [], //arrays of objects on the style {x:number,y:number}
 		mainLine = {x:width*0.55,y:height/2}, //0.35 == 35%
