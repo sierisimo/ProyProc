@@ -1,10 +1,6 @@
 
-/*
-	SProc.System:
-*/
-
 SProc.System = function(config){
-	if (!config.Queue){
+	if (!config.queue){
 		throw "No puedes crear un sistema sin una cola.";
 	}
 	if (!config.Mu_s){
@@ -13,10 +9,10 @@ SProc.System = function(config){
 	if (!config.servers || config.servers.length < 1){
 		throw "No puedes crear un sistema sin servidores";
 	}
-	if (!config.Queue.Mu_a){
+	if (!config.queue.Mu_a){
 		throw "Debes especificar un tiempo promedio de arribo";
 	}
-	if (!config.Queue.capacity){
+	if (!config.queue.capacity){
 		throw "Debes especificar una capacidad máxima para la cola";
 	}
 	this.Mu_s = config.Mu_s;
@@ -30,9 +26,11 @@ SProc.System = function(config){
 		var tempObject = new Object();
 		tempObject.Mu_s = config.servers[i];
 		this.servers[i] = new SProc.Server(tempObject);
+		console.log("Servidor añadido");
 		delete tempObject;	
 	}
-	this.queue = new SProc.Queue(config.Queue);
+
+	this.queue = config.queue;
 
 };
 
@@ -53,7 +51,7 @@ SProc.System.prototype.refresh = function(){
 	}
 	this.queue.refresh();
 };
-SProc.System.protoype.totalDepartures = function(){
+SProc.System.prototype.totalDepartures = function(){
 	var count = 0;
 	for (var i = 0; i < this.server.length ; i++){
 		count += this.server[i];

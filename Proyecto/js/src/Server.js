@@ -1,10 +1,7 @@
 
 /*
 	SProc.Server:
-
-	var servidor1 = new SProc.Server({})
 */
-
 SProc.Server = function(config){
 	if(config == undefined){
 		throw "You must provide a config object";

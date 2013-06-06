@@ -1,7 +1,18 @@
 $(document).ready(function(){
-		var Task = new SProc.Task();
-		var Server = new SProc.Server({"Mu_s":1,"Mu_a":2});
-		var Queue = new SProc.Queue();
-		//var System = new SProc.System({Queue:Queue, "Mu_s":1});
+	var temp = new Object();
+	temp.Mu_a = .5;
+	temp.capacity = 10;
+
+	var newQueue = new SProc.Queue(temp);
+	console.log("Se creo la cola");
+	console.log(newQueue);
+	var obj = new Object();
+	obj.Mu_s = .2;
+	obj.servers = [.1,.2,.3];
+	console.log(newQueue);
+	obj.queue = newQueue;
+	var mySystem = new SProc.System(obj);
+	console.log("Se creo el sistema");
+	window.mySystem = mySystem;
 	}
 );

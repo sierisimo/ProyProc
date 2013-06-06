@@ -170,7 +170,7 @@ SProc.Canvas.prototype.createTask = function(config){
 */
 
 SProc.System = function(config){
-	if (!config.Queue){
+	if (!config.queue){
 		throw "No puedes crear un sistema sin una cola.";
 	}
 	if (!config.Mu_s){
@@ -179,10 +179,10 @@ SProc.System = function(config){
 	if (!config.servers || config.servers.length < 1){
 		throw "No puedes crear un sistema sin servidores";
 	}
-	if (!config.Queue.Mu_a){
+	if (!config.queue.Mu_a){
 		throw "Debes especificar un tiempo promedio de arribo";
 	}
-	if (!config.Queue.capacity){
+	if (!config.queue.capacity){
 		throw "Debes especificar una capacidad máxima para la cola";
 	}
 	this.Mu_s = config.Mu_s;
@@ -196,9 +196,11 @@ SProc.System = function(config){
 		var tempObject = new Object();
 		tempObject.Mu_s = config.servers[i];
 		this.servers[i] = new SProc.Server(tempObject);
+		console.log("Servidor añadido");
 		delete tempObject;	
 	}
-	this.queue = new SProc.Queue(config.Queue);
+
+	this.queue = config.queue;
 
 };
 
@@ -230,12 +232,13 @@ SProc.System.prototype.totalDepartures = function(){
 	SProc.Queue:
 */
 SProc.Queue = function(configObject){
-	if (configObject instanceof Object) //configObject == {}
+	if (!(configObject instanceof Object)) //configObject == {}
 		throw "Se esperaba un objeto de configuración";
 	this.Mu_a = (configObject && configObject.Mu_a) || -1;
 	this.capacity = (configObject && 	configObject.capacity) || -1;
 	this.tasks = (configObject && configObject.tasks ) || [];
 	this.timeWithoutArrival = 0;
+	return this;
 };
 
 SProc.Queue.prototype.getMu_a = function(){
