@@ -22,6 +22,7 @@ SProc.Server = function(config){
 		height:SProc.Canvas.serverHeight,
 		color:"#FFFFFF"
 	});
+
 };
 
 SProc.Server.prototype.free = function(){

@@ -9,7 +9,6 @@ SProc.Queue = function(configObject){
 	this.capacity = (configObject && 	configObject.capacity) || -1;
 	this.tasks = (configObject && configObject.tasks ) || [];
 	this.timeWithoutArrival = 0;
-	return this;
 };
 
 SProc.Queue.prototype.getMu_a = function(){

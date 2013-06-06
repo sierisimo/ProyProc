@@ -15,23 +15,27 @@
 		TO-DO:
 			Implement a Class called config, which is a factory for configs.
 */
-var SProc = function(config){
+var SProc = function(config, id){
 	if(config == null)
 		throw "You need to set a config object for creation of SProc.";
 
-	if(!config.System)
+	if( !(config instanceof SProc.System) && !config.System )
 		throw "You cannot create a new SProc whitout a System.";
 
-	this.System = config.System;
+	var tSystem = (config instanceof SProc.System) ? config : config.System;
+
+	this.system = tSystem;
+	this.system.Parent = this;
+	
 	this.Cycle = 0;
-	this.Delta = config.Delta;
-	this._id = config.id;
+	this.Delta = config && !config instanceof SProc.System && config.Delta || 1;
+	this._id = id || config && config.id || $('canvas').attr('id');
+
 	this.Parent = this;
 	//Should be implemented in future versions to have more than one system.
 	//this.canvasId = config.id || "main";
 
 	this.Canvas = SProc.Canvas;
-
 };
 
 SProc.prototype.getVersion = function(){
@@ -80,6 +84,8 @@ SProc.Canvas = function(obj){
 		default:
 			throw "Unknow type, cant create object.\nType can be: 'Server' or 'Task'";
 	}
+
+	this.Parent = this;
 };
 
 SProc.Canvas.draw = function(id){
@@ -88,7 +94,7 @@ SProc.Canvas.draw = function(id){
 	// context should come in a config object in future version.
 	// with some initialization like these:
 
-	var canvas = $('#'+id)[0].getContext("2d"),
+	var canvas = this._id || $('#'+id)[0].getContext("2d"),
 		width = canvas.width, height = canvas.height,
 		linesEndPts = [], recs = [], //arrays of objects on the style {x:number,y:number}
 		mainLine = {x:width*0.55,y:height/2}, //0.35 == 35%
@@ -165,10 +171,6 @@ SProc.Canvas.prototype.createTask = function(config){
 	if () {};
 };
 */
-/*
-	SProc.System:
-*/
-
 SProc.System = function(config){
 	if (!config.queue){
 		throw "No puedes crear un sistema sin una cola.";
@@ -185,6 +187,8 @@ SProc.System = function(config){
 	if (!config.queue.capacity){
 		throw "Debes especificar una capacidad máxima para la cola";
 	}
+
+	this.Parent = {};
 	this.Mu_s = config.Mu_s;
 	this.servers = new Array();
 	/*TO DO: Discuss how are we going to set de Mu_s for
@@ -196,12 +200,13 @@ SProc.System = function(config){
 		var tempObject = new Object();
 		tempObject.Mu_s = config.servers[i];
 		this.servers[i] = new SProc.Server(tempObject);
+		this.servers[i].Parent = this;
 		console.log("Servidor añadido");
 		delete tempObject;	
 	}
 
 	this.queue = config.queue;
-
+	this.queue.Parent = this;
 };
 
 SProc.System.prototype.tasksOnService = function(){
@@ -238,7 +243,6 @@ SProc.Queue = function(configObject){
 	this.capacity = (configObject && 	configObject.capacity) || -1;
 	this.tasks = (configObject && configObject.tasks ) || [];
 	this.timeWithoutArrival = 0;
-	return this;
 };
 
 SProc.Queue.prototype.getMu_a = function(){
@@ -343,10 +347,7 @@ SProc.Queue.prototype.refresh = function(){
 
 /*
 	SProc.Server:
-
-	var servidor1 = new SProc.Server({})
 */
-
 SProc.Server = function(config){
 	if(config == undefined){
 		throw "You must provide a config object";
@@ -367,6 +368,7 @@ SProc.Server = function(config){
 		height:SProc.Canvas.serverHeight,
 		color:"#FFFFFF"
 	});
+
 };
 
 SProc.Server.prototype.free = function(){
@@ -422,7 +424,12 @@ SProc.Server.prototype.valueOf = function() {
 	Task: Class example. 
 */
 SProc.Task = function(configObject){
-	this.timeArrival = (configObject && configObject.timeArrival) || -1;
+	if (configObject === undefined){
+		throw "Se esperaba un objeto de configuración";
+	}
+	if (configObject.timeArrival === undefined)
+		throw "Debes de establecer un tiempo de arribo";
+	this.timeArrival = configObject.timeArrival
 	this.timeStartService = (configObject && configObject.timeStartService) || -1;
 	this.timeDeparture = (configObject && configObject.timeDeparture) || -1;
 };
@@ -439,13 +446,13 @@ SProc.Task.prototype.getTimeDeparture = function(){
 
 SProc.Task.prototype.setTimeArrival = function(newTimeArrival){
 	this.timeArrival = newTimeArrival;
-}
+};
 SProc.Task.prototype.setTimeStartService = function(newTimeStartService){
 	this.timeStartService = newTimeStartService;
-}
+};
 SProc.Task.prototype.setTimeDeparture = function(newTimeDeparture){
 	this.timeArrival = newTimeDeparture;
+};
 
-}
 	window.SProc = SProc;
 })("0.0.1");

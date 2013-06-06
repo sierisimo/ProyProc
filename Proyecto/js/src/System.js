@@ -15,6 +15,8 @@ SProc.System = function(config){
 	if (!config.queue.capacity){
 		throw "Debes especificar una capacidad máxima para la cola";
 	}
+
+	this.Parent = {};
 	this.Mu_s = config.Mu_s;
 	this.servers = new Array();
 	/*TO DO: Discuss how are we going to set de Mu_s for
@@ -26,12 +28,13 @@ SProc.System = function(config){
 		var tempObject = new Object();
 		tempObject.Mu_s = config.servers[i];
 		this.servers[i] = new SProc.Server(tempObject);
+		this.servers[i].Parent = this;
 		console.log("Servidor añadido");
 		delete tempObject;	
 	}
 
 	this.queue = config.queue;
-
+	this.queue.Parent = this;
 };
 
 SProc.System.prototype.tasksOnService = function(){

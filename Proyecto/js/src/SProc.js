@@ -14,23 +14,27 @@
 		TO-DO:
 			Implement a Class called config, which is a factory for configs.
 */
-var SProc = function(config){
+var SProc = function(config, id){
 	if(config == null)
 		throw "You need to set a config object for creation of SProc.";
 
-	if(!config.System)
+	if( !(config instanceof SProc.System) && !config.System )
 		throw "You cannot create a new SProc whitout a System.";
 
-	this.System = config.System;
+	var tSystem = (config instanceof SProc.System) ? config : config.System;
+
+	this.system = tSystem;
+	this.system.Parent = this;
+	
 	this.Cycle = 0;
-	this.Delta = config.Delta;
-	this._id = config.id;
+	this.Delta = config && !config instanceof SProc.System && config.Delta || 1;
+	this._id = id || config && config.id || $('canvas').attr('id');
+
 	this.Parent = this;
 	//Should be implemented in future versions to have more than one system.
 	//this.canvasId = config.id || "main";
 
 	this.Canvas = SProc.Canvas;
-
 };
 
 SProc.prototype.getVersion = function(){

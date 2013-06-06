@@ -21,6 +21,8 @@ SProc.Canvas = function(obj){
 		default:
 			throw "Unknow type, cant create object.\nType can be: 'Server' or 'Task'";
 	}
+
+	this.Parent = this;
 };
 
 SProc.Canvas.draw = function(id){
@@ -29,7 +31,7 @@ SProc.Canvas.draw = function(id){
 	// context should come in a config object in future version.
 	// with some initialization like these:
 
-	var canvas = $('#'+id)[0].getContext("2d"),
+	var canvas = this._id || $('#'+id)[0].getContext("2d"),
 		width = canvas.width, height = canvas.height,
 		linesEndPts = [], recs = [], //arrays of objects on the style {x:number,y:number}
 		mainLine = {x:width*0.55,y:height/2}, //0.35 == 35%
@@ -100,8 +102,9 @@ SProc.Canvas.clear = function(id){
 		width = canvas.canvas.width, height = canvas.canvas.height;
 	canvas.clearRect(0,0,width,height)
 };
-
+/*
 SProc.Canvas.prototype.createTask = function(config){
 	var config = config && config.length ? 
 	if () {};
 };
+*/
