@@ -54,10 +54,6 @@ SProc.prototype.stop = function(){
 };
 
 SProc.prototype.cycle = function(){
-
-
-
-
 	this.Cycle++;
 };
 /*
@@ -208,7 +204,7 @@ SProc.System = function(config){
 };
 
 SProc.System.prototype.tasksOnService = function(){
-	var servs = this.server;
+	var servs = this.servers;
 	var count = 0;
 	for (var i = 0; i < servs.length ; i++){
 		if (servs[i].getState()){
@@ -219,8 +215,8 @@ SProc.System.prototype.tasksOnService = function(){
 }
 
 SProc.System.prototype.refresh = function(){
-	for (var i = 0; i < this.server.length ; i++){
-		this.server[i].refresh();
+	for (var i = 0; i < this.servers.length ; i++){
+		this.servers[i].refresh();
 	}
 	this.queue.refresh();
 };
@@ -252,14 +248,14 @@ SProc.Queue.prototype.getCapacity = function(){
 };
 
 SProc.Queue.prototype.getNumberTask = function(){
-	return this.task.length;
+	return this.tasks.length;
 };
 
 SProc.Queue.prototype.getFirstTask = function(){
-	return this.task[this.capacity-1];
+	return this.tasks[this.capacity-1];
 };
 SProc.Queue.prototype.killFirstTask = function(){
-	delete this.task[this.capacity-1];
+	delete this.tasks[this.capacity-1];
 };
 SProc.Queue.prototype.setMu_a = function(newMu_a){	
 	this.Mu_a = newMu_a;
@@ -276,11 +272,13 @@ SProc.Queue.prototype.setTask = function(newTask){
 SProc.Queue.prototype.attention = function(mysystem){
 	if(this.getNumberTask()>=1 && mysystem.tasksOnService() != mysystem.servers.length){
 		for(var i=0;i<mysystem.servers.length;i++){
-			if(mysystem.servers[i].isBusy() == false){
+			if(mysystem.servers[i].getState() == false){
 				break; //Change this to a better sustitution
 					//policy in next version
 			}
 		}
+		console.log("Numero tareas: " + this.getNumberTask());
+		console.log("Arreglo de tareas: " + this.tasks[0]);
 		var firstTask = this.getFirstTask();
 		firstTask.setTimeStartService(this.Parent.Parent.getTime()); 
 		mysystem.servers[i].attend(firstTask);
@@ -333,8 +331,8 @@ SProc.Queue.prototype.refresh = function(){
 
 	this.attention(mySystem);
 	if (this.timeWithoutArrival == this.Mu_a){
-		this.arrival(SProc.getQueue());
-		if (SProc.getQueue.tasks.length == 1){
+		this.arrival(this);
+		if (this.tasks.length == 1){
 			this.attention(mySystem);
 		}
 	}
@@ -383,7 +381,7 @@ SProc.Server.prototype.free = function(){
 
 SProc.Server.prototype.refresh = function(){
 	if(this.getState()){
-		var actualTime = SProc.getTime();
+		var actualTime = this.Parent.Parent.getTime();
 		if((this.task.timeStartService - actualTime)>= this.Mu_s){
 			this.free();
 			} 
@@ -396,7 +394,7 @@ SProc.Server.prototype.attend = function(task){
 
 	this.task = task;
 	this.setState();
-	this.canvas.color = task.canvas.color;
+//	this.canvas.color = task.canvas.color;
 };
 
 /*
