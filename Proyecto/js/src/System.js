@@ -1,4 +1,3 @@
-
 SProc.System = function(config){
 	if (!config.queue){
 		throw "No puedes crear un sistema sin una cola.";
@@ -38,7 +37,7 @@ SProc.System = function(config){
 };
 
 SProc.System.prototype.tasksOnService = function(){
-	var servs = this.server;
+	var servs = this.servers;
 	var count = 0;
 	for (var i = 0; i < servs.length ; i++){
 		if (servs[i].getState()){
@@ -49,8 +48,8 @@ SProc.System.prototype.tasksOnService = function(){
 }
 
 SProc.System.prototype.refresh = function(){
-	for (var i = 0; i < this.server.length ; i++){
-		this.server[i].refresh();
+	for (var i = 0; i < this.servers.length ; i++){
+		this.servers[i].refresh();
 	}
 	this.queue.refresh();
 };

@@ -53,9 +53,5 @@ SProc.prototype.stop = function(){
 };
 
 SProc.prototype.cycle = function(){
-
-
-
-
 	this.Cycle++;
 };

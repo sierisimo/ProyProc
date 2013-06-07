@@ -1,6 +1,6 @@
 
 /*
-	Task: Class example. 
+	Class: Task 
 */
 SProc.Task = function(configObject){
 	if (configObject === undefined){

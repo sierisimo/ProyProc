@@ -20,14 +20,20 @@ SProc.Queue.prototype.getCapacity = function(){
 };
 
 SProc.Queue.prototype.getNumberTask = function(){
-	return this.task.length;
+	var count = 0;
+	for (var i = 0; i < this.capacity && i < this.tasks.length ; i++){
+		if (this.tasks[i] !== undefined)
+			count++;
+	}
+
+	return count;
 };
 
 SProc.Queue.prototype.getFirstTask = function(){
-	return this.task[this.capacity-1];
+	return this.tasks[this.capacity-1];
 };
 SProc.Queue.prototype.killFirstTask = function(){
-	delete this.task[this.capacity-1];
+	delete this.tasks[this.capacity-1];
 };
 SProc.Queue.prototype.setMu_a = function(newMu_a){	
 	this.Mu_a = newMu_a;
@@ -44,7 +50,7 @@ SProc.Queue.prototype.setTask = function(newTask){
 SProc.Queue.prototype.attention = function(mysystem){
 	if(this.getNumberTask()>=1 && mysystem.tasksOnService() != mysystem.servers.length){
 		for(var i=0;i<mysystem.servers.length;i++){
-			if(mysystem.servers[i].isBusy() == false){
+			if(mysystem.servers[i].getState() == false){
 				break; //Change this to a better sustitution
 					//policy in next version
 			}
@@ -61,7 +67,7 @@ SProc.Queue.prototype.attention = function(mysystem){
 		console.log("Hay una tarea en espera pero no hay servidor disponible.");
 	}
 	else if(this.getNumberTask()==0){
-		console.log("Cola vacía");
+		console.log("Cola vacía, no hay tareas que atender");
 	}
 
 	else {
@@ -69,8 +75,8 @@ SProc.Queue.prototype.attention = function(mysystem){
 	}
 }
 SProc.Queue.prototype.step = function(myqueue){
-	var lastIndex = myqueue.tasks.length - 2;
-	var tasksCount = myqueue.tasks.length;
+	var lastIndex = myqueue.getNumberTask() - 2;
+	var tasksCount = myqueue.getNumberTask();
 
 	for (var i = 0; i < tasksCount;i++){
 		myqueue.tasks[lastIndex + 1] = myqueue.tasks[lastIndex--];
@@ -78,7 +84,7 @@ SProc.Queue.prototype.step = function(myqueue){
 
 }
 SProc.Queue.prototype.arrival = function(myqueue){
-	var tasksCount = myqueue.tasks.length;
+	var tasksCount = myqueue.getNumberTask();
 	var capacity = myqueue.capacity;
 	if (tasksCount == capacity){
 		console.log("La cola está llena.");
@@ -90,7 +96,9 @@ SProc.Queue.prototype.arrival = function(myqueue){
 		var newTask = new SProc.Task(configObject);
 		//Puts the incoming task at the end of the queue
 		myqueue.tasks[capacity - tasksCount - 1] = newTask;
-		this.timeWithoutArrival = -1;
+		//Updated from -1 to -Delta
+		this.timeWithoutArrival = -this.Parent.Parent.Delta;
+		console.log("Ha llegado una tarea");
 	}
 
 }
@@ -100,9 +108,14 @@ SProc.Queue.prototype.refresh = function(){
 	
 
 	this.attention(mySystem);
-	if (this.timeWithoutArrival == this.Mu_a){
-		this.arrival(SProc.getQueue());
-		if (SProc.getQueue.tasks.length == 1){
+
+		/*The next condition cannot be == since delta
+			is not always divisible by Mu_a
+		*/
+
+	if (this.timeWithoutArrival >= this.Mu_a){
+		this.arrival(this);
+		if (this.getNumberTask() == 1){
 			this.attention(mySystem);
 		}
 	}

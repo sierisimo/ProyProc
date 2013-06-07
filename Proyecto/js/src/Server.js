@@ -1,6 +1,6 @@
 
 /*
-	SProc.Server:
+	Server Class
 */
 SProc.Server = function(config){
 	if(config == undefined){
@@ -28,7 +28,7 @@ SProc.Server = function(config){
 SProc.Server.prototype.free = function(){
 	this.setState();
 	this.canvas.color = "#FFFFFF";
-	this.task.timeDeparture = SProc.getTime();
+	this.task.timeDeparture = this.Parent.Parent.getTime();
 
 	/*
 		TO-DO
@@ -39,9 +39,15 @@ SProc.Server.prototype.free = function(){
 
 SProc.Server.prototype.refresh = function(){
 	if(this.getState()){
-		var actualTime = SProc.getTime();
-		if((this.task.timeStartService - actualTime)>= this.Mu_s){
+		var actualTime = this.Parent.Parent.getTime();
+		/*
+			Switched the order of the operands since actualTime
+			is always equal or greater than timeStartService
+			not the other way around
+		*/
+		if((actualTime - this.task.timeStartService) >= this.Mu_s){
 			this.free();
+			console.log("Se ha liberado una tarea");
 			} 
 	}
 };
@@ -52,7 +58,7 @@ SProc.Server.prototype.attend = function(task){
 
 	this.task = task;
 	this.setState();
-	this.canvas.color = task.canvas.color;
+//	this.canvas.color = task.canvas.color;
 };
 
 /*
@@ -74,3 +80,6 @@ SProc.Server.prototype.setState = function(){
 SProc.Server.prototype.valueOf = function() {
 	return this.attendedTasks;
 };
+/*
+	Task: Class example. 
+*/
