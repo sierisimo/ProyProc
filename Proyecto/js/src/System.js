@@ -1,3 +1,4 @@
+
 SProc.System = function(config){
 	if (!config.queue){
 		throw "No puedes crear un sistema sin una cola.";
@@ -18,10 +19,6 @@ SProc.System = function(config){
 	this.Parent = {};
 	this.Mu_s = config.Mu_s;
 	this.servers = new Array();
-	/*TO DO: Discuss how are we going to set de Mu_s for
-			each server. I'm assumig that config has an
-			array (config.servers[]) such as every element
-			is the Mu_s of said server.*/
 
 	for (var i = 0; i < config.servers.length ; i++){
 		var tempObject = new Object();
@@ -30,6 +27,17 @@ SProc.System = function(config){
 		this.servers[i].Parent = this;
 		console.log("Servidor añadido");
 		delete tempObject;	
+	}
+
+	if(config.servers.length < config.nservers){
+		for(;i< config.nservers; i++){
+			var tempObject = new Object();
+			tempObject.Mu_s = this.Mu_s;
+			this.servers[i] = new SProc.Server(tempObject);
+			this.servers[i].Parent = this;
+			console.log("Servidor añadido");
+			delete tempObject;		
+		}
 	}
 
 	this.queue = config.queue;

@@ -185,10 +185,6 @@ SProc.System = function(config){
 	this.Parent = {};
 	this.Mu_s = config.Mu_s;
 	this.servers = new Array();
-	/*TO DO: Discuss how are we going to set de Mu_s for
-			each server. I'm assumig that config has an
-			array (config.servers[]) such as every element
-			is the Mu_s of said server.*/
 
 	for (var i = 0; i < config.servers.length ; i++){
 		var tempObject = new Object();
@@ -197,6 +193,17 @@ SProc.System = function(config){
 		this.servers[i].Parent = this;
 		console.log("Servidor añadido");
 		delete tempObject;	
+	}
+
+	if(config.servers.length < config.nservers){
+		for(;i< config.nservers; i++){
+			var tempObject = new Object();
+			tempObject.Mu_s = this.Mu_s;
+			this.servers[i] = new SProc.Server(tempObject);
+			this.servers[i].Parent = this;
+			console.log("Servidor añadido");
+			delete tempObject;		
+		}
 	}
 
 	this.queue = config.queue;
@@ -287,7 +294,7 @@ SProc.Queue.prototype.attention = function(mysystem){
 		firstTask.setTimeStartService(this.Parent.Parent.getTime()); 
 		mysystem.servers[i].attend(firstTask);
 		this.killFirstTask();
-		console.log("Se mandó una tarea al servidor");
+		console.log("Se mandó una tarea al servidor " + i);
 		this.step(mysystem.queue);
 		 
 	}
@@ -351,9 +358,8 @@ SProc.Queue.prototype.refresh = function(){
 	//attention()
 	//arrival()
 }
-
 /*
-	SProc.Server:
+	Server Class
 */
 SProc.Server = function(config){
 	if(config == undefined){
@@ -436,6 +442,9 @@ SProc.Server.prototype.valueOf = function() {
 /*
 	Task: Class example. 
 */
+/*
+	Class: Task 
+*/
 SProc.Task = function(configObject){
 	if (configObject === undefined){
 		throw "Se esperaba un objeto de configuración";
@@ -466,6 +475,5 @@ SProc.Task.prototype.setTimeStartService = function(newTimeStartService){
 SProc.Task.prototype.setTimeDeparture = function(newTimeDeparture){
 	this.timeArrival = newTimeDeparture;
 };
-
 	window.SProc = SProc;
 })("0.0.1");
