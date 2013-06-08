@@ -14,26 +14,13 @@ SProc.Server = function(config){
 	this.busy = false;
 	this.attendedTasks = 0;
 	this.task = {};
-	this.canvas = new SProc.Canvas({
-		type: "Server",
-		x:config.x,
-		y:config.y,
-		width:SProc.Canvas.serverWidth,
-		height:SProc.Canvas.serverHeight,
-		color:"#FFFFFF"
-	});
 
 };
 
 SProc.Server.prototype.free = function(){
 	this.setState();
-	this.canvas.color = "#FFFFFF";
 	this.task.timeDeparture = this.Parent.Parent.getTime();
-
-	/*
-		TO-DO
-			Implementar llamada a Chichona
-	*/
+	this.attendedTasks++;
 
 };
 
@@ -58,17 +45,8 @@ SProc.Server.prototype.attend = function(task){
 
 	this.task = task;
 	this.setState();
-//	this.canvas.color = task.canvas.color;
 };
 
-/*
-	TO-DO:
-		Implement a toString method.
-
-SProc.Server.prototype.toString = function() {
-	return ;
-};
-*/
 SProc.Server.prototype.getState = function(){
 	return this.busy;
 };
@@ -80,6 +58,3 @@ SProc.Server.prototype.setState = function(){
 SProc.Server.prototype.valueOf = function() {
 	return this.attendedTasks;
 };
-/*
-	Task: Class example. 
-*/

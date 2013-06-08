@@ -31,8 +31,8 @@ var SProc = function(config){
 	this.Delta = config && config.Delta || 1;
 
 	this.Parent = this;
-
-	this.Canvas = SProc.Canvas;
+	
+	this.Canvas = new SProc.Canvas(this);
 };
 
 SProc.prototype.getVersion = function(){

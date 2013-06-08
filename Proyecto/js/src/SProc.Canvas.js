@@ -6,36 +6,17 @@
 /*
 	TODO: check if canvas methods are needed
 */
-SProc.Canvas = function(obj){
-	if(obj.type == undefined)
-		throw "Can't create from a undefined object";
-	
-	this.x = obj.x;
-	this.y = obj.y;
-	this.color = obj.color;
-	switch(obj.type){
-		case "Server":
-			this.width = obj.width;
-			this.height = obj.height;
-			break;
-		default:
-			throw "Unknow type, cant create object.\nType can be: 'Server' or 'Task'";
-	}
-
-	this.Parent = this;
+SProc.Canvas = function(that){
+	this.Parent = that;
 };
 
-SProc.Canvas.draw = function(id){
-	// Only one canvas... this should be changed in next version.
-	//
-	// context should come in a config object in future version.
-	// with some initialization like these:
-
-	var canvas = id && $('#'+id)[0].getContext("2d") || $('canvas').attr('id'),
-		width = canvas.width, height = canvas.height,
-		linesEndPts = [], recs = [], //arrays of objects on the style {x:number,y:number}
-		mainLine = {x:width*0.55,y:height/2}, //0.35 == 35%
-		elements = this.System.server.length, segments = height/elements;
+SProc.Canvas.prototype.draw = function(id){
+	var canvas = document.getElementById(id).getContext("2d"),//id && $('#'+id).getContext("2d") || $('canvas').attr('id'),
+		width = canvas.canvas.width, height = canvas.canvas.height,
+		linesEndPts = [], recEndPoints = [],//arrays of objects on the style {x:number,y:number}
+		mainLine = {x:width*0.55,y:height/2},
+		elements = this.Parent.system.servers.length, segments = height/elements,
+		tasks = [];
 
 	function setLines(){
 		var len = elements, midlePoint = segments/2, 
@@ -49,15 +30,16 @@ SProc.Canvas.draw = function(id){
 			midlePoint += segments;
 		}
 		canvas.moveTo(space.x,midlePoint);
-	};
+	};	
 
 	function setRects(){
 		var stPoint = segments/4, midlePoint = segments/2, step = stPoint;
-			equis = linesEndPts[linesEndPts.length-1].x,widthR = mainLine.x-mainLine.x*.50;
+			equis = linesEndPts[linesEndPts.length-1].x, widthR = mainLine.x-mainLine.x*.50;
 		
 		for(var i = 0 ; i< elements ; i++ ){
-			canvas.rect(equis,step,100,stPoint*2);
-			step += stPoint*4; 
+			canvas.rect(equis,step,widthR,stPoint*2);
+			step += stPoint*4;
+			recEndPoints.push({x:equis,y:step}); 
 		}
 		step=stPoint*2;
 		canvas.moveTo(equis+widthR,step);
@@ -66,45 +48,67 @@ SProc.Canvas.draw = function(id){
 			step+=stPoint*4;
 			canvas.moveTo(equis+widthR,step);
 		}
+		
 	};
-
 	// Configuration for the canvas, next version should take this from an config object.
-	// TO-DO:
-	// 		Implement the option to make the lines visible or not.
-	canvas.fillStyle = "white";
-	canvas.strokeStyle = "white";
-	canvas.lineWidth = 0.5;
+	//canvas.fillStyle = "white";
+	//canvas.strokeStyle = "white";
+	canvas.lineWidth = 2;
 
 	//Main line/Visible Queue
 	canvas.moveTo(0,height/2);
+	
 	canvas.lineCap = "round";
+	
 	canvas.lineTo(mainLine.x,mainLine.y);
+	
 	linesEndPts.push({x:mainLine.x,y:mainLine.y});
+	
 	setLines();
+	setRects();
 
-	canvas.endPoints = {lines: linesEndPts, recs: recs};
+	canvas.endPoints = {lines: linesEndPts, rects: recEndPoints};
+	canvas.paintedTasks = tasks;
+	canvas.stroke();
 	this.canvas = canvas;
+	this.canvas.elements = elements;
 	this.inDOM = true;
-
-	/* 
-		TO-DO: Implement the 
-	*/
 };
 
 // This method is still on doubt because we don't know if we need this method or a setInterval to draw().
-SProc.Canvas.redraw = function(){
+SProc.Canvas.prototype.redraw = function(){
 
 };
 
 // Should be changed in future version tod implement this.canvas
-SProc.Canvas.clear = function(id){
+SProc.Canvas.prototype.clear = function(id){
+	if(!this.inDOM){
+		throw "Elemento: " + id + " no existe en el DOM";
+	}
 	var canvas = document.getElementById(id).getContext("2d"), 
 		width = canvas.canvas.width, height = canvas.canvas.height;
-	canvas.clearRect(0,0,width,height)
+
+	canvas.clearRect(0,0,width,height);
+
+	this.inDOM = false;
 };
-/*
-SProc.Canvas.prototype.createTask = function(config){
-	var config = config && config.length ? 
-	if () {};
+
+SProc.Canvas.prototype.createTask = function(task){
+	var canvas = this.canvas,
+		width = canvas.canvas.width, height = canvas.canvas.height,
+		stHeight = height/2, stWidth = 0, 
+		segments = height/this.canvas.elements, step = segments/8;
+		
+		canvas.fillStyle = task.color;
+
+		canvas.moveTo(0, stHeight);
+		canvas.fillRect(stWidth , stHeight-(step/2) , step , step);	
+
+		canvas.lineTo(0,0);
+
+		task.x = stWidth;
+		task.y = stHeight;
+		
+		this.canvas.paintedTasks.push(task);
+
 };
-*/
