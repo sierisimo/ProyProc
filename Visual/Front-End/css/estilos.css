@@ -1,0 +1,40 @@
+*{
+	padding: 0px;
+	margin: 0px;
+}
+
+#pag2, #datos, #estadisticas{
+	padding: 10px;
+}
+
+canvas {
+	float: left;
+}
+
+#formulario{
+	float:right;
+}
+
+#botones{
+	float:right;
+	background-color:red;
+}
+.boton{
+	color:blue;
+}
+.botonactivo{
+	color:black;
+}
+
+a:hover, a:focus{
+	text-decoration:none;
+	background-color:rgb(255,255,255);
+	cursor: default;
+	/*color:#0088cc;*/
+}
+#nservidor, #cola, #vdelta, #vmua, #vvelocidad, #vgeneral{
+	height:20px;
+	width: 40px;
+}
+
+
