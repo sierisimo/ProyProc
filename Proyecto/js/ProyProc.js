@@ -312,17 +312,12 @@ SProc.Queue.prototype.attention = function(mysystem){
 	}
 }
 SProc.Queue.prototype.step = function(myqueue){
-	var lastIndex = myqueue.capacity - myqueue.getNumberTask() - 1;
-	var tasksCount = myqueue.getNumberTask();
 	console.log("-----------Cola antes ", myqueue.tasks);
-	for (var i = lastIndex; i >= 0;i--){
-		myqueue.tasks[lastIndex + 1] = myqueue.tasks[lastIndex];
-		delete myqueue.tasks[lastIndex];
-		lastIndex--;
-
-	}
+		for(var i = this.capacity - 2 ; i >= 0 ; i-- ){
+			myqueue.tasks[i+1] = myqueue.tasks[i];
+			delete myqueue.tasks[i];
+		}
 	console.log("-----------Cola despues ", myqueue.tasks);
-
 }
 SProc.Queue.prototype.arrival = function(myqueue){
 	var tasksCount = myqueue.getNumberTask();

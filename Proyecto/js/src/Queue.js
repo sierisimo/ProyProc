@@ -75,13 +75,12 @@ SProc.Queue.prototype.attention = function(mysystem){
 	}
 }
 SProc.Queue.prototype.step = function(myqueue){
-	var lastIndex = myqueue.getNumberTask() - 2;
-	var tasksCount = myqueue.getNumberTask();
-
-	for (var i = 0; i < tasksCount;i++){
-		myqueue.tasks[lastIndex + 1] = myqueue.tasks[lastIndex--];
-	}
-
+	console.log("-----------Cola antes ", myqueue.tasks);
+		for(var i = this.capacity - 2 ; i >= 0 ; i-- ){
+			myqueue.tasks[i+1] = myqueue.tasks[i];
+			delete myqueue.tasks[i];
+		}
+	console.log("-----------Cola despues ", myqueue.tasks);
 }
 SProc.Queue.prototype.arrival = function(myqueue){
 	var tasksCount = myqueue.getNumberTask();
