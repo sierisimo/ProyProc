@@ -59,7 +59,7 @@ SProc.Queue.prototype.attention = function(mysystem){
 		firstTask.setTimeStartService(this.Parent.Parent.getTime()); 
 		mysystem.servers[i].attend(firstTask);
 		this.killFirstTask();
-		console.log("Se mandó una tarea al servidor");
+		console.log("Se mandó una tarea al servidor " + i);
 		this.step(mysystem.queue);
 		 
 	}

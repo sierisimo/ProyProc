@@ -4,7 +4,8 @@
 		width = canvas.canvas.width, height = canvas.canvas.height,	
 		linesEndPts = [], recEndPoints = [], //arrays of objects on the style {x:number,y:number}
 		mainLine = {x:width*0.55,y:height/2},
-		elements = 5, segments = height/elements;
+		elements = 4, segments = height/elements,
+		tasks = [];
 
 	//Dummy function, it need better implementation.
 	function setLines(){
@@ -18,6 +19,7 @@
 			linesEndPts.push({x:space.x,y:midlePoint});
 			midlePoint += segments;
 		}
+		canvas.save();
 	};
 
 	function setRects(){
@@ -36,27 +38,48 @@
 			step+=stPoint*4;
 			canvas.moveTo(equis+widthR,step);
 		}
+		
 	};
 
+	function createTask(task){
+		var step = segments/8, stWidth = 0, stHeight = height/2;
+		
+		canvas.fillStyle = task.color;
+
+		canvas.moveTo(stWidth, stHeight);
+		canvas.fillRect(stWidth,stHeight-(step/2),step,step);	
+		task.x = stWidth;
+		task.y = stHeight;
+		tasks.push(task);
+		
+	}
+
 	function clear(id){
-		var canvas = document.getElementById(id).getContext("2d"), 
-			width = canvas.canvas.width, height = canvas.canvas.height;
+		var canvas = document.getElementById(id).getContext("2d");
 		canvas.clearRect(0,0,width,height);
 	};
 	// Configuration for the canvas, next version should take this from an config object.
 
-	canvas.fillStyle = "white";
+	//canvas.fillStyle = "white";
 	//canvas.strokeStyle = "white";
-	canvas.lineWidth = 1;
+	canvas.lineWidth = .5;
+	canvas.lineCap = "round";
+	canvas.globalAlpha = .8;
 
 	//Main line/Visible Queue
 	canvas.moveTo(0,height/2);
-	canvas.lineCap = "round";
+	
 	canvas.lineTo(mainLine.x,mainLine.y);
 	linesEndPts.push({x:mainLine.x,y:mainLine.y});
 	setLines();
 	setRects();
 	canvas.stroke();
+
 	canvas.endPoints = {lines: linesEndPts, recs: recEndPoints};
+	canvas.paintedTasks = tasks;
+	createTask({
+		color: "#FF00FF"
+	});
+
 	console.log(canvas, width,height);
 </script>
