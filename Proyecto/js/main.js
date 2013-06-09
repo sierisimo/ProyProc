@@ -15,14 +15,17 @@ $(document).ready(function(){
 
 	var mySystem = new SProc.System(obj);
 
-	var fSProc = new SProc({System:mySystem});	
-	for (var i = 0 ; i < 100 ;i++){
+	var fSProc = new SProc({System:mySystem,Delta:.5});	
+	for (var i = 0 ; i < 15 ;i++){
 		console.log("*****Inicio de ciclo " + fSProc.getTime());
 		fSProc.system.refresh();
 		fSProc.cycle();
 		console.log("*****Fin de ciclo");
 	}
 	window.fs = fSProc;
+	for (i = 0; i < fSProc.system.servers.length ; i++){
+		console.log("El servidor " , i ,"atendió " ,fSProc.system.servers[i].attendedTasks ," tareas");
+	}
 
 }
 );
