@@ -32,76 +32,78 @@
 				<section>
 					<h2>Integrantes</h2>
 					<ul>
-						<li class="fragment"><strong>Sier</strong></li>
-						<li class="fragment"><strong>Moni</strong></li>
-						<li class="fragment"><strong>Jhoan</strong></li>
-						<li class="fragment"><strong>Mandys</strong></li>
-						<li class="fragment"><strong>Karla</strong></li>
+						<li class="fragment"><strong>García Cruz Jhoan Eduardo </strong></li>
+						<li class="fragment"><strong>González Méndez Mónica Ileanne</strong></li>
+						<li class="fragment"><strong>Jaime Valencia Sinuhé</strong></li>
+						<li class="fragment"><strong>Sánchez Pérez Karla Yuridia </strong></li>
+						<li class="fragment"><strong>Vilchez Alcantar Luis Daniel</strong></li>
 					</ul>
 				</section>
 				
 				<section data-state="soothe">
-					<h2>Sistemas de espera</h2>
+					<h1>Sistemas de espera</h1>
 				</section>
 
 				<section>
 					<h2>Definición</h2>
 					<ul>
 						<p class="fragment">Consiste en un flujo de entidades que llegan a una infraestructura a solictar un determinado servicio.</p>
-						<p class="fragment">Esta infraestructura tiene capacidad limitada.</p>
-						<p class="fragment">Por lo que no puede atender a todas las entidades simultaneamente.</p>
 					</ul>
 				</section>
 
 				<section>
+					<h2>Características</h2>
 					<ul>
-						<p class="fragment">El proceso de llegada de las entidades al sistema es de caracter aleatorio.</p>
-						<p class="fragment">Tambien el proceso de servicio.</p>
-						<p class="fragment">Consiste en un flujo de entidades que llegan a una infraestructura a solictar un determinado servicio.</p>
+						<li class="fragment">El complejo tiene capacidad limitada (No puede atender a todas las entidades simultaneamente).</li>
+						<li class="fragment">El proceso de llegada de las entidades  y el servicio al sistema es de caracter aleatorio.</li>
 					</ul>
 				</section>
 
 				<section>
+					<h2>¿Qué nos interesa?</h2>
 					<ul>
-						<p class="fragment">Nos interesa averiguar la congestion o demara que producen estos sistemas.</p>
-						<p class="fragment">Desde un punto de vista de su variación estócastica.</p>
+						<p class="fragment">Averiguar la congestión o demora que produce estos sistemas. Desde un punto de vista de su variación estócastica.</p>
 					</ul>
 				</section>
 		
 				<section>
-						<section data-state="soothe">
-					<h2>Elementos de un sistema de espera</h2>
-				</section>
+					<section data-state="soothe">
+						<h2>Elementos de un sistema de espera</h2>
+					</section>
 		
-				<section>
-					<ol>
-						<li ><code>Los procesos de llegada al sistema</code></li>
-						<li class="fragment"><code>La infraestructura de antención de entidades y</code></li>
-						<li class="fragment"><code>La politica de antención.</code></li>
-					</ol>	
-				</section>
+					<section>
+						<ol>
+							<li ><code>Los procesos de llegada al sistema,</code></li>
+							<li class="fragment"><code>La infraestructura de atención de entidades y</code></li>
+							<li class="fragment"><code>La política de antención.</code></li>
+						</ol>	
+					</section>
 
-				<section data-state="soothe">
-					<h2>"Adicionalmente"</h2>
-				</section>
+					<section data-state="soothe">
+						<h2>"Adicionalmente"</h2>
+					</section>
 
-				<section >
-					<li ><code>Tiempo promedio</code></li>
-					<li class="fragment"><code>largo promedio de las colas</code></li>
-					<li class="fragment"><code>porcentajes de tiempo de ocio.</code></li>
-					
-				</section>
+					<section >
+						<h4>Definir una o más medidas de desempeño</h4>
+						<ol>
+							<li ><code>Tiempo promedio</code></li>
+							<li class="fragment"><code>Largo promedio de las colas</code></li>
+							<li class="fragment"><code>Porcentajes de tiempo de ocio.</code></li>
+						</ol>
+						
+					</section>
 
-				<section data-state="soothe">
-					<h2>"Más finas aún"</h2>
-				</section>
+					<section data-state="soothe">
+						<h2>"Más finas aún"</h2>
+					</section>
 
-				<section >
-					<li ><code>Porcentaje de las entidades que deberan esperar mas que un cierto monto de tiempo</code></li>
-				</section>
+					<section >
+						<ol>
+							<li ><code>Porcentaje de las entidades que deberán esperar más que un cierto monto de tiempo pre-especificado.</code></li>
+						</ol>					
+					</section>
 
 				</section>	
-
 				<section>
 						<h2>Ejemplo de un sistema de espera</h2>
 						<a>
@@ -109,10 +111,27 @@
 						</a>
 				</section>	
 
-				<section >
-					<h2>¿Se generará congestión?</h2>
-					<li class="fragment">El tiempo de ingreso de una entidad y la siguiente es menor que su valor esperado y/o</li>
-					<li class="fragment">El tiempo de servicio de alguna de las cajas sera mayor que su valor esperado.</li>
+				<section>
+					<section>
+						<h2>¿Se generará congestión?</h2>
+						<ul>
+							<li class="fragment">El tiempo de ingreso de una entidad y la siguiente es menor que su valor esperado y/o</li>
+							<li class="fragment">El tiempo de servicio de alguna de las cajas sera mayor que su valor esperado.</li>
+						</ul>
+						
+					</section>
+
+					<section>
+						<h2>Ejemplos de este tipo de sistema</h2>
+						<ul>
+							<li class="fragment">Clientes de un banco que entran a una sucursal para ser atendidos en las cajas</li>
+							<li class="fragment">Las personas que estan formados en la caja para pagar su compra.</li>
+							<li class="fragment">Llamadas teléfonicas que llegan a una central para ser procesadas.</li>
+							<li class="fragment">Automóviles que llegan a una peaje para pagar su cuota.</li>
+						</ul>
+
+					</section>
+
 				</section>
 					<section>
 						<section data-state="soothe">
@@ -121,22 +140,37 @@
 
 					<section >
 						<h2>M/M/1</h2>
-						<li class="fragment">M Procesos de llegada</li>
-						<li class="fragment">M Procesos de un servidor</li>
-						<li class="fragment">1 caja en servicio</li>
+						<ul>
+							<li class="fragment">M Procesos de llegada</li>
+							<li class="fragment">M Procesos de un servidor</li>
+							<li class="fragment">Una caja en servicio</li>
+						</ul>
+					</section>
+
+					<section >
+						<a class="test">
+							<img width="512" height="300" src="img/mm1.png">
+						</a>
 					</section>
 
 					<section >
 						<h2>M/M/C</h2>
-						<li class="fragment">Similar al anterior, solo que este tiene n cajas en paralelo.</li>
-						<li class="fragment">Los tiempos de servicio de las cajas so V.A.I.I:D.</li>
-						<li class="fragment">distribuciòn exponencial a tasa U.</li>
-						<li class="fragment">Las entidades se incorporan a una cola única que va alimentando las cajas que se desocupan.</li>
+							<ul>
+								<li class="fragment">Similar al anterior, solo que este tiene n cajas en paralelo.</li>
+								<li class="fragment">Los tiempos de servicio de las cajas son V.A.I.I.D</li>
+								<li class="fragment">La distribución exponencial es a tasa U.</li>
+								<li class="fragment">Las entidades se incorporan a una cola única que va alimentando las cajas que se desocupan.</li>
+							</ul>
+					</section>
+					<section >
+						<a class="test">
+							<img width="612" height="400" src="img/mmc.png">
+						</a>
 					</section>
 				</section>
 				<section data-state="alert">
 					<h2>THE END</h2>
-					<p>"Ningún hombre digno pedirá que se le agradezca por aquello aque nada le cuesta".</p>
+					<p>"Ningún hombre digno pedirá que se le agradezca por aquello que nada le cuesta".</p>
 					<h5>Terencio</h5>
 				</section>
 			</div>
