@@ -28,6 +28,28 @@ $(document).ready(function(){
 	}
 	console.log("Las tareas atendidas fueron las siguientes: ", fSProc.system.taskLogger);
 	console.log("El registro de actividades queda como sigue: ",fSProc.system.logger);
+	
+		var newWindow = window.open("","Test","width=300,height=300");
+		var html = {header:"<DOCTYPE html><html><head><head><body>",footer:"</body><html>"};
+		html.table = "<table><tr><th>n</th><th>t</th><th>X(t)</th><th>X(w)</th><th>X(s)</th></tr>";
+		
+		for (i = 0 ; i < fSProc.system.logger.length; i++){
+			html.table += "<tr>";
+			
+				html.table+="<td>" + fSProc.system.logger[i].n + "</td>";
+				html.table+="<td>" + fSProc.system.logger[i].t + "</td>";
+				html.table+="<td>" + fSProc.system.logger[i].X_t + "</td>";
+				html.table+="<td>" + fSProc.system.logger[i].X_w + "</td>";
+				html.table+="<td>" + fSProc.system.logger[i].X_s + "</td>";
+			
+			html.table += "</tr>";
+		}
+		html.table += "</table>";
+		newWindow.document.open()
+    	newWindow.document.write(html.table);
+    	newWindow.document.getElementById($('head').append('<link rel="stylesheet" href="..css/" type="text/css" />');)
 
+    	newWindow.document.close()
+	
 }
 );
