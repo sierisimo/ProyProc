@@ -1,4 +1,3 @@
-
 SProc.System = function(config){
 	if (!config.queue){
 		throw "No puedes crear un sistema sin una cola.";
@@ -6,8 +5,11 @@ SProc.System = function(config){
 	if (!config.Mu_s){
 		throw "Debes especificar un tiempo promedio de servicio por defecto";
 	}
-	if (!config.servers || config.servers.length < 1){
+	if (config.nservers < 1){
 		throw "No puedes crear un sistema sin servidores";
+	}
+	if (config.servers.length > config.nservers){
+		throw "El arreglo de servidores debe ser igual o menor al número de servidores";
 	}
 	if (!config.queue.Mu_a){
 		throw "Debes especificar un tiempo promedio de arribo";
@@ -19,7 +21,7 @@ SProc.System = function(config){
 	this.Parent = {};
 	this.Mu_s = config.Mu_s;
 	this.servers = new Array();
-
+	//Añade servidores personalizados
 	for (var i = 0; i < config.servers.length ; i++){
 		var tempObject = new Object();
 		tempObject.Mu_s = config.servers[i];
@@ -28,7 +30,7 @@ SProc.System = function(config){
 		console.log("Servidor añadido");
 		delete tempObject;	
 	}
-
+	//Añade servidores por default
 	if(config.servers.length < config.nservers){
 		for(;i< config.nservers; i++){
 			var tempObject = new Object();

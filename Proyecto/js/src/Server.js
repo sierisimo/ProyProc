@@ -4,17 +4,16 @@
 */
 SProc.Server = function(config){
 	if(config == undefined){
-		throw "You must provide a config object";
+		throw "Se esperaba un objeto de configuración";
 	}
 
 	if(config instanceof Object && !config.Mu_s)
-		throw "You need to provide Mu_s for creating a new Server Object";
+		throw "Debes especificar la propiedad Mu_s para crear el nuevo objeto Servidor";
 
 	this.Mu_s = config.Mu_s;
 	this.busy = false;
 	this.attendedTasks = 0;
 	this.task = {};
-
 };
 
 SProc.Server.prototype.free = function(){
@@ -27,22 +26,17 @@ SProc.Server.prototype.free = function(){
 SProc.Server.prototype.refresh = function(){
 	if(this.getState()){
 		var actualTime = this.Parent.Parent.getTime();
-		/*
-			Switched the order of the operands since actualTime
-			is always equal or greater than timeStartService
-			not the other way around
-		*/
 		if((actualTime - this.task.timeStartService) >= this.Mu_s){
 			this.free();
-			console.log("Se ha liberado una tarea");
-			} 
+			console.log("Se ha liberado la tarea que llegó en " + this.task.timeArrival);
+			console.log("del servidor " + _.indexOf(this.Parent.servers,this));
+		} 
 	}
 };
 
 SProc.Server.prototype.attend = function(task){
 	if(!task)
-		throw "Can't attend an invisible client!!";
-
+		throw "Se debe especificar la tarea que se quiere atender";
 	this.task = task;
 	this.setState();
 };

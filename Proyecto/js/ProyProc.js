@@ -172,8 +172,11 @@ SProc.System = function(config){
 	if (!config.Mu_s){
 		throw "Debes especificar un tiempo promedio de servicio por defecto";
 	}
-	if (!config.servers || config.servers.length < 1){
+	if (config.nservers < 1){
 		throw "No puedes crear un sistema sin servidores";
+	}
+	if (config.servers.length > config.nservers){
+		throw "El arreglo de servidores debe ser igual o menor al número de servidores";
 	}
 	if (!config.queue.Mu_a){
 		throw "Debes especificar un tiempo promedio de arribo";
@@ -185,7 +188,7 @@ SProc.System = function(config){
 	this.Parent = {};
 	this.Mu_s = config.Mu_s;
 	this.servers = new Array();
-
+	//Añade servidores personalizados
 	for (var i = 0; i < config.servers.length ; i++){
 		var tempObject = new Object();
 		tempObject.Mu_s = config.servers[i];
@@ -194,7 +197,7 @@ SProc.System = function(config){
 		console.log("Servidor añadido");
 		delete tempObject;	
 	}
-
+	//Añade servidores por default
 	if(config.servers.length < config.nservers){
 		for(;i< config.nservers; i++){
 			var tempObject = new Object();
@@ -295,7 +298,8 @@ SProc.Queue.prototype.attention = function(mysystem){
 		firstTask.setTimeStartService(this.Parent.Parent.getTime()); 
 		mysystem.servers[i].attend(firstTask);
 		this.killFirstTask();
-		console.log("Se mandó una tarea al servidor");
+		console.log("Se mandó la tarea que llegó en ", mysystem.servers[i].task.timeArrival, " al servidor " + i);
+		console.log("su tiempo de respuesta es de "+ mysystem.servers[i].Mu_s +".")
 		if(numberTask > 1)
 			this.step(mysystem.queue);
 
@@ -312,12 +316,10 @@ SProc.Queue.prototype.attention = function(mysystem){
 	}
 }
 SProc.Queue.prototype.step = function(myqueue){
-	console.log("-----------Cola antes ", myqueue.tasks);
-		for(var i = this.capacity - 2 ; i >= 0 ; i-- ){
-			myqueue.tasks[i+1] = myqueue.tasks[i];
-			delete myqueue.tasks[i];
-		}
-	console.log("-----------Cola despues ", myqueue.tasks);
+	for(var i = this.capacity - 2 ; i >= 0 ; i-- ){
+		myqueue.tasks[i+1] = myqueue.tasks[i];
+		delete myqueue.tasks[i];
+	}
 }
 SProc.Queue.prototype.arrival = function(myqueue){
 	var tasksCount = myqueue.getNumberTask();
@@ -328,12 +330,9 @@ SProc.Queue.prototype.arrival = function(myqueue){
 	}
 	else if(tasksCount < capacity){
 		var configObject = new Object();
-		//creates new task
 		configObject.timeArrival = this.Parent.Parent.getTime();
 		var newTask = new SProc.Task(configObject);
-		//Puts the incoming task at the end of the queue
 		myqueue.tasks[capacity - tasksCount - 1] = newTask;
-		//Updated from -1 to -Delta
 		this.timeWithoutArrival = -this.Parent.Parent.Delta;
 		console.log("Ha llegado una tarea");
 	}
@@ -342,14 +341,7 @@ SProc.Queue.prototype.arrival = function(myqueue){
 SProc.Queue.prototype.refresh = function(){
 	var mySystem = this.Parent;
 	var t = this.Parent.Parent.getTime();
-	console.log("La cola antes del refresh ", this.tasks);
-
 	this.attention(mySystem);
-
-		/*The next condition cannot be == since delta
-			is not always divisible by Mu_a
-		*/
-
 	if (this.timeWithoutArrival >= this.Mu_a){
 		this.arrival(this);
 		if (this.getNumberTask() == 1){
@@ -357,40 +349,28 @@ SProc.Queue.prototype.refresh = function(){
 		}
 	}
 	this.timeWithoutArrival++;
-	console.log("La cola después del refresh ", this.tasks);
-	//attention()
-	//arrival()
 }
 /*
 	Server Class
 */
 SProc.Server = function(config){
 	if(config == undefined){
-		throw "You must provide a config object";
+		throw "Se esperaba un objeto de configuración";
 	}
 
 	if(config instanceof Object && !config.Mu_s)
-		throw "You need to provide Mu_s for creating a new Server Object";
+		throw "Debes especificar la propiedad Mu_s para crear el nuevo objeto Servidor";
 
 	this.Mu_s = config.Mu_s;
 	this.busy = false;
 	this.attendedTasks = 0;
 	this.task = {};
-	this.canvas = new SProc.Canvas({
-		type: "Server",
-		x:config.x,
-		y:config.y,
-		width:SProc.Canvas.serverWidth,
-		height:SProc.Canvas.serverHeight,
-		color:"#FFFFFF"
-	});
-
 };
 
 SProc.Server.prototype.free = function(){
 	this.setState();
-	this.canvas.color = "#FFFFFF";
 	this.task.timeDeparture = this.Parent.Parent.getTime();
+	this.attendedTasks++;
 
 	/*
 		TO-DO
@@ -402,35 +382,21 @@ SProc.Server.prototype.free = function(){
 SProc.Server.prototype.refresh = function(){
 	if(this.getState()){
 		var actualTime = this.Parent.Parent.getTime();
-		/*
-			Switched the order of the operands since actualTime
-			is always equal or greater than timeStartService
-			not the other way around
-		*/
 		if((actualTime - this.task.timeStartService) >= this.Mu_s){
 			this.free();
-			console.log("Se ha liberado una tarea");
-			} 
+			console.log("Se ha liberado la tarea que llegó en " + this.task.timeArrival);
+			console.log("del servidor " + _.indexOf(this.Parent.servers,this));
+		} 
 	}
 };
 
 SProc.Server.prototype.attend = function(task){
 	if(!task)
-		throw "Can't attend an invisible client!!";
-
+		throw "Se debe especificar la tarea que se quiere atender";
 	this.task = task;
 	this.setState();
-//	this.canvas.color = task.canvas.color;
 };
 
-/*
-	TO-DO:
-		Implement a toString method.
-
-SProc.Server.prototype.toString = function() {
-	return ;
-};
-*/
 SProc.Server.prototype.getState = function(){
 	return this.busy;
 };

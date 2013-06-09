@@ -59,8 +59,10 @@ SProc.Queue.prototype.attention = function(mysystem){
 		firstTask.setTimeStartService(this.Parent.Parent.getTime()); 
 		mysystem.servers[i].attend(firstTask);
 		this.killFirstTask();
-		console.log("Se mandó una tarea al servidor " + i);
-		this.step(mysystem.queue);
+		console.log("Se mandó la tarea que llegó en ", mysystem.servers[i].task.timeArrival, " al servidor " + i);
+		console.log("su tiempo de respuesta es de "+ mysystem.servers[i].Mu_s +".")
+		if(numberTask > 1)
+			this.step(mysystem.queue);
 		 
 	}
 	else if(this.getNumberTask()>=1 && mysystem.tasksOnService() == mysystem.servers.length){
@@ -75,12 +77,10 @@ SProc.Queue.prototype.attention = function(mysystem){
 	}
 }
 SProc.Queue.prototype.step = function(myqueue){
-	console.log("-----------Cola antes ", myqueue.tasks);
-		for(var i = this.capacity - 2 ; i >= 0 ; i-- ){
-			myqueue.tasks[i+1] = myqueue.tasks[i];
-			delete myqueue.tasks[i];
-		}
-	console.log("-----------Cola despues ", myqueue.tasks);
+	for(var i = this.capacity - 2 ; i >= 0 ; i-- ){
+		myqueue.tasks[i+1] = myqueue.tasks[i];
+		delete myqueue.tasks[i];
+	}
 }
 SProc.Queue.prototype.arrival = function(myqueue){
 	var tasksCount = myqueue.getNumberTask();
@@ -90,12 +90,9 @@ SProc.Queue.prototype.arrival = function(myqueue){
 	}
 	else if(tasksCount < capacity){
 		var configObject = new Object();
-		//creates new task
 		configObject.timeArrival = this.Parent.Parent.getTime();
 		var newTask = new SProc.Task(configObject);
-		//Puts the incoming task at the end of the queue
 		myqueue.tasks[capacity - tasksCount - 1] = newTask;
-		//Updated from -1 to -Delta
 		this.timeWithoutArrival = -this.Parent.Parent.Delta;
 		console.log("Ha llegado una tarea");
 	}
@@ -104,14 +101,7 @@ SProc.Queue.prototype.arrival = function(myqueue){
 SProc.Queue.prototype.refresh = function(){
 	var mySystem = this.Parent;
 	var t = this.Parent.Parent.getTime();
-	
-
 	this.attention(mySystem);
-
-		/*The next condition cannot be == since delta
-			is not always divisible by Mu_a
-		*/
-
 	if (this.timeWithoutArrival >= this.Mu_a){
 		this.arrival(this);
 		if (this.getNumberTask() == 1){
@@ -119,6 +109,4 @@ SProc.Queue.prototype.refresh = function(){
 		}
 	}
 	this.timeWithoutArrival++;
-	//attention()
-	//arrival()
 }
