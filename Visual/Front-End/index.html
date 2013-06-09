@@ -4,9 +4,9 @@
    <head>
       <title>Pendiente</title>
       <meta charset="utf-8">
-      <link href="css/estilos.css" type="text/css" rel="stylesheet">
       <link href="css/bootstrap.css" type="text/css" rel="stylesheet">
-      <link href="css/nouislider.fox.css" type="text/css" rel="stylesheet">
+	  <link href="css/nouislider.fox.css" type="text/css" rel="stylesheet">
+	  <link href="css/estilos.css" type="text/css" rel="stylesheet">
       <script src="js/jquery-2.0.2.min.js"></script>
       <script src="js/bootstrap.min.js"></script>
       <script src="js/jquery.nouislider.min.js"></script>
@@ -17,53 +17,47 @@
       <canvas id="1" width="600" height="900"></canvas>
       <div class="tabbedPanels" id="formulario">
          <ul class="nav nav-tabs" id="myTab">
-            <li><a href="#datos">Datos</a>
+            <li><a href="#datos" style="background-color: #FFFFFF; border-bottom: 1px solid rgb(238,238,238); border-color: rgb(238, 238, 238) rgb(238, 238, 238) rgb(221, 221, 221);">Datos</a>
 
             </li>
-            <li><a href="#pag2" class="second">Servidores</a>
+            <li><a href="#pag2" class="second" style="background-color: #FFFFFF; border-bottom: 1px solid rgb(238,238,238); border-color: rgb(238, 238, 238) rgb(238, 238, 238) rgb(221, 221, 221);">Servidores</a>
 
             </li>
-            <li><a href="#estadisticas">Estadísticas</a>
+            <li><a href="#estadisticas" style="background-color: #FFFFFF; border-bottom: 1px solid rgb(238,238,238); border-color: rgb(238, 238, 238) rgb(238, 238, 238) rgb(221, 221, 221);">Estadísticas</a>
 
             </li>
          </ul>
-         <div class="tab-content" style="width: 400px; height: 400px;">
+         <div class="tab-content" style="width: 600px; height: 10000px;">
             <div class="tab-pane active" id="datos">
-               <label id="lnservidor" class="label">Número de Servidores:</label>
-               <input name="servidores" type="text" id="nservidor">
+			   <p>Número de Servidores: <input name="servidores" type="text" id="nservidor"> </p>
                </br>
-			    <label id="lcola" class="label">Capacidad máxima de la cola:</label>
-               <input name="servidores" type="text" id="cola">
+			   <p>Capacidad máxima de la cola: <input name="cola" type="text" id="cola"></p>
                </br>
-               <label class="label">&mu;_a :</label>
-               </br>
-               <div class="noUiSlider" style="width: 200px;" id="mua"></div>
+			   <p>&mu;_a : </p>
+			   <div class="noUiSlider" style="width: 200px;" id="mua"></div>
                </br>
                <input id="vmua" type="text"></input>
                </br>
-               <label class="label">&Delta; :</label>
-               </br>
-               <div class="noUiSlider " style="width: 200px;" id="delta"></div>
+               <p>&Delta; : </p>
+			   <div class="noUiSlider " style="width: 200px;" id="delta"></div>
                </br>
                <input id="vdelta" type="text"></input>
                </br>
                <button class="btn btn-info" id="siguiente">Siguiente</button>
             </div>
             <div class="tab-pane" id="pag2">
-				<div id="servidores"></div>
-               <label class="label">Velocidad:</label>
-               </br>
+               <p>Velocidad:</l>
                <div class="noUiSlider" style="width: 200px;" id="velocidad"></div>
                </br>
                <input id="vvelocidad" type="text"></input>
                </br>
                </br>
-               <label class="label">&mu;_s General:</label>
-               </br>
+               <p>&mu;_s General:</p>
                <div class="noUiSlider" style="width: 200px;" id="general"></div>
                </br>
                <input id="vgeneral" type="text"></input>
                </br>
+			   	<div id="servidores"></div>
                </br>
                <button class="btn btn-info" id="crear">Crear sistema</button>
                </br>
@@ -84,36 +78,37 @@
             </div>
             <div class="tab-pane" id="estadisticas">
 				<h4>General</h4>
-				<label class="label">Número de servidores:</label>
+				<p>Número de servidores:</p>
 				<div></div>
-				<label class="label">Capacidad máxima de la cola:</label>
+				<p>Capacidad máxima de la cola:</p>
 				<div></div>
-				<label class="label">&mu;_a :</label>
+				<p>&mu;_a :</p>
 				<div></div>
-				<label class="label">&Delta; :</label>
+				<p>&Delta; :</p>
 				<div></div>
-				<label class="label">&mu;_s General :</label>
+				<p>&mu;_s General :</p>
 				<div></div>
 				<div id="infos"></div>
 				<h4>Estadísticas Teóricas</h4>
-				<label class="label">&lambda;_s :</label>
+				<p>&lambda;_s :</p>
 				<div></div>
-				<label class="label">&lambda;_a :</label>
+				<p>&lambda;_a :</p>
 				<div></div>
-				<label class="label">l:</label>
+				<p>l:</p>
 				<div></div>
-				<label class="label">&mu;_s General:</label>
+				<p>&mu;_s General:</p>
 				<div></div>
 				
 				<h4>Estadísticas Prácticas</h4>
-				<label class="label">&lambda;_s :</label>
+				<p>&lambda;_s :</p>
 				<div></div>
-				<label class="label">&lambda;_a :</label>
+				<p>&lambda;_a :</p>
 				<div></div>
-				<label class="label">&mu;_s General:</label>
+				<p>&mu;_s General:</p>
 				<div></div>
-				<label class="label">&mu;_s General:</label>
-				<div></div>
+				
+				 <button class="btn btn-inverse" id="reset2" onclick="goBack()">Reset</button>
+							   
             </div>
          </div>
          </br>
@@ -127,6 +122,14 @@
                }
             });
          });
+		 
+		 $(function () {
+            $("#cola").keydown(function (event) {
+               if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 9 && event.keyCode != 8) {
+                  return false;
+               }
+            });
+         });
 
          $(function () {
             $('#myTab a:first').tab('show');
@@ -135,12 +138,6 @@
          function goBack() {
             location.reload()
          }
-
-         /*$('#myTab a').click(function (e) {
-			e.preventDefault();
-			$(this).tab('show');
-			});*/
-
 
          $("#mua").noUiSlider({
 
@@ -190,12 +187,22 @@
 		$('#generar').click(function () {
 			$("#myTab a:last").tab('show');
 		});
-
+		
+		//Declaración de variables
+		
+		var nservidor;
+		var cola;
+		var mua;
+		var delta;
+		var tmp={};
+		var velocidad;
+		var general;
+		
          $('#siguiente').click(function () {
-            var nservidor = $('#nservidor').val();
-			var cola = $('#cola').val();
-            var mua = $('#vmua').val();
-            var delta = $('#vdelta').val();
+            nservidor = $('#nservidor').val();
+			cola = $('#cola').val();
+            mua = $('#vmua').val();
+            delta = $('#vdelta').val();
 
             $("#myTab  a.second").tab('show');
 
@@ -203,7 +210,7 @@
                $("#servidores").append(
                   [
                      $('<span>', {
-                           class: 'label',
+                           class: 'p',
                            html: '&mu;_s Servidor ' + i,
                            id: 'lservidor' + i
                         }),
@@ -217,12 +224,13 @@
                      document.createElement('BR'),
                      $('<input>', {
                            type: "text",
-                           id: 'vservidor' + i
+                           id: 'vservidor' + i,
+						   style: "height:20px; width: 40px;"
                         }),
                      document.createElement('BR')
                   ]);
-
             };
+			
             for (var i = 1; i <= nservidor; i++) {
                $("#servidor" + i).noUiSlider({
                      range: [0, 100],
@@ -234,29 +242,43 @@
                      }
                   });
             };
+			
+		 console.log("Servidores"+nservidor);
+		 console.log("Capacidad"+cola);
+		 console.log("mu_a"+mua);
+		 console.log("delta"+delta);
 
          });
 		 
-		  $('#generar').click(function () {
-		  
-            $("#myTab  a:last").tab('show');
-			
-			for(var i=1; i <=nservidor;i++){
-				$('#infos').append([
-					 $('<span>', {
-                           class: 'label',
-                           html: '&mu;_s Servidor ' + i,
-                           id: 'lservidor' + i
-                        }),
-				]);
-			};
-		  
-		  });
-
          $('#crear').click(function () {
             $("#play").show('slow');
             $("#stop").show('slow');
+			for(var i=1; i <=nservidor; i++){
+				tmp[i-1] = $('#vservidor'+i).val();
+			};
+			velocidad = $('#vvelocidad').val();
+			general = $('#vgeneral').val();
+			
+			console.log(tmp);
+			console.log(velocidad);
+			console.log(general);
          });
+		  
+		  $('#generar').click(function () {
+            $("#myTab  a").tab('show');
+			for(var i=1; i <=nservidor;i++){
+				$('#infos').append([
+					 $('<span>', {
+                           class: 'p',
+                           html: '&mu;_s Servidor'  + i + ' : ' + tmp[i-1],
+                           id: 'lservidor' + i
+                        }),
+					 document.createElement('BR'),
+					 document.createElement('BR'),
+				]);
+			};
+		  });
+			
       </script>
    </body>
 
