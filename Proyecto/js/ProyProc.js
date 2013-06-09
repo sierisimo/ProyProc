@@ -295,15 +295,10 @@ SProc.Queue.prototype.attention = function(mysystem){
 		firstTask.setTimeStartService(this.Parent.Parent.getTime()); 
 		mysystem.servers[i].attend(firstTask);
 		this.killFirstTask();
-<<<<<<< HEAD
 		console.log("Se mandó una tarea al servidor");
 		if(numberTask > 1)
 			this.step(mysystem.queue);
-=======
-		console.log("Se mandó una tarea al servidor " + i);
-		this.step(mysystem.queue);
->>>>>>> 7c1c3fad49be6c53368b008476f1118f226fbaba
-		 
+
 	}
 	else if(numberTask>=1 && mysystem.tasksOnService() == mysystem.servers.length){
 		console.log("Hay una tarea en espera pero no hay servidor disponible.");
