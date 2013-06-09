@@ -11,6 +11,9 @@ SProc.Canvas = function(that){
 };
 
 SProc.Canvas.prototype.draw = function(id){
+	if(this.inDOM == true)
+		throw "Este sistema ya se encuentra en el DOM, no se pintara dos veces maldito bastardo sin alma."
+
 	var canvas = document.getElementById(id).getContext("2d"),//id && $('#'+id).getContext("2d") || $('canvas').attr('id'),
 		width = canvas.canvas.width, height = canvas.canvas.height,
 		linesEndPts = [], recEndPoints = [],//arrays of objects on the style {x:number,y:number}
@@ -53,7 +56,7 @@ SProc.Canvas.prototype.draw = function(id){
 	// Configuration for the canvas, next version should take this from an config object.
 	//canvas.fillStyle = "white";
 	//canvas.strokeStyle = "white";
-	canvas.lineWidth = 2;
+	canvas.lineWidth = .5;
 
 	//Main line/Visible Queue
 	canvas.moveTo(0,height/2);
@@ -76,8 +79,9 @@ SProc.Canvas.prototype.draw = function(id){
 };
 
 // This method is still on doubt because we don't know if we need this method or a setInterval to draw().
-SProc.Canvas.prototype.redraw = function(){
-
+SProc.Canvas.prototype.redraw = function(id){
+	this.clear(id);
+	this.draw(id);
 };
 
 // Should be changed in future version tod implement this.canvas
@@ -110,5 +114,26 @@ SProc.Canvas.prototype.createTask = function(task){
 		task.y = stHeight;
 		
 		this.canvas.paintedTasks.push(task);
+
+};
+
+SProc.Canvas.prototype.play = function(velocity){
+	var canvas = this.canvas, that = this.Parent,
+		timer = {
+			worker: null,
+			init: function(){
+				if(worker == null){
+					this.worker = setInterval(function(){
+						canvas.createTask({color:"#" + Math.random().toString(16).slice(2, 8)});
+						
+					})
+				}
+			}
+		};
+
+	this.timer = timer;
+};
+
+SProc.Canvas.prototype.step = function(){
 
 };

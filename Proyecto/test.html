@@ -4,7 +4,7 @@
 		width = canvas.canvas.width, height = canvas.canvas.height,	
 		linesEndPts = [], recEndPoints = [], //arrays of objects on the style {x:number,y:number}
 		mainLine = {x:width*0.55,y:height/2},
-		elements = 4, segments = height/elements,
+		elements = 7, segments = height/elements,
 		tasks = [];
 
 	//Dummy function, it need better implementation.
@@ -31,7 +31,7 @@
 			step += stPoint*4;
 			recEndPoints.push({x:equis,y:step}); 
 		}
-		step=stPoint*2;
+		step = stPoint*2;
 		canvas.moveTo(equis+widthR,step);
 		for(var i = 0 ; i < elements ; i++){
 			canvas.lineTo(width,step);
@@ -42,23 +42,37 @@
 	};
 
 	function createTask(task){
-		var step = segments/8, stWidth = 0, stHeight = height/2;
+		var step = segments/8, stWidth = 0, stHeight = (height/2)-(step/2);
 		
 		canvas.fillStyle = task.color;
 
 		canvas.moveTo(stWidth, stHeight);
-		canvas.fillRect(stWidth,stHeight-(step/2),step,step);	
+		canvas.fillRect(stWidth,stHeight,step,step);	
 		task.x = stWidth;
 		task.y = stHeight;
+		task.l = step;
+		task.index = tasks.length;
 		tasks.push(task);
-		
-	}
+	};
 
 	function clear(id){
 		var canvas = document.getElementById(id).getContext("2d");
 		canvas.clearRect(0,0,width,height);
 	};
 	// Configuration for the canvas, next version should take this from an config object.
+
+
+	function arriveTask(task){
+		console.log(tasks);
+		//var check = tasks && tasks[tasks.index-1].x || mainLine.x
+		if(task.x +task.l >= 4){
+			return;
+		}
+		canvas.fillStyle = task.color;
+		canvas.clearRect(task.x,task.y-1,task.l,task.l+2);
+		task.x++;
+		canvas.fillRect(task.x,task.y,task.l, task.l);
+	};
 
 	//canvas.fillStyle = "white";
 	//canvas.strokeStyle = "white";
@@ -77,9 +91,49 @@
 
 	canvas.endPoints = {lines: linesEndPts, recs: recEndPoints};
 	canvas.paintedTasks = tasks;
-	createTask({
-		color: "#FF00FF"
-	});
 
-	console.log(canvas, width,height);
+	function a(){
+		createTask({
+			color: "#" + Math.random().toString(16).slice(2, 8)
+		});
+
+		setInterval(function(){arriveTask(tasks[0]);},20);
+		createTask({
+			color: "#00aaee"
+		});
+
+		setInterval(function(){arriveTask(tasks[1]);},40);
+		createTask({
+			color: "#FF00FF"
+		});
+		setInterval(function(){arriveTask(tasks[2]);},220);
+		//console.log(tasks);
+	};
+	var timer = {
+		timer:null,
+		init:function(){
+			if(this.timer == null){
+				this.timer = setInterval(function(){
+					a();
+					/*
+					for(var i = -1	; i < tasks.length; i++){
+						createTask({color: "#" + Math.random().toString(16).slice(2, 8)});
+						console.log(tasks);
+						arriveTask(tasks[i]);
+					}
+					*/
+				},80);
+			}
+		},
+
+		stop:function(){ 
+			if(this.timer !== null){
+				console.log(this);
+				clearInterval(this.timer);
+				this.timer = null;
+			}
+		}
+	};
+
+	//console.log(canvas, width,height);
 </script>
