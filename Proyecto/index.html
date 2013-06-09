@@ -1,54 +1,110 @@
 <!DOCTYPE html>
 <html lang="es">
+    
     <head>
-    	<meta charset="utf-8">
-    	<meta name="description" content="Pagina para proyecto final de Procesos estocasticos">
-
-    	<title>Queue Server</title>
-
-    	<link type="text/plain" rel="authors" href="humans.txt"/>
-
-    	<link rel="stylesheet" type="text/css" href="css/main.css">
-    	<script type="text/javascript" src="js/jquery-2.0.0.min.js"></script>
-        <!--<script type="text/javascript" src="js/ProyLogger.js"></script>-->
-		<script type="text/javascript" src="js/ProyProc.js"></script> 
+        <title>Sistemas de colas</title>
+        <meta charset="utf-8">
+        <link href="css/bootstrap.css" type="text/css" rel="stylesheet">
+        <link href="css/nouislider.fox.css" type="text/css" rel="stylesheet">
+        <link href="css/estilos.css" type="text/css" rel="stylesheet">
+        <script src="js/jquery-2.0.2.min.js"></script>
         <script type="text/javascript" src="js/underscore-min.js"></script>
-    </head>
-    <body>
-    	<header>We are team</header>
-        
-        <div class="graphic">
-    			<canvas id="main" width="400" height="400">Si puedes leer esto... tu navegador no esta soportado por este proyecto, ¿por que no pruebas una alternativa libre y poderosa como firefox?</canvas>
-	    </div>
-
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/jquery.nouislider.min.js"></script>
+        <script type="text/javascript" src="js/ProyProc.js"></script>
+        <script src="js/scripts.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
-        <!--
-        <script src="lib/js/head.min.js"></script>
-        <script src="js/reveal.min.js"></script>
-        <script type="text/javascript">
-            Reveal.initialize({
-                controls: true,
-                progress: true,
-                history: true,
-                center: false,
-                loop: false,
-                rtl: false,
-                // using a data-autoslide attribute on your slides
-                autoSlide: 0,
-                mouseWheel: false,
-                rollingLinks: true,
-                transition: "cube",
-                transitionSpeed: "slow",
-                dependencies: [
-                    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
-                    { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-                    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-                    { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
-                    { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
-                    ]
-            });
-        </script>
-        -->
+    </head>
+    
+    <body>
+        <canvas id="main" width="600" height="900"></canvas>
+        <div class="tabbedPanels" id="formulario">
+            <ul class="nav nav-tabs" id="myTab">
+                <li><a href="#datos" style="background-color: #FFFFFF; border-bottom: 1px solid rgb(238,238,238); border-color: rgb(238, 238, 238) rgb(238, 238, 238) rgb(221, 221, 221);">Datos</a>
+
+                </li>
+                <li><a href="#pag2" class="second" style="background-color: #FFFFFF; border-bottom: 1px solid rgb(238,238,238); border-color: rgb(238, 238, 238) rgb(238, 238, 238) rgb(221, 221, 221);">Servidores</a>
+
+                </li>
+                <li><a href="#estadisticas" style="background-color: #FFFFFF; border-bottom: 1px solid rgb(238,238,238); border-color: rgb(238, 238, 238) rgb(238, 238, 238) rgb(221, 221, 221);">Estadísticas</a>
+
+                </li>
+            </ul>
+            <div class="tab-content" style="width: 600px; height: 10000px;">
+                <div class="tab-pane active" id="datos">
+                    <p>Número de Servidores:
+                        <input name="servidores" type="text" id="nservidor">
+                    </p>
+                    </br>
+                    <p>Capacidad máxima de la cola:
+                        <input name="cola" type="text" id="cola">
+                    </p>
+                    </br>
+                    <p>&mu;_a :</p>
+                    <div class="noUiSlider" style="width: 200px;" id="mua"></div>
+                    </br>
+                    <input id="vmua" type="text"></input>
+                    </br>
+                    <p>&Delta; :</p>
+                    <div class="noUiSlider " style="width: 200px;" id="delta"></div>
+                    </br>
+                    <input id="vdelta" type="text"></input>
+                    </br>
+                    <button class="btn btn-info" id="siguiente">Siguiente</button>
+                </div>
+                <div class="tab-pane" id="pag2">
+                    <p>Velocidad:</l>
+                        <div class="noUiSlider" style="width: 200px;" id="velocidad"></div>
+                        </br>
+                        <input id="vvelocidad" type="text"></input>
+                        </br>
+                        </br>
+                        <p>&mu;_s General:</p>
+                        <div class="noUiSlider" style="width: 200px;" id="general"></div>
+                        </br>
+                        <input id="vgeneral" type="text"></input>
+                        </br>
+                        <div id="servidores"></div>
+                        </br>
+                        <button class="btn btn-info" id="crear">Crear sistema</button>
+                        </br>
+                        </br>
+                        <button id="play" class="btn btn-success" style="display: none"><i class="icon-play"></i>
+
+                        </button>
+                        <button id="stop" class="btn btn-danger" style="display: none"><i class="icon-stop"></i>
+
+                        </button>
+                        </br>
+                        <button class="btn btn-info" id="generar">Generar Estadísticas</button>
+                        </br>
+                        <button class="btn btn-inverse" id="reset" onclick="goBack()">Reset</button>
+                        </br>
+                </div>
+                <div class="tab-pane" id="estadisticas">
+                     <h4>General</h4>
+
+                    <p>Número de servidores:</p>
+                    <p>Capacidad máxima de la cola:</p>
+                    <p>&mu;_a :</p>
+                    <p>&Delta; :</p>
+                    <p>&mu;_s General :</p>
+                    <div id="infos"></div>
+                     <h4>Estadísticas Teóricas</h4>
+
+                    <p>&lambda;_s :</p>
+                    <p>&lambda;_a :</p>
+                    <p>l:</p>
+                    <p>&mu;_s General:</p>
+                     <h4>Estadísticas Prácticas</h4>
+
+                    <p>&lambda;_s :</p>
+                    <p>&lambda;_a :</p>
+                    <p>&mu;_s General:</p>
+                    <button class="btn btn-inverse" id="reset2" onclick="goBack()">Reset</button>
+                </div>
+            </div>
+        </div>
     </body>
+
 </html>

@@ -47,9 +47,5 @@ $(document).ready(function(){
 		html.table += "</table>";
 		newWindow.document.open()
     	newWindow.document.write(html.table);
-    	newWindow.document.getElementById($('head').append('<link rel="stylesheet" href="..css/" type="text/css" />');)
-
-    	newWindow.document.close()
-	
-}
-);
+    	newWindow.document.getElementById($('head').append('<link rel="stylesheet" href="..css/" type="text/css" />'))
+});
