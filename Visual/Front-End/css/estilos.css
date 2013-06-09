@@ -37,4 +37,8 @@ a:hover, a:focus{
 	width: 40px;
 }
 
+.estadisticas1, .estadisticas2, .estadisticas3, .estadisticas4, .estadisticas5, .estadisticas6, .estadisticas7, .estadisticas8{
+	display: inline;
+}
+
 
