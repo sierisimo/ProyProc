@@ -276,7 +276,8 @@ SProc.Queue.prototype.setTask = function(newTask){
 };
 
 SProc.Queue.prototype.attention = function(mysystem){
-	if(this.getNumberTask()>=1 && mysystem.tasksOnService() != mysystem.servers.length){
+	var numberTask = this.getNumberTask();
+	if(numberTask >= 1 && mysystem.tasksOnService() != mysystem.servers.length){
 		for(var i=0;i<mysystem.servers.length;i++){
 			if(mysystem.servers[i].getState() == false){
 				break; //Change this to a better sustitution
@@ -288,13 +289,14 @@ SProc.Queue.prototype.attention = function(mysystem){
 		mysystem.servers[i].attend(firstTask);
 		this.killFirstTask();
 		console.log("Se mandó una tarea al servidor");
-		this.step(mysystem.queue);
+		if(numberTask > 1)
+			this.step(mysystem.queue);
 		 
 	}
-	else if(this.getNumberTask()>=1 && mysystem.tasksOnService() == mysystem.servers.length){
+	else if(numberTask>=1 && mysystem.tasksOnService() == mysystem.servers.length){
 		console.log("Hay una tarea en espera pero no hay servidor disponible.");
 	}
-	else if(this.getNumberTask()==0){
+	else if(numberTask==0){
 		console.log("Cola vacía, no hay tareas que atender");
 	}
 
@@ -303,17 +305,22 @@ SProc.Queue.prototype.attention = function(mysystem){
 	}
 }
 SProc.Queue.prototype.step = function(myqueue){
-	var lastIndex = myqueue.getNumberTask() - 2;
+	var lastIndex = myqueue.capacity - myqueue.getNumberTask() - 1;
 	var tasksCount = myqueue.getNumberTask();
+	console.log("-----------Cola antes ", myqueue.tasks);
+	for (var i = lastIndex; i >= 0;i--){
+		myqueue.tasks[lastIndex + 1] = myqueue.tasks[lastIndex];
+		delete myqueue.tasks[lastIndex];
+		lastIndex--;
 
-	for (var i = 0; i < tasksCount;i++){
-		myqueue.tasks[lastIndex + 1] = myqueue.tasks[lastIndex--];
 	}
+	console.log("-----------Cola despues ", myqueue.tasks);
 
 }
 SProc.Queue.prototype.arrival = function(myqueue){
 	var tasksCount = myqueue.getNumberTask();
 	var capacity = myqueue.capacity;
+
 	if (tasksCount == capacity){
 		console.log("La cola está llena.");
 	}
@@ -333,7 +340,7 @@ SProc.Queue.prototype.arrival = function(myqueue){
 SProc.Queue.prototype.refresh = function(){
 	var mySystem = this.Parent;
 	var t = this.Parent.Parent.getTime();
-	
+	console.log("La cola antes del refresh ", this.tasks);
 
 	this.attention(mySystem);
 
@@ -348,6 +355,7 @@ SProc.Queue.prototype.refresh = function(){
 		}
 	}
 	this.timeWithoutArrival++;
+	console.log("La cola después del refresh ", this.tasks);
 	//attention()
 	//arrival()
 }
