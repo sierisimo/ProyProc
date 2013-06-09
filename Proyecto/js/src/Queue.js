@@ -48,7 +48,8 @@ SProc.Queue.prototype.setTask = function(newTask){
 };
 
 SProc.Queue.prototype.attention = function(mysystem){
-	if(this.getNumberTask()>=1 && mysystem.tasksOnService() != mysystem.servers.length){
+	var numberTask = this.getNumberTask();
+	if(numberTask >= 1 && mysystem.tasksOnService() != mysystem.servers.length){
 		for(var i=0;i<mysystem.servers.length;i++){
 			if(mysystem.servers[i].getState() == false){
 				break; //Change this to a better sustitution
@@ -63,12 +64,12 @@ SProc.Queue.prototype.attention = function(mysystem){
 		console.log("su tiempo de respuesta es de "+ mysystem.servers[i].Mu_s +".")
 		if(numberTask > 1)
 			this.step(mysystem.queue);
-		 
+
 	}
-	else if(this.getNumberTask()>=1 && mysystem.tasksOnService() == mysystem.servers.length){
+	else if(numberTask>=1 && mysystem.tasksOnService() == mysystem.servers.length){
 		console.log("Hay una tarea en espera pero no hay servidor disponible.");
 	}
-	else if(this.getNumberTask()==0){
+	else if(numberTask==0){
 		console.log("Cola vacía, no hay tareas que atender");
 	}
 
