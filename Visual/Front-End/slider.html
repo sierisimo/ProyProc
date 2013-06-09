@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<title>Pendiente</title>
+		<meta charset="utf-8">
+		
+		<link href="css/nouislider.fox.css" type = "text/css" rel = "stylesheet">
+				<script src="js/jquery-2.0.2.min.js"></script>
+		<script src="js/jquery.nouislider.min.js"></script>
+		
+		
+		
+
+				
+	</head>
+
+	<body>		
+	
+
+	<div class="noUiSlider 	" style="width: 200px;"></div>
+	<input id="value" type="text"></input>
+	
+	
+		
+<script>
+		
+			$(".noUiSlider").noUiSlider({
+
+			range: [0, 100]
+		   ,start: 0
+		   ,step: .01
+		   ,handles: 1
+		   ,serialization: {
+				to: [$("#value")]
+			}
+			});
+ 
+			
+	</script>
+	
+	</body>
+
+</html>

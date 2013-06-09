@@ -1,0 +1,28 @@
+*{
+	padding: 0px;
+	margin: 0px;
+}
+
+#pag2, #datos, #estadisticas{
+	padding: 10px;
+}
+
+canvas {
+	float: left;
+}
+
+#formulario{
+	float:right;
+}
+
+#botones{
+	float:right;
+	background-color:red;
+}
+.boton{
+	color:blue;
+}
+.botonactivo{
+	color:black;
+}
+

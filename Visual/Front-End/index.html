@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+   
+   <head>
+      <title>Pendiente</title>
+      <meta charset="utf-8">
+      <link href="css/estilos.css" type="text/css" rel="stylesheet">
+      <link href="css/bootstrap.css" type="text/css" rel="stylesheet">
+      <link href="css/nouislider.fox.css" type="text/css" rel="stylesheet">
+      <script src="js/jquery-2.0.2.min.js"></script>
+      <script src="js/bootstrap.min.js"></script>
+      <script src="js/jquery.nouislider.min.js"></script>
+      <script src="js/scripts.js"></script>
+   </head>
+   
+   <body>
+      <canvas id="1" width="600" height="900"></canvas>
+      <div class="tabbedPanels" id="formulario">
+         <ul class="nav nav-tabs" id="myTab">
+            <li><a href="#datos">Datos</a>
+
+            </li>
+            <li><a href="#pag2" class="second">Servidores</a>
+
+            </li>
+            <li><a href="#estadisticas">Estadísticas</a>
+
+            </li>
+         </ul>
+         <div class="tab-content" style="width: 400px; height: 400px;">
+            <div class="tab-pane active" id="datos">
+               <label id="lnservidor" class="label">Número de Servidores:</label>
+               <input name="servidores" type="text" id="nservidor">
+               </br>
+			    <label id="lcola" class="label">Capacidad máxima de la cola:</label>
+               <input name="servidores" type="text" id="cola">
+               </br>
+               <label class="label">&mu;_a :</label>
+               </br>
+               <div class="noUiSlider" style="width: 200px;" id="mua"></div>
+               </br>
+               <input id="vmua" type="text"></input>
+               </br>
+               <label class="label">&Delta; :</label>
+               </br>
+               <div class="noUiSlider " style="width: 200px;" id="delta"></div>
+               </br>
+               <input id="vdelta" type="text"></input>
+               </br>
+               <button class="btn btn-info" id="siguiente">Siguiente</button>
+            </div>
+            <div class="tab-pane" id="pag2">
+				<div id="servidores"></div>
+               <label class="label">Velocidad:</label>
+               </br>
+               <div class="noUiSlider" style="width: 200px;" id="velocidad"></div>
+               </br>
+               <input id="vvelocidad" type="text"></input>
+               </br>
+               </br>
+               <label class="label">&mu;_s General:</label>
+               </br>
+               <div class="noUiSlider" style="width: 200px;" id="general"></div>
+               </br>
+               <input id="vgeneral" type="text"></input>
+               </br>
+               </br>
+               <button class="btn btn-info" id="crear">Crear sistema</button>
+               </br>
+               </br>
+               <button id="play" class="btn btn-success" style="display: none"><i class="icon-play"></i>
+               </button>
+               <button id="stop" class="btn btn-danger" style="display: none"><i class="icon-stop"></i>
+               </button>
+               </br>
+               </br>
+               <button class="btn btn-info" id="generar">Generar Estadísticas</button>
+               </br>
+               </br>
+               <button class="btn btn-inverse" id="reset" onclick="goBack()">Reset</button>
+               </br>
+               </br>
+               </br>
+            </div>
+            <div class="tab-pane" id="estadisticas">
+				<h4>General</h4>
+				<label class="label">Número de servidores:</label>
+				<div></div>
+				<label class="label">Capacidad máxima de la cola:</label>
+				<div></div>
+				<label class="label">&mu;_a :</label>
+				<div></div>
+				<label class="label">&Delta; :</label>
+				<div></div>
+				<label class="label">&mu;_s General :</label>
+				<div></div>
+				<div id="infos"></div>
+				<h4>Estadísticas Teóricas</h4>
+				<label class="label">&lambda;_s :</label>
+				<div></div>
+				<label class="label">&lambda;_a :</label>
+				<div></div>
+				<label class="label">l:</label>
+				<div></div>
+				<label class="label">&mu;_s General:</label>
+				<div></div>
+				
+				<h4>Estadísticas Prácticas</h4>
+				<label class="label">&lambda;_s :</label>
+				<div></div>
+				<label class="label">&lambda;_a :</label>
+				<div></div>
+				<label class="label">&mu;_s General:</label>
+				<div></div>
+				<label class="label">&mu;_s General:</label>
+				<div></div>
+            </div>
+         </div>
+         </br>
+         </br>
+      </div>
+      <script>
+         $(function () {
+            $("#nservidor").keydown(function (event) {
+               if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 9 && event.keyCode != 8) {
+                  return false;
+               }
+            });
+         });
+
+         $(function () {
+            $('#myTab a:first').tab('show');
+         });
+
+         function goBack() {
+            location.reload()
+         }
+
+         /*$('#myTab a').click(function (e) {
+			e.preventDefault();
+			$(this).tab('show');
+			});*/
+
+
+         $("#mua").noUiSlider({
+
+               range: [0, 100],
+               start: 0,
+               step: .01,
+               handles: 1,
+               serialization: {
+                  to: $("#vmua")
+               }
+            });
+
+
+         $("#delta").noUiSlider({
+
+               range: [0, 100],
+               start: 0,
+               step: .01,
+               handles: 1,
+               serialization: {
+                  to: $("#vdelta")
+               }
+            });
+
+         $("#velocidad").noUiSlider({
+
+               range: [0, 100],
+               start: 0,
+               step: .01,
+               handles: 1,
+               serialization: {
+                  to: $("#vvelocidad")
+               }
+            });
+
+         $("#general").noUiSlider({
+
+               range: [0, 100],
+               start: 0,
+               step: .01,
+               handles: 1,
+               serialization: {
+                  to: $("#vgeneral")
+               }
+            });
+			
+		$('#generar').click(function () {
+			$("#myTab a:last").tab('show');
+		});
+
+         $('#siguiente').click(function () {
+            var nservidor = $('#nservidor').val();
+			var cola = $('#cola').val();
+            var mua = $('#vmua').val();
+            var delta = $('#vdelta').val();
+
+            $("#myTab  a.second").tab('show');
+
+            for (var i = 1; i <= nservidor; i++) {
+               $("#servidores").append(
+                  [
+                     $('<span>', {
+                           class: 'label',
+                           html: '&mu;_s Servidor ' + i,
+                           id: 'lservidor' + i
+                        }),
+                     document.createElement('BR'),
+                     document.createElement('BR'),
+                     $('<div>', {
+                           class: "noUiSlider",
+                           style: "width: 200px;",
+                           id: 'servidor' + i
+                        }),
+                     document.createElement('BR'),
+                     $('<input>', {
+                           type: "text",
+                           id: 'vservidor' + i
+                        }),
+                     document.createElement('BR')
+                  ]);
+
+            };
+            for (var i = 1; i <= nservidor; i++) {
+               $("#servidor" + i).noUiSlider({
+                     range: [0, 100],
+                     start: 0,
+                     step: .01,
+                     handles: 1,
+                     serialization: {
+                        to: $("#vservidor" + i)
+                     }
+                  });
+            };
+
+         });
+		 
+		  $('#generar').click(function () {
+		  
+            $("#myTab  a:last").tab('show');
+			
+			for(var i=1; i <=nservidor;i++){
+				$('#infos').append([
+					 $('<span>', {
+                           class: 'label',
+                           html: '&mu;_s Servidor ' + i,
+                           id: 'lservidor' + i
+                        }),
+				]);
+			};
+		  
+		  });
+
+         $('#crear').click(function () {
+            $("#play").show('slow');
+            $("#stop").show('slow');
+         });
+      </script>
+   </body>
+
+</html>
+
