@@ -30,6 +30,7 @@ SProc.Server.prototype.refresh = function(){
 			this.free();
 			console.log("Se ha liberado la tarea que llegó en " + this.task.timeArrival);
 			console.log("del servidor " + _.indexOf(this.Parent.servers,this));
+			this.Parent.taskLogger.push(this.task);
 		} 
 	}
 };

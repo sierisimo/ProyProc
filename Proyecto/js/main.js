@@ -16,7 +16,7 @@ $(document).ready(function(){
 	var mySystem = new SProc.System(obj);
 
 	var fSProc = new SProc({System:mySystem,Delta:.5});	
-	for (var i = 0 ; i < 15 ;i++){
+	for (var i = 0 ; i < 200 ;i++){
 		console.log("*****Inicio de ciclo " + fSProc.getTime());
 		fSProc.system.refresh();
 		fSProc.cycle();
@@ -26,6 +26,8 @@ $(document).ready(function(){
 	for (i = 0; i < fSProc.system.servers.length ; i++){
 		console.log("El servidor " , i ,"atendió " ,fSProc.system.servers[i].attendedTasks ," tareas");
 	}
+	console.log("Las tareas atendidas fueron las siguientes: ", fSProc.system.taskLogger);
+	console.log("El registro de actividades queda como sigue: ",fSProc.system.logger);
 
 }
 );
