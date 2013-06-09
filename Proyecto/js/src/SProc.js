@@ -39,6 +39,10 @@ SProc.prototype.getVersion = function(){
 	return "Version: " + version;
 };
 
+SProc.prototype.getCycle = function() {
+	return this.Cycle;
+};
+
 SProc.prototype.getTime = function() {
 	return this.Cycle * this.Delta;
 };
@@ -53,5 +57,14 @@ SProc.prototype.stop = function(){
 };
 
 SProc.prototype.cycle = function(){
+	var newRow = new Object()
+	newRow.n = this.getCycle();
+	newRow.t = this.getTime();
+	newRow.X_s = this.system.tasksOnService();
+	newRow.X_w = this.system.queue.getNumberTask();
+	newRow.X_t = newRow.X_s + newRow.X_w;
+	newRow.Parent = this.system;
+	var newResult = new SProc.System.Result(newRow);
+	this.system.logger.push(newResult);
 	this.Cycle++;
 };

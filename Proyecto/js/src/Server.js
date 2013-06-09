@@ -52,3 +52,4 @@ SProc.Server.prototype.setState = function(){
 SProc.Server.prototype.valueOf = function() {
 	return this.attendedTasks;
 };
+

@@ -40,6 +40,10 @@ SProc.prototype.getVersion = function(){
 	return "Version: " + version;
 };
 
+SProc.prototype.getCycle = function() {
+	return this.Cycle;
+};
+
 SProc.prototype.getTime = function() {
 	return this.Cycle * this.Delta;
 };
@@ -54,6 +58,15 @@ SProc.prototype.stop = function(){
 };
 
 SProc.prototype.cycle = function(){
+	var newRow = new Object()
+	newRow.n = this.getCycle();
+	newRow.t = this.getTime();
+	newRow.X_s = this.system.tasksOnService();
+	newRow.X_w = this.system.queue.getNumberTask();
+	newRow.X_t = newRow.X_s + newRow.X_w;
+	newRow.Parent = this.system;
+	var newResult = new SProc.System.Result(newRow);
+	this.system.logger.push(newResult);
 	this.Cycle++;
 };
 /*
@@ -211,6 +224,7 @@ SProc.System = function(config){
 
 	this.queue = config.queue;
 	this.queue.Parent = this;
+	this.logger = [];
 };
 
 SProc.System.prototype.tasksOnService = function(){
@@ -237,6 +251,25 @@ SProc.System.prototype.totalDepartures = function(){
 	}
 	return count;
 }
+
+/*
+	System.Result: Module generador de logs a.k.a ProyLogger.js
+*/
+SProc.System.Result = function(config){
+	this.n = config.n;
+	this.t = config.t;
+	this.X_s = config.X_s;
+	this.X_w = config.X_w;
+	this.X_t = config.X_t;
+	this.Parent = config.Parent;
+}
+/*SProc.System.Result.prototype.printResult = function(){
+	var logs = this.Parent.logger
+	console.log("n\tt\tX(t)\tX_w(t)\tX_s(t)");
+	for(var row = 0; row < logs.length;row++){
+		console.log(JSON.stringify(logs[row]));
+	}
+}*/
 /*
 	SProc.Queue:
 */

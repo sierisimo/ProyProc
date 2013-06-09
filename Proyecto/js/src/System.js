@@ -44,6 +44,7 @@ SProc.System = function(config){
 
 	this.queue = config.queue;
 	this.queue.Parent = this;
+	this.logger = [];
 };
 
 SProc.System.prototype.tasksOnService = function(){
