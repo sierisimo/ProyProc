@@ -54,9 +54,7 @@ SProc.Canvas.prototype.draw = function(id){
 		
 	};
 	// Configuration for the canvas, next version should take this from an config object.
-	//canvas.fillStyle = "white";
-	//canvas.strokeStyle = "white";
-	canvas.lineWidth = .5;
+	canvas.lineWidth = 2;
 
 	//Main line/Visible Queue
 	canvas.moveTo(0,height/2);
@@ -118,20 +116,7 @@ SProc.Canvas.prototype.createTask = function(task){
 };
 
 SProc.Canvas.prototype.play = function(velocity){
-	var canvas = this.canvas, that = this.Parent,
-		timer = {
-			worker: null,
-			init: function(){
-				if(worker == null){
-					this.worker = setInterval(function(){
-						canvas.createTask({color:"#" + Math.random().toString(16).slice(2, 8)});
-						
-					})
-				}
-			}
-		};
 
-	this.timer = timer;
 };
 
 SProc.Canvas.prototype.step = function(){

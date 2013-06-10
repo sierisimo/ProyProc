@@ -63,8 +63,6 @@
 
 
 	function arriveTask(task){
-		console.log(tasks);
-		//var check = tasks && tasks[tasks.index-1].x || mainLine.x
 		if(task.x +task.l >= 4){
 			return;
 		}
@@ -74,8 +72,6 @@
 		canvas.fillRect(task.x,task.y,task.l, task.l);
 	};
 
-	//canvas.fillStyle = "white";
-	//canvas.strokeStyle = "white";
 	canvas.lineWidth = .5;
 	canvas.lineCap = "round";
 	canvas.globalAlpha = .8;
@@ -91,49 +87,5 @@
 
 	canvas.endPoints = {lines: linesEndPts, recs: recEndPoints};
 	canvas.paintedTasks = tasks;
-
-	function a(){
-		createTask({
-			color: "#" + Math.random().toString(16).slice(2, 8)
-		});
-
-		setInterval(function(){arriveTask(tasks[0]);},20);
-		createTask({
-			color: "#00aaee"
-		});
-
-		setInterval(function(){arriveTask(tasks[1]);},40);
-		createTask({
-			color: "#FF00FF"
-		});
-		setInterval(function(){arriveTask(tasks[2]);},220);
-		//console.log(tasks);
-	};
-	var timer = {
-		timer:null,
-		init:function(){
-			if(this.timer == null){
-				this.timer = setInterval(function(){
-					a();
-					/*
-					for(var i = -1	; i < tasks.length; i++){
-						createTask({color: "#" + Math.random().toString(16).slice(2, 8)});
-						console.log(tasks);
-						arriveTask(tasks[i]);
-					}
-					*/
-				},80);
-			}
-		},
-
-		stop:function(){ 
-			if(this.timer !== null){
-				console.log(this);
-				clearInterval(this.timer);
-				this.timer = null;
-			}
-		}
-	};
-
 	//console.log(canvas, width,height);
 </script>

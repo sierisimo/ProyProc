@@ -1,12 +1,16 @@
 /*
 	main.css
-
+*/
 
 body {
 	margin: 0px;
 	padding: 0px;
 }
-*/
+
+canvas {
+	height: 800px;
+	width: 800px;
+}
 article, aside, details, figure, footer, header, nav, section, summary {
 	display: block;
 }

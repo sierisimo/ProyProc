@@ -17,7 +17,9 @@
     </head>
     
     <body>
-        <canvas id="main" width="600" height="900"></canvas>
+        <div class="canvas">
+            <canvas id="main"></canvas>
+        </div>
         <div class="tabbedPanels" id="formulario">
             <ul class="nav nav-tabs" id="myTab">
                 <li><a href="#datos" style="background-color: #FFFFFF; border-bottom: 1px solid rgb(238,238,238); border-color: rgb(238, 238, 238) rgb(238, 238, 238) rgb(221, 221, 221);">Datos</a>
@@ -30,7 +32,7 @@
 
                 </li>
             </ul>
-            <div class="tab-content" style="width: 600px; height: 10000px;">
+            <div class="tab-content tabstabbed">
                 <div class="tab-pane active" id="datos">
                     <p>Número de Servidores:
                         <input name="servidores" type="text" id="nservidor">
