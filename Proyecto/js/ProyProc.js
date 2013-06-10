@@ -400,7 +400,7 @@ SProc.Queue.prototype.attention = function (mysystem) {
                 }
             }
             menor = i;
-            for (var j = 1; i < mysystem.servers.length; i++) {
+            for (var j = 0; j < mysystem.servers.length; j++) {
                 if (mysystem.servers[menor] > mysystem.servers[j].Mu_s && !mysystem.servers[j].getState()) {
                     menor = j;
                 }
@@ -469,7 +469,7 @@ SProc.Queue.prototype.refresh = function(){
 			this.attention(mySystem);
 		}
 	}
-	this.timeWithoutArrival++;
+	this.timeWithoutArrival+=this.Parent.Parent.Delta;
 }
 /*
 	Server Class

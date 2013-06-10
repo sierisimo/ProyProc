@@ -78,10 +78,10 @@ var nservidor, cola, mua, delta, tmp = [],
 
 $('#siguiente').click(function () {
 
-    nservidor = $('#nservidor').val();
-    cola = $('#cola').val();
-    mua = $('#vmua').val();
-    delta = $('#vdelta').val();
+    nservidor = parseFloat($('#nservidor').val());
+    cola = parseFloat($('#cola').val());
+    mua = parseFloat($('#vmua').val());
+    delta = parseFloat($('#vdelta').val());
 
     if (nservidor < 1 || cola < 1) {
         alert("Llene correctamente los datos, no se acepta 0, ni un valor nulo.");
@@ -137,11 +137,11 @@ $('#crear').click(function () {
     $("#stop").show('slow');
     $('#generar').show('slow');
     for (var i = 1; i <= nservidor; i++) {
-        if ($('#vservidor' + i).val() > 0)
-            tmp[i - 1] = $('#vservidor' + i).val();
+        if (parseFloat($('#vservidor' + i).val()) > 0)
+            tmp[i - 1] = parseFloat($('#vservidor' + i).val());
     };
-    velocidad = $('#vvelocidad').val();
-    general = $('#vgeneral').val();
+    velocidad = parseFloat($('#vvelocidad').val());
+    general = parseFloat($('#vgeneral').val());
     var mSproc = new SProc({
         System: new SProc.System({
             servers: tmp,

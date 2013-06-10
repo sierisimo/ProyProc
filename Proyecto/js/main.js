@@ -6,11 +6,11 @@ $('#play').click(function(){
 		mSProc.cycle();
 		console.log("*****Fin de ciclo",i);
 		i++;
-		if(i>=20){
+		if(i>=200){
 			clearInterval(a);
 			b();
 		}
-	},500);
+	},300);
 		
 	function b(){
 		for (i = 0; i < mSProc.system.servers.length ; i++){
