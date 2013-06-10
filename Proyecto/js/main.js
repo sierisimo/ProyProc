@@ -85,16 +85,19 @@ $('#play').click(function(){
 				tasksOnQueue += mSProc.system.logger[i].X_w;
 			}
 			tasksOnQueue /= limit;
-			alert("E[R] = " +responseAverage);
+			window.responseAverage = responseAverage;
+			window.waitAverage = waitAverage;
+			window.tasksOnSystem = tasksOnSystem;
+			window.tasksOnQueue = tasksOnQueue;
+			/*alert("E[R] = " +responseAverage);
 			alert("E[W] = " +waitAverage);
 			alert("E[X] = " +tasksOnSystem);
-			alert("E[X_w] = " +tasksOnQueue);
+			alert("E[X_w] = " +tasksOn*/
 
 			document.getElementById("generar").disabled = false;
 			a = window.open("","Resultados","height=500,width=400,location=no,menubar=no",false);
 			var header = document.createElement('LINK'); 
 			var bd = document.createElement('div');
-			promedioRespuesta /= limit;
 			bd.innerHTML = html.table;
 
 			header.href="css/bootstrap.css";

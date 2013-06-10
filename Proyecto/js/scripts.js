@@ -290,5 +290,32 @@ $('#generar').click(function () {
                 html: Math.round(exw*100)/100,
             })
         ]);
-
+    $('#div13').append(
+        [
+            $('<span>', {
+                class: 'p',
+                html: Math.round(window.responseAverage*100)/100,
+            })
+        ]);
+    $('#div14').append(
+        [
+            $('<span>', {
+                class: 'p',
+                html: Math.round(window.waitAverage*100)/100,
+            })
+        ]);
+    $('#div15').append(
+        [
+            $('<span>', {
+                class: 'p',
+                html: Math.round(window.tasksOnSystem*100)/100,
+            })
+        ]);
+    $('#div16').append(
+        [
+            $('<span>', {
+                class: 'p',
+                html: Math.round(window.tasksOnQueue*100)/100,
+            })
+        ]);
 });
