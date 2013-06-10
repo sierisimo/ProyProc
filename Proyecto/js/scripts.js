@@ -263,7 +263,7 @@ $('#generar').click(function () {
         [
             $('<span>', {
                 class: 'p',
-                html: Math.round(er*100)/100,
+                html: temp = typeof(er) == "string" ? "Indeterminado" : Math.round(er*100)/100,
             })
         ]);
 
@@ -271,7 +271,7 @@ $('#generar').click(function () {
         [
             $('<span>', {
                 class: 'p',
-                html: Math.round(ew*100)/100,
+                html: temp = typeof(ew) == "string" ? "Indeterminado" : Math.round(ew*100)/100,
             })
         ]);
 
@@ -279,7 +279,7 @@ $('#generar').click(function () {
         [
             $('<span>', {
                 class: 'p',
-                html: Math.round(ex*100)/100,
+                html: temp = typeof(ex) == "string" ? "Indeterminado" : Math.round(ex*100)/100,
             })
         ]);
 
@@ -287,7 +287,7 @@ $('#generar').click(function () {
         [
             $('<span>', {
                 class: 'p',
-                html: Math.round(exw*100)/100,
+                html: temp = typeof(exw) == "string" ? "Indeterminado" :Math.round(exw*100)/100,
             })
         ]);
     $('#div13').append(
