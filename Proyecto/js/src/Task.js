@@ -11,6 +11,11 @@ SProc.Task = function(configObject){
 	this.timeArrival = configObject.timeArrival
 	this.timeStartService = (configObject && configObject.timeStartService) || -1;
 	this.timeDeparture = (configObject && configObject.timeDeparture) || -1;
+	this.color = "#" + Math.random().toString(16).slice(2, 8);
+	this.x = 0;
+	this.y = 0;
+	this.width = 0;
+	this.height = 0;
 };
 
 SProc.Task.prototype.getTimeArrival = function(){

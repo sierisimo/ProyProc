@@ -139,7 +139,7 @@ $(document).ready(function () {
 
             var mSproc = new SProc({System: new SProc.System(creator.System),Delta:creator.System.Delta});
             mSproc.Canvas.draw('main');
-            
+            window.mSproc = mSproc;
             $('#play').click(function(){
                 console.log("sier");
             });

@@ -14,13 +14,17 @@ SProc.Server = function(config){
 	this.busy = false;
 	this.attendedTasks = 0;
 	this.task = {};
+	this.x = 0;
+	this.y = 0;
+	this.color = "#FFFFFF";
 };
 
 SProc.Server.prototype.free = function(){
 	this.setState();
 	this.task.timeDeparture = this.Parent.Parent.getTime();
 	this.attendedTasks++;
-
+	this.color = "#FFFFFF";
+	this.Parent.Parent.Canvas.serverChange(this);
 };
 
 SProc.Server.prototype.refresh = function(){
@@ -40,6 +44,8 @@ SProc.Server.prototype.attend = function(task){
 		throw "Se debe especificar la tarea que se quiere atender";
 	this.task = task;
 	this.setState();
+	this.color = task.color;
+	this.Parent.Parent.Canvas.serverChange(this);
 };
 
 SProc.Server.prototype.getState = function(){

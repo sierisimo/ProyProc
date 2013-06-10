@@ -82,9 +82,10 @@
 	canvas.lineTo(mainLine.x,mainLine.y);
 	linesEndPts.push({x:mainLine.x,y:mainLine.y});
 	setLines();
+	canvas.closePath();
 	setRects();
 	canvas.stroke();
-
+	canvas.closePath();
 	canvas.endPoints = {lines: linesEndPts, recs: recEndPoints};
 	canvas.paintedTasks = tasks;
 	//console.log(canvas, width,height);
