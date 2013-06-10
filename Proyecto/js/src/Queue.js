@@ -37,7 +37,6 @@ SProc.Queue.prototype.getFirstTask = function(){
 };
 SProc.Queue.prototype.killFirstTask = function(){
 	delete this.tasks[this.capacity-1];
-	this.Parent.Parent.Canvas.step();
 };
 SProc.Queue.prototype.setMu_a = function(newMu_a){	
 	this.Mu_a = newMu_a;
@@ -78,7 +77,10 @@ SProc.Queue.prototype.attention = function (mysystem) {
             i = menor;
             break;
         case "aleatorio":
-            var i = Math.floor(Math.random() * (mysystem.servers.length));
+            var i;
+            do{
+            	i = Math.floor(Math.random() * (mysystem.servers.length));
+            }while(mysystem.servers[i].getState() == true);
             break;
         }
 
@@ -88,8 +90,10 @@ SProc.Queue.prototype.attention = function (mysystem) {
         this.killFirstTask();
         console.log("Se mandó la tarea que llegó en ", mysystem.servers[i].task.timeArrival, " al servidor " + i);
         console.log("su tiempo de respuesta es de " + mysystem.servers[i].Mu_s + ".")
-        if (numberTask > 1)
+        if (numberTask > 1){
             this.step(mysystem.queue);
+            this.Parent.Parent.Canvas.step();
+        }
 
     } else if (numberTask >= 1 && mysystem.tasksOnService() == mysystem.servers.length) {
         console.log("Hay una tarea en espera pero no hay servidor disponible.");
@@ -120,6 +124,7 @@ SProc.Queue.prototype.arrival = function(myqueue){
 		myqueue.tasks[capacity - tasksCount - 1] = newTask;
 		this.timeWithoutArrival = -this.Parent.Parent.Delta;
 		console.log("Ha llegado una tarea");
+		this.Parent.Parent.Canvas.arrival(newTask);
 	}
 
 }

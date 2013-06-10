@@ -1,163 +1,285 @@
-$(document).ready(function () {
-
-    var velocidad, general, creator = {System: {servers:[], queue:{}}};
-        $('.tabs a').click(function(e){e.preventDefault();$(this).tab('show');});
-
-        $(".slider").noUiSlider({
-                range: [0, 100],
-                start: [50, 70],
-                handles: 2,
-                serialization: {
-                    to: [$("#exTO"), $("#exFR")]
-                }
-
-            });
-
-        $(function () {
-            $("#nservidor").keydown(function (event) {
-                if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 9 && event.keyCode != 8) {
-                    return false;
-                }
-            });
-        });
-
-        $(function () {
-            $("#cola").keydown(function (event) {
-                if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 9 && event.keyCode != 8) {
-                    return false;
-                }
-            });
-        });
-
-        $(function () {$('#myTab a:first').tab('show');});
-
-        function goBack() {
-            location.reload()
+$(function () {
+    $("#nservidor").keydown(function (event) {
+        if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 9 && event.keyCode != 8) {
+            return false;
         }
+    });
+});
 
-        $("#mua").noUiSlider({
-                range: [0, 100],
-                start: 0,
-                step: .01,
-                handles: 1,
-                serialization: {
-                    to: $("#vmua")
-                }
-            });
+$(function () {
+    $("#cola").keydown(function (event) {
+        if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 9 && event.keyCode != 8) {
+            return false;
+        }
+    });
+});
+
+$(function () {
+    $('#myTab a:first').tab('show');
+});
+
+function goBack() {
+    location.reload()
+}
+
+$("#mua").noUiSlider({
+
+    range: [0.01, 100],
+    start: 0.01,
+    step: .01,
+    handles: 1,
+    serialization: {
+        to: $("#vmua")
+    }
+});
 
 
-        $("#delta").noUiSlider({
-                range: [0, 100],
-                start: 0,
-                step: .01,
-                handles: 1,
-                serialization: {
-                    to: $("#vdelta")
-                }
-            });
+$("#delta").noUiSlider({
 
-        $("#velocidad").noUiSlider({
-                range: [0, 100],
-                start: 0,
-                step: .01,
-                handles: 1,
-                serialization: {
-                    to: $("#vvelocidad")
-                }
-            });
+    range: [0.001, 2],
+    start: 0.01,
+    step: .01,
+    handles: 1,
+    serialization: {
+        to: $("#vdelta")
+    }
+});
 
-        $("#general").noUiSlider({
-                range: [0, 100],
-                start: 0,
-                step: .01,
-                handles: 1,
-                serialization: {
-                    to: $("#vgeneral")
-                }
-            });
+$("#velocidad").noUiSlider({
 
-        $('#generar').click(function(){$("#myTab a:last").tab('show');});
+    range: [0.01, 100],
+    start: 0.01,
+    step: .01,
+    handles: 1,
+    serialization: {
+        to: $("#vvelocidad")
+    }
+});
 
-        $('#siguiente').click(function () {
-            creator.System.nservers = $('#nservidor').val(); //nservidor
-            creator.System.Delta = $('#vdelta').val();
-            creator.System.queue.capacity = $('#cola').val();
-            creator.System.queue.Mu_a = $('#vmua').val();
-            creator.System.queue = new SProc.Queue(creator.System.queue);
-            console.log(creator.System.queue);
-            $("#myTab  a.second").tab('show');
+$("#general").noUiSlider({
 
-            for (var i = 1; i <= creator.System.nservers; i++) {
-                $("#servidores").append(
-                    [
-                        $('<span>', {
-                                class: 'p',
-                                html: '&mu;_s Servidor ' + i,
-                                id: 'lservidor' + i
-                            }),
-                        document.createElement('BR'),
-                        document.createElement('BR'),
-                        $('<div>', {
-                                class: "noUiSlider",
-                                style: "width: 200px;",
-                                id: 'servidor' + i
-                            }),
-                        document.createElement('BR'),
-                        $('<input>', {
-                                type: "text",
-                                id: 'vservidor' + i,
-                                style: "height:20px; width: 40px;"
-                            }),
-                        document.createElement('BR')
-                    ]);
-            };
+    range: [0.01, 100],
+    start: 0.01,
+    step: .01,
+    handles: 1,
+    serialization: {
+        to: $("#vgeneral")
+    }
+});
 
-            for (var i = 1; i <= creator.System.nservers; i++) {
-                $("#servidor" + i).noUiSlider({
-                        range: [0, 100],
-                        start: 0,
-                        step: .01,
-                        handles: 1,
-                        serialization: {
-                            to: $("#vservidor" + i)
-                        }
-                    });
-            };
+$('#generar').click(function () {
+    $("#myTab a:last").tab('show');
+});
 
-        });
+//Declaración de variables
 
-        $('#crear').click(function () {
+var nservidor, cola, mua, delta, tmp = [],
+    velocidad, general;
 
-            $("#play").show('slow');
-            $("#stop").show('slow');
-            
-            for (var i = 1; i <= creator.System.nservers; i++) {
-                creator.System.servers.push($('#vservidor' + i).val());
-            };
-            velocidad = $('#vvelocidad').val();
-            creator.System.Mu_s = $('#vgeneral').val();
+$('#siguiente').click(function () {
 
-            var mSproc = new SProc({System: new SProc.System(creator.System),Delta:creator.System.Delta});
-            mSproc.Canvas.draw('main');
-            window.mSproc = mSproc;
-            $('#play').click(function(){
-                console.log("sier");
-            });
-        });
-        $('#generar').click(function () {
-            $("#myTab  a").tab('show');
-            for (var i = 1; i <= creator.System.nservers; i++) {
-                $('#infos').append([
-                        $('<span>', {
-                                class: 'p',
-                                html: '&mu;_s Servidor' + i + ' : ' + creator.System.servers[i - 1],
-                                id: 'lservidor' + i
-                            }),
-                        document.createElement('BR'),
-                        document.createElement('BR'),
-                    ]);
+    nservidor = $('#nservidor').val();
+    cola = $('#cola').val();
+    mua = $('#vmua').val();
+    delta = $('#vdelta').val();
+
+    if (nservidor < 1 || cola < 1) {
+        alert("Llene correctamente los datos, no se acepta 0, ni un valor nulo.");
+        return;
+    };
+
+    $("#myTab  a.second").tab('show');
+
+    for (var i = 1; i <= nservidor; i++) {
+        $("#servidores").append(
+            [
+                $('<span>', {
+                    class: 'p',
+                    html: '&mu;_s Servidor ' + i,
+                    id: 'lservidor' + i
+                }),
+                document.createElement('BR'),
+                document.createElement('BR'),
+                $('<div>', {
+                    class: "noUiSlider",
+                    style: "width: 200px;",
+                    id: 'servidor' + i
+                }),
+                document.createElement('BR'),
+                $('<input>', {
+                    type: "text",
+                    id: 'vservidor' + i,
+                    style: "height:20px; width: 40px;"
+                }),
+                document.createElement('BR')
+            ]);
+    };
+
+    for (var i = 1; i <= nservidor; i++) {
+        $("#servidor" + i).noUiSlider({
+            range: [0.00, 100],
+            start: 0.00,
+            step: .01,
+            handles: 1,
+            serialization: {
+                to: $("#vservidor" + i)
             }
         });
+    };
 
-    window.sl = creator;
+    var politica = $("input:radio[name='politica']:checked").val();
+
+});
+
+$('#crear').click(function () {
+
+    $("#play").show('slow');
+    $("#stop").show('slow');
+    $('#generar').show('slow');
+    for (var i = 1; i <= nservidor; i++) {
+        if ($('#vservidor' + i).val() > 0)
+            tmp[i - 1] = $('#vservidor' + i).val();
+    };
+    velocidad = $('#vvelocidad').val();
+    general = $('#vgeneral').val();
+    var mSproc = new SProc({
+        System: new SProc.System({
+            servers: tmp,
+            nservers: nservidor,
+            Mu_s: general,
+            queue: new SProc.Queue({
+                capacity: cola,
+                Mu_a: mua
+            }),
+        }),
+        Delta: delta
+    });
+
+    mSproc.Canvas.draw('main');
+    window.mSProc = mSproc;
+});
+
+$('#generar').click(function () {
+    $("#myTab  a").tab('show');
+    for (var i = 1; i <= nservidor; i++) {
+        $('#infos').append([
+            $('<span>', {
+                class: 'p',
+                html: '<strong>&mu;_s Servidor </strong>' + i + ' : ' + tmp[i - 1],
+                id: 'lservidor' + i
+            }),
+            document.createElement('BR'),
+            document.createElement('BR'),
+        ]);
+    };
+
+    var la = 1 / mua;
+    var ls = 1 / general;
+    var r = la / ls;
+    var ver = general / (1 - r);
+    var er = ver === Infinity ? 'Indeterminado' : ver;
+    var vew = (general * r) / (1 - r);
+    var ew = vew === Infinity ? 'Indeterminado' : vew;
+    var vex = r / (1 - r);
+    var ex = vex === Infinity ? 'Indeterminado' : vex;
+    var vexw = (r * r) / (1 - r);
+    var exw = vexw === Infinity ? 'Indeterminado' : vexw;
+
+
+    $('#div1').append(
+        [
+            $('<span>', {
+                class: 'p',
+                html: nservidor,
+            })
+        ]);
+
+    $('#div2').append(
+        [
+            $('<span>', {
+                class: 'p',
+                html: cola,
+            })
+        ]);
+
+    $('#div3').append(
+        [
+            $('<span>', {
+                class: 'p',
+                html: mua,
+            })
+        ]);
+
+    $('#div4').append(
+        [
+            $('<span>', {
+                class: 'p',
+                html: delta,
+            })
+        ]);
+
+    $('#div5').append(
+        [
+            $('<span>', {
+                class: 'p',
+                html: general,
+            })
+        ]);
+
+    $('#div6').append(
+        [
+            $('<span>', {
+                class: 'p',
+                html: ls,
+            })
+        ]);
+
+    $('#div7').append(
+        [
+            $('<span>', {
+                class: 'p',
+                html: la,
+            })
+        ]);
+
+    $('#div8').append(
+        [
+            $('<span>', {
+                class: 'p',
+                html: r,
+            })
+        ]);
+
+    $('#div9').append(
+        [
+            $('<span>', {
+                class: 'p',
+                html: er,
+            })
+        ]);
+
+    $('#div10').append(
+        [
+            $('<span>', {
+                class: 'p',
+                html: ew,
+            })
+        ]);
+
+    $('#div11').append(
+        [
+            $('<span>', {
+                class: 'p',
+                html: ex,
+            })
+        ]);
+
+    $('#div12').append(
+        [
+            $('<span>', {
+                class: 'p',
+                html: exw,
+            })
+        ]);
+
 });

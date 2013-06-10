@@ -110,28 +110,6 @@ SProc.Canvas.prototype.clear = function(id){
 	this.inDOM = false;
 };
 
-/*
-SProc.Canvas.prototype.createTask = function(task){
-	var canvas = this.canvas,
-		width = canvas.canvas.width, height = canvas.canvas.height,
-		stHeight = height/2, stWidth = 0, 
-		segments = height/this.canvas.elements, step = segments/8;
-		
-		canvas.fillStyle = task.color;
-
-		canvas.moveTo(0, stHeight);
-		canvas.fillRect(stWidth , stHeight-(step/2) , step , step);	
-
-		canvas.lineTo(0,0);
-
-		task.x = stWidth;
-		task.y = stHeight;
-		
-		this.canvas.paintedTasks.push(task);
-
-};
-*/
-
 SProc.Canvas.prototype.arrival = function(task){
 	var Queue = this.Parent.system.queue,
 		taskWidth = Queue.x/Queue.capacity,
@@ -168,13 +146,15 @@ SProc.Canvas.prototype.step = function(){
 		tasks = Queue.tasks, canvas = this.canvas,
 		taskWidth = Queue.x/Queue.capacity;
 	for(var i = 0; i<tasks.length ; i++){
-		canvas.fillStyle = tasks[i].color;
-		if(tasks[i].x==Queue.x-taskWidth){
-			canvas.clearRect(tasks[i].x,tasks[i].y,tasks[i].width,tasks[i].height);
-		}else if(tasks[i].x<Queue.x-taskWidth){
-			canvas.clearRect(tasks[i].x,tasks[i].y,tasks[i].width,tasks[i].height);
-			tasks[i].x+=taskWidth;
-			canvas.fillRect(tasks[i].x,tasks[i].y,tasks[i].width,tasks[i].height);
+		if(tasks[i] != undefined){
+			canvas.fillStyle = tasks[i].color;
+			if(tasks[i].x==Queue.x-taskWidth){
+				canvas.clearRect(tasks[i].x,tasks[i].y,tasks[i].width,tasks[i].height);
+			}else if(tasks[i].x<Queue.x-taskWidth){
+				canvas.clearRect(tasks[i].x,tasks[i].y,tasks[i].width,tasks[i].height);
+				tasks[i].x+=taskWidth;
+				canvas.fillRect(tasks[i].x,tasks[i].y,tasks[i].width,tasks[i].height);
+			}
 		}
 	}
 };

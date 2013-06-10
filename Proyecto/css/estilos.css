@@ -1,32 +1,20 @@
 *{
-	padding: 0px;
 	margin: 0px;
+	padding: 0px;
 }
 
-input{
+input[type="text"]{
 	float: right;
 }
 #pag2, #datos, #estadisticas{
 	padding: 10px;
 }
-/*
+
 canvas {
 	float: left;
-	height: 100%;
-	width: 100%;
+	margin: 10px;
+	padding: 10px;
 }
-*/
-canvas, .canvas{
-	float: left;
-	padding: 10px 10px 10px 10px;
-	margin: 10px 10px 10px 10px;
-}
-
-.tabstabbed{
-	width: 300px;
-	height: 2000px;
-}
-
 
 #formulario{
 	float:right;
@@ -47,11 +35,18 @@ a:hover, a:focus{
 	text-decoration:none;
 	background-color:rgb(255,255,255);
 	cursor: default;
-	/*color:#0088cc;*/
 }
 #nservidor, #cola, #vdelta, #vmua, #vvelocidad, #vgeneral{
 	height:20px;
 	width: 40px;
 }
 
+.estadisticas1, .estadisticas2, .estadisticas3, .estadisticas4, .estadisticas5, .estadisticas6, .estadisticas7, .estadisticas8, .estadisticas9, .estadisticas10, .estadisticas11, .estadisticas12{
+	display: inline;
+}
 
+input[type="radio"]{
+	margin-right:10px;
+	margin-bottom:1em;
+	margin-top:1em;
+}

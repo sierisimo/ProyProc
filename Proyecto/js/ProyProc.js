@@ -180,28 +180,6 @@ SProc.Canvas.prototype.clear = function(id){
 	this.inDOM = false;
 };
 
-/*
-SProc.Canvas.prototype.createTask = function(task){
-	var canvas = this.canvas,
-		width = canvas.canvas.width, height = canvas.canvas.height,
-		stHeight = height/2, stWidth = 0, 
-		segments = height/this.canvas.elements, step = segments/8;
-		
-		canvas.fillStyle = task.color;
-
-		canvas.moveTo(0, stHeight);
-		canvas.fillRect(stWidth , stHeight-(step/2) , step , step);	
-
-		canvas.lineTo(0,0);
-
-		task.x = stWidth;
-		task.y = stHeight;
-		
-		this.canvas.paintedTasks.push(task);
-
-};
-*/
-
 SProc.Canvas.prototype.arrival = function(task){
 	var Queue = this.Parent.system.queue,
 		taskWidth = Queue.x/Queue.capacity,
@@ -238,13 +216,15 @@ SProc.Canvas.prototype.step = function(){
 		tasks = Queue.tasks, canvas = this.canvas,
 		taskWidth = Queue.x/Queue.capacity;
 	for(var i = 0; i<tasks.length ; i++){
-		canvas.fillStyle = tasks[i].color;
-		if(tasks[i].x==Queue.x-taskWidth){
-			canvas.clearRect(tasks[i].x,tasks[i].y,tasks[i].width,tasks[i].height);
-		}else if(tasks[i].x<Queue.x-taskWidth){
-			canvas.clearRect(tasks[i].x,tasks[i].y,tasks[i].width,tasks[i].height);
-			tasks[i].x+=taskWidth;
-			canvas.fillRect(tasks[i].x,tasks[i].y,tasks[i].width,tasks[i].height);
+		if(tasks[i] != undefined){
+			canvas.fillStyle = tasks[i].color;
+			if(tasks[i].x==Queue.x-taskWidth){
+				canvas.clearRect(tasks[i].x,tasks[i].y,tasks[i].width,tasks[i].height);
+			}else if(tasks[i].x<Queue.x-taskWidth){
+				canvas.clearRect(tasks[i].x,tasks[i].y,tasks[i].width,tasks[i].height);
+				tasks[i].x+=taskWidth;
+				canvas.fillRect(tasks[i].x,tasks[i].y,tasks[i].width,tasks[i].height);
+			}
 		}
 	}
 };
@@ -388,7 +368,6 @@ SProc.Queue.prototype.getFirstTask = function(){
 };
 SProc.Queue.prototype.killFirstTask = function(){
 	delete this.tasks[this.capacity-1];
-	this.Parent.Parent.Canvas.step();
 };
 SProc.Queue.prototype.setMu_a = function(newMu_a){	
 	this.Mu_a = newMu_a;
@@ -429,7 +408,10 @@ SProc.Queue.prototype.attention = function (mysystem) {
             i = menor;
             break;
         case "aleatorio":
-            var i = Math.floor(Math.random() * (mysystem.servers.length));
+            var i;
+            do{
+            	i = Math.floor(Math.random() * (mysystem.servers.length));
+            }while(mysystem.servers[i].getState() == true);
             break;
         }
 
@@ -439,8 +421,10 @@ SProc.Queue.prototype.attention = function (mysystem) {
         this.killFirstTask();
         console.log("Se mandó la tarea que llegó en ", mysystem.servers[i].task.timeArrival, " al servidor " + i);
         console.log("su tiempo de respuesta es de " + mysystem.servers[i].Mu_s + ".")
-        if (numberTask > 1)
+        if (numberTask > 1){
             this.step(mysystem.queue);
+            this.Parent.Parent.Canvas.step();
+        }
 
     } else if (numberTask >= 1 && mysystem.tasksOnService() == mysystem.servers.length) {
         console.log("Hay una tarea en espera pero no hay servidor disponible.");
@@ -471,6 +455,7 @@ SProc.Queue.prototype.arrival = function(myqueue){
 		myqueue.tasks[capacity - tasksCount - 1] = newTask;
 		this.timeWithoutArrival = -this.Parent.Parent.Delta;
 		console.log("Ha llegado una tarea");
+		this.Parent.Parent.Canvas.arrival(newTask);
 	}
 
 }

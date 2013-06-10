@@ -37,4 +37,12 @@ a:hover, a:focus{
 	width: 40px;
 }
 
+.estadisticas1, .estadisticas2, .estadisticas3, .estadisticas4, .estadisticas5, .estadisticas6, .estadisticas7, .estadisticas8, .estadisticas9, .estadisticas10, .estadisticas11, .estadisticas12{
+	display: inline;
+}
 
+input[type="radio"]{
+	margin-right:10px;
+	margin-bottom:1em;
+	margin-top:1em;
+}

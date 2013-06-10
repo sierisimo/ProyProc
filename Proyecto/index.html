@@ -1,23 +1,20 @@
 <!DOCTYPE html>
 <html lang="es">
-    
     <head>
-        <title>Sistemas de colas</title>
+        <title>Pendiente</title>
         <meta charset="utf-8">
         <link href="css/bootstrap.css" type="text/css" rel="stylesheet">
         <link href="css/nouislider.fox.css" type="text/css" rel="stylesheet">
         <link href="css/estilos.css" type="text/css" rel="stylesheet">
-        <script src="js/jquery-2.0.2.min.js"></script>
         <script type="text/javascript" src="js/underscore-min.js"></script>
+        <script src="js/jquery-2.0.2.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/jquery.nouislider.min.js"></script>
-        <script type="text/javascript" src="js/ProyProc.js"></script>
-        <script src="js/scripts.js"></script>
-        <!--<script type="text/javascript" src="js/main.js"></script>-->
+        <script src="js/ProyProc.js"></script>
     </head>
     
     <body>
-        <canvas id="main" width="800" height="800"></canvas>    
+        <canvas id="main" width="900" height="900"></canvas>
         <div class="tabbedPanels" id="formulario">
             <ul class="nav nav-tabs" id="myTab">
                 <li><a href="#datos" style="background-color: #FFFFFF; border-bottom: 1px solid rgb(238,238,238); border-color: rgb(238, 238, 238) rgb(238, 238, 238) rgb(221, 221, 221);">Datos</a>
@@ -30,7 +27,7 @@
 
                 </li>
             </ul>
-            <div class="tab-content tabstabbed">
+            <div class="tab-content" style="height: 1000px;">
                 <div class="tab-pane active" id="datos">
                     <p>Número de Servidores:
                         <input name="servidores" type="text" id="nservidor">
@@ -50,7 +47,14 @@
                     </br>
                     <input id="vdelta" type="text"></input>
                     </br>
-                    <button class="btn btn-info" id="siguiente">Siguiente</button>
+                    
+                    <div >
+                        <input type="radio" name="politica" value="rapido" checked>Servidor más rápido</br>
+                        <input type="radio" name="politica" value="primero">Primer servidor disponible</br>
+                        <input type="radio" name="politica" value="aleatorio">Aleatorio</br>
+                    </div></br>
+                    
+                    <button class="btn btn-info" id="siguiente" name="siguiente">Siguiente</button>
                 </div>
                 <div class="tab-pane" id="pag2">
                     <p>Velocidad:</l>
@@ -75,36 +79,69 @@
                         <button id="stop" class="btn btn-danger" style="display: none"><i class="icon-stop"></i>
 
                         </button>
-                        </br><br>
-                        <button class="btn btn-info" id="generar">Generar Estadísticas</button>
-                        </br><br>
+                        </br>
+                        </br>
+                        <button class="btn btn-info" id="generar" style="display: none">Generar Estadísticas</button>
+                        </br>
+                        </br>
                         <button class="btn btn-inverse" id="reset" onclick="goBack()">Reset</button>
+                        </br>
+                        </br>
                         </br>
                 </div>
                 <div class="tab-pane" id="estadisticas">
-                     <h4>General</h4>
+                        <h4>General</h4>
 
-                    <p>Número de servidores:</p>
-                    <p>Capacidad máxima de la cola:</p>
-                    <p>&mu;_a :</p>
-                    <p>&Delta; :</p>
-                    <p>&mu;_s General :</p>
+                    <p class="estadisticas1"><strong>Número de servidores: </strong><div class="estadisticas1" id="div1"></div></p>
+                    
+                    <p class="estadisticas2"><strong>Capacidad máxima de la cola: </strong><div class="estadisticas2" id="div2"></div></p>
+                    
+                    <p class="estadisticas3"><strong>&mu;_a : </strong><div class="estadisticas3" id="div3"></div></p>
+                    
+                    <p class="estadisticas4"><strong>&Delta; : </strong><div class="estadisticas4" id="div4"></div></p>
+                    
+                    <p class="estadisticas5"><strong>&mu;_s General : </strong><div class="estadisticas5" id="div5"></div></p>
+                    
+                    <p class="estadisticas6"><strong>&lambda;_s en función de &mu;_s General: </strong><div class="estadisticas6" id="div6"></div></p>
+                    
+                    <p class="estadisticas7"><strong>&lambda;_a : </strong><div class="estadisticas7" id="div7"></div></p>
+                    
+                    <p class="estadisticas8"><strong>r : </strong><div class="estadisticas8" id="div8"></div></p>
+                
+
                     <div id="infos"></div>
-                     <h4>Estadísticas Teóricas</h4>
+                    
+                        <h4>Estadísticas Teóricas suponiendo un sistema de colas M/M/1</h4>
+                        
+                            <p class="estadisticas9"><strong><i>E(R) : </i></strong><div class="estadisticas9" id="div9"></div></p>
+                            
+                            <p class="estadisticas10"><strong><i>E(W) : </i></strong><div class="estadisticas10" id="div10"></div></p>
+                            
+                            <p class="estadisticas11"><strong><i>E(X) : </i></strong><div class="estadisticas11" id="div11"></div></p>
+                            
+                            <p class="estadisticas12"><strong><i>E(X_w) : </i></strong><div class="estadisticas12" id="div12"></div></p>
+                            
+                        <h4>Estadísticas Prácticas</h4>
 
-                    <p>&lambda;_s :</p>
-                    <p>&lambda;_a :</p>
-                    <p>l:</p>
-                    <p>&mu;_s General:</p>
-                     <h4>Estadísticas Prácticas</h4>
+                            <p class="estadisticas13"><strong><i>E(R) : </i></strong><div class="estadisticas13" id="div13"></div></p>
+                            
+                            <p class="estadisticas14"><strong><i>E(W) : </i></strong><div class="estadisticas14" id="div14"></div></p>
+                            
+                            <p class="estadisticas15"><strong><i>E(X) : </i></strong><div class="estadisticas15" id="div15"></div></p>
+                            
+                            <p class="estadisticas16"><strong><i>E(X_w) : </i></strong><div class="estadisticas16" id="div16"></div></p>
 
-                    <p>&lambda;_s :</p>
-                    <p>&lambda;_a :</p>
-                    <p>&mu;_s General:</p>
+
+
+
                     <button class="btn btn-inverse" id="reset2" onclick="goBack()">Reset</button>
                 </div>
             </div>
+            </br>
+            </br>
         </div>
+        <script type="text/javascript" src="js/scripts.js"></script>
+        <script type="text/javascript" src="js/main.js"></script> 
     </body>
 
 </html>
