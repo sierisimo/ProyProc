@@ -27,7 +27,7 @@
 
                 </li>
             </ul>
-            <div class="tab-content" style="width: 600px; height: 10000px;">
+            <div class="tab-content" style="width: 600px; height: 1000px;">
                 <div class="tab-pane active" id="datos">
                     <p>Número de Servidores:
                         <input name="servidores" type="text" id="nservidor">
@@ -47,7 +47,14 @@
                     </br>
                     <input id="vdelta" type="text"></input>
                     </br>
-                    <button class="btn btn-info" id="siguiente">Siguiente</button>
+					
+					<div >
+						<input type="radio" name="politica" value="rapido" checked>Servidor más rápido</br>
+						<input type="radio" name="politica" value="primero">Primer servidor disponible</br>
+						<input type="radio" name="politica" value="aleatorio">Aleatorio</br>
+					</div></br>
+					
+                    <button class="btn btn-info" id="siguiente" name="siguiente">Siguiente</button>
                 </div>
                 <div class="tab-pane" id="pag2">
                     <p>Velocidad:</l>
@@ -104,15 +111,15 @@
 
                     <div id="infos"></div>
 					
-                    	<h4>Estadísticas Teóricas</h4>
+                    	<h4>Estadísticas Teóricas suponiendo un sistema de colas M/M/1</h4>
 						
 							<p class="estadisticas9"><strong><i>E(R) : </i></strong><div class="estadisticas9" id="div9"></div></p>
 							
 							<p class="estadisticas10"><strong><i>E(W) : </i></strong><div class="estadisticas10" id="div10"></div></p>
 							
-							<p class="estadisticas11"><strong><i>E(X) : </i></strong><div class="estadisticas11" id="div9"></div></p>
+							<p class="estadisticas11"><strong><i>E(X) : </i></strong><div class="estadisticas11" id="div11"></div></p>
 							
-							<p class="estadisticas12"><strong><i>E(X_w) : </i></strong><div class="estadisticas12" id="div9"></div></p>
+							<p class="estadisticas12"><strong><i>E(X_w) : </i></strong><div class="estadisticas12" id="div12"></div></p>
 							
                     	<h4>Estadísticas Prácticas</h4>
 
@@ -128,7 +135,11 @@
             </br>
             </br>
         </div>
+		
+		
         <script>
+
+		
             $(function () {
                 $("#nservidor").keydown(function (event) {
                     if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 9 && event.keyCode != 8) {
@@ -155,8 +166,8 @@
 
             $("#mua").noUiSlider({
 
-                    range: [0, 100],
-                    start: 0,
+                    range: [0.01, 100],
+                    start: 0.01,
                     step: .01,
                     handles: 1,
                     serialization: {
@@ -167,8 +178,8 @@
 
             $("#delta").noUiSlider({
 
-                    range: [0, 100],
-                    start: 0,
+                    range: [0.001, 2],
+                    start: 0.01,
                     step: .01,
                     handles: 1,
                     serialization: {
@@ -178,8 +189,8 @@
 
             $("#velocidad").noUiSlider({
 
-                    range: [0, 100],
-                    start: 0,
+                    range: [0.01, 100],
+                    start: 0.01,
                     step: .01,
                     handles: 1,
                     serialization: {
@@ -189,8 +200,8 @@
 
             $("#general").noUiSlider({
 
-                    range: [0, 100],
-                    start: 0,
+                    range: [0.01, 100],
+                    start: 0.01,
                     step: .01,
                     handles: 1,
                     serialization: {
@@ -213,11 +224,17 @@
             var general;
 
             $('#siguiente').click(function () {
+
                 nservidor = $('#nservidor').val();
                 cola = $('#cola').val();
                 mua = $('#vmua').val();
                 delta = $('#vdelta').val();
-
+				
+				if (nservidor < 1 || cola < 1){
+					alert("Llene correctamente los datos, no se acepta 0, ni un valor nulo.");
+					return;
+				};
+					
                 $("#myTab  a.second").tab('show');
 
                 for (var i = 1; i <= nservidor; i++) {
@@ -247,8 +264,8 @@
 
                 for (var i = 1; i <= nservidor; i++) {
                     $("#servidor" + i).noUiSlider({
-                            range: [0, 100],
-                            start: 0,
+                            range: [0.00, 100],
+                            start: 0.00,
                             step: .01,
                             handles: 1,
                             serialization: {
@@ -256,15 +273,19 @@
                             }
                         });
                 };
+				
+				var politica = $("input:radio[name='politica']:checked").val();
 
                 console.log("Servidores" + nservidor);
                 console.log("Capacidad" + cola);
                 console.log("mu_a" + mua);
                 console.log("delta" + delta);
+				console.log(politica);
 
             });
 
             $('#crear').click(function () {
+			
                 $("#play").show('slow');
                 $("#stop").show('slow');
 				$('#generar').show('slow');
@@ -285,13 +306,26 @@
                     $('#infos').append([
                             $('<span>', {
                                     class: 'p',
-                                    html: '&mu;_s Servidor' + i + ' : ' + tmp[i - 1],
+                                    html: '<strong>&mu;_s Servidor </strong>' + i + ' : ' + tmp[i - 1],
                                     id: 'lservidor' + i
                                 }),
                             document.createElement('BR'),
                             document.createElement('BR'),
                         ]);
                 };
+				
+			   var la = 1/mua;
+				var ls = 1/general;
+				var r = la/ls;
+				var ver = general/(1-r);
+				var er = ver === Infinity ? 'Indeterminado' :  ver;
+				var vew = (general*r)/(1-r);
+				var ew = vew === Infinity ? 'Indeterminado' :  vew;
+				var vex = r/(1-r);
+				var ex = vex === Infinity ? 'Indeterminado' :  vex;
+				var vexw = (r*r)/(1-r);
+				var exw= vexw === Infinity ? 'Indeterminado' :  vexw;
+
 
                 $('#div1').append(
 				[
@@ -337,7 +371,7 @@
 				[
                         $('<span>', {
                             class: 'p',
-                            html: 1/general,
+                            html: ls,
                         })
 				]);
 				
@@ -345,7 +379,7 @@
 				[
                         $('<span>', {
                             class: 'p',
-                            html: 1/mua,
+                            html: la,
                         })
 				]);
 				
@@ -353,13 +387,44 @@
 				[
                         $('<span>', {
                             class: 'p',
-                            html: mua/general,
+                            html: r,
                         })
 				]);
 				
+				$('#div9').append(
+				[
+                        $('<span>', {
+                            class: 'p',
+                            html: er,
+                        })
+				]);
 				
+				$('#div10').append(
+				[
+                        $('<span>', {
+                            class: 'p',
+                            html: ew,
+                        })
+				]);
+				
+				$('#div11').append(
+				[
+                        $('<span>', {
+                            class: 'p',
+                            html: ex,
+                        })
+				]);
+				
+				$('#div12').append(
+				[
+                        $('<span>', {
+                            class: 'p',
+                            html: exw,
+                        })
+				]);
 				
                 });
+				
         </script>
     </body>
 
