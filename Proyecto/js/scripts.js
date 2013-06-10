@@ -82,8 +82,7 @@ $('#siguiente').click(function () {
     cola = parseFloat($('#cola').val());
     mua = parseFloat($('#vmua').val());
     delta = parseFloat($('#vdelta').val());
-
-    if (nservidor < 1 || cola < 1) {
+    if (nservidor < 1 || cola < 1 || isNaN(nservidor)  || isNaN(cola)) {
         alert("Llene correctamente los datos, no se acepta 0, ni un valor nulo.");
         return;
     };
@@ -95,7 +94,7 @@ $('#siguiente').click(function () {
             [
                 $('<span>', {
                     class: 'p',
-                    html: '&mu;_s Servidor ' + i,
+                    html: '&mu;<sub>S</sub> Servidor ' + i,
                     id: 'lservidor' + i
                 }),
                 document.createElement('BR'),
@@ -162,10 +161,16 @@ $('#crear').click(function () {
 $('#generar').click(function () {
     $("#myTab  a").tab('show');
     for (var i = 1; i <= nservidor; i++) {
+        var temp;
+        if (tmp[i-1] == undefined)
+            temp = general;
+        else
+            temp = tmp[i-1];
+        console.log("--------------", temp, "------------");
         $('#infos').append([
             $('<span>', {
                 class: 'p',
-                html: '<strong>&mu;_s Servidor </strong>' + i + ' : ' + tmp[i - 1],
+                html: '<strong>&mu;<sub>S</sub> Servidor </strong>' + i + ' : ' + temp ,
                 id: 'lservidor' + i
             }),
             document.createElement('BR'),
