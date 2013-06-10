@@ -7,8 +7,8 @@ $(document).ready(function(){
 	var newQueue = new SProc.Queue(temp);
 
 	var obj = new Object();
-	obj.Mu_s = 2.32;
-	obj.servers = [4.32,1.32];
+	obj.Mu_s = 2.3;
+	obj.servers = [4.3,1.2];
 
 	obj.queue = newQueue;
 	obj.nservers = 5;
@@ -36,11 +36,11 @@ $(document).ready(function(){
 		for (i = 0 ; i < fSProc.system.logger.length; i++){
 			html.table += "<tr>";
 			
-				html.table+="<td>" + fSProc.system.logger[i].n + "</td>";
-				html.table+="<td>" + fSProc.system.logger[i].t + "</td>";
-				html.table+="<td>" + fSProc.system.logger[i].X_t + "</td>";
-				html.table+="<td>" + fSProc.system.logger[i].X_w + "</td>";
-				html.table+="<td>" + fSProc.system.logger[i].X_s + "</td>";
+				html.table+="<td>" + Math.round(fSProc.system.logger[i].n * 100) / 100 + "</td>";
+				html.table+="<td>" + Math.round(fSProc.system.logger[i].t * 100) / 100 + "</td>";
+				html.table+="<td>" + Math.round(fSProc.system.logger[i].X_t * 100) / 100 + "</td>";
+				html.table+="<td>" + Math.round(fSProc.system.logger[i].X_w * 100) / 100+ "</td>";
+				html.table+="<td>" + Math.round(fSProc.system.logger[i].X_s * 100) / 100 + "</td>";
 			
 			html.table += "</tr>";
 		}
@@ -50,11 +50,11 @@ $(document).ready(function(){
 		for (i = 0 ; i < fSProc.system.taskLogger.length; i++){
 			html.table += "<tr>";
 		
-				html.table+="<td>" + fSProc.system.taskLogger[i].timeArrival + "</td>";
-				html.table+="<td>" + fSProc.system.taskLogger[i].timeStartService + "</td>";
-				html.table+="<td>" + fSProc.system.taskLogger[i].timeDeparture + "</td>";
-				html.table+="<td>" + (fSProc.system.taskLogger[i].timeDeparture - fSProc.system.taskLogger[i].timeArrival) + "</td>";
-				html.table+="<td>" + (fSProc.system.taskLogger[i].timeDeparture - fSProc.system.taskLogger[i].timeStartService) + "</td>";
+				html.table+="<td>" + Math.round(fSProc.system.taskLogger[i].timeArrival* 100) / 100 + "</td>";
+				html.table+="<td>" + Math.round(fSProc.system.taskLogger[i].timeStartService* 100) / 100 + "</td>";
+				html.table+="<td>" + Math.round(fSProc.system.taskLogger[i].timeDeparture* 100) / 100 + "</td>";
+				html.table+="<td>" + Math.round((fSProc.system.taskLogger[i].timeDeparture* 100) / 100 - fSProc.system.taskLogger[i].timeArrival) + "</td>";
+				html.table+="<td>" + Math.round((fSProc.system.taskLogger[i].timeDeparture* 100) / 100 - fSProc.system.taskLogger[i].timeStartService) + "</td>";
 			
 			html.table += "</tr>";
 		}
