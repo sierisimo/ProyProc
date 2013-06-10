@@ -36,7 +36,7 @@ a:hover, a:focus{
 	background-color:rgb(255,255,255);
 	cursor: default;
 }
-#nservidor, #cola, #vdelta, #vmua, #vvelocidad, #vgeneral{
+#nservidor, #cola, #vdelta, #vmua, #vvelocidad, #vgeneral, #vciclos{
 	height:20px;
 	width: 40px;
 }

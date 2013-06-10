@@ -56,6 +56,17 @@ $("#velocidad").noUiSlider({
     }
 });
 
+$("#ciclos").noUiSlider({
+
+    range: [1, 1000],
+    start: 1,
+    step: 1,
+    handles: 1,
+    serialization: {
+        to: $("#vciclos")
+    }
+});
+
 $("#general").noUiSlider({
 
     range: [0.01, 100],

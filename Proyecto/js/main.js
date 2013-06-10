@@ -1,17 +1,18 @@
 $('#play').click(function(){
-	window.sier = mSProc;
-	var  i = 0, $V=$('#vvelocidad').val(), a = setInterval(function(){
+	$('input').attr('disabled',true);
+	$('.noUiSlider').hide();
+	var  i=0,ciclos = parseInt($('#vciclos').val()), $V=$('#vvelocidad').val(), a = setInterval(function(){
 		console.log("*****Inicio de ciclo " + mSProc.getTime());
 		mSProc.system.refresh();
 		mSProc.cycle();
 		console.log("*****Fin de ciclo",i);
 		i++;
-		if(i>=300){
+		if(i>=ciclos){
 			clearInterval(a);
 			b();
 		}
 	},1000/$V);
-		
+	
 	function b(){
 		for (i = 0; i < mSProc.system.servers.length ; i++){
 			console.log("El servidor " , i ,"atendió " ,mSProc.system.servers[i].attendedTasks ," tareas");
