@@ -29,9 +29,9 @@ $(document).ready(function(){
 	console.log("Las tareas atendidas fueron las siguientes: ", fSProc.system.taskLogger);
 	console.log("El registro de actividades queda como sigue: ",fSProc.system.logger);
 	
-		var newWindow = window.open("","Test","width=300,height=300");
+		
 		var html = {header:"<DOCTYPE html><html><head><head><body>",footer:"</body><html>"};
-		html.table = "<table><tr><th>n</th><th>t</th><th>X(t)</th><th>X(w)</th><th>X(s)</th></tr>";
+		html.table = "<h1>Tareas en el sistema</h1><table class='table table-hover'><tr><th>n</th><th>t</th><th>X(t)</th><th>X(w)</th><th>X(s)</th></tr>";
 		
 		for (i = 0 ; i < fSProc.system.logger.length; i++){
 			html.table += "<tr>";
@@ -45,11 +45,38 @@ $(document).ready(function(){
 			html.table += "</tr>";
 		}
 		html.table += "</table>";
-		newWindow.document.open()
-    	newWindow.document.write(html.table);
-    	newWindow.document.getElementById($('head').append('<link rel="stylesheet" href="..css/" type="text/css" />');)
+		html.table += "<h1>Tareas atendidas</h1>";
+		html.table += "<table class='table table-hover'> <tr> <th>Tiempo de arribo</th><th>Inicio de servicio</th><th>Tiempo de Salida</th><th>Tiempo de Respuesta</th><th>Tiempo de espera</th>";
+		for (i = 0 ; i < fSProc.system.taskLogger.length; i++){
+			html.table += "<tr>";
+		
+				html.table+="<td>" + fSProc.system.taskLogger[i].timeArrival + "</td>";
+				html.table+="<td>" + fSProc.system.taskLogger[i].timeStartService + "</td>";
+				html.table+="<td>" + fSProc.system.taskLogger[i].timeDeparture + "</td>";
+				html.table+="<td>" + (fSProc.system.taskLogger[i].timeDeparture - fSProc.system.taskLogger[i].timeArrival) + "</td>";
+				html.table+="<td>" + (fSProc.system.taskLogger[i].timeDeparture - fSProc.system.taskLogger[i].timeStartService) + "</td>";
+			
+			html.table += "</tr>";
+		}
+		html.table += "</table>";
+		//var newWindow = window.open("empty.html");
+		//$(OpenWindow.document.body).html(html.table);
+		//$('#bd').innerHTML(html.table);
+    	//newWindow.document.write(html.table);
+    	//newWindow.document.close();
+    	//$(OpenWindow.document.body).append(html.table);
 
-    	newWindow.document.close()
-	
+
+		
+		var a = window.open("","Resultados","height=500,width=400,location=no,menubar=no",false);
+		var header = document.createElement('LINK'); 
+		var bd = document.createElement('div');
+		bd.innerHTML = html.table;
+
+		header.href="css/bootstrap.css";
+		header.type="text/css";
+		header.rel="stylesheet";	
+		a.document.head.appendChild(header);
+		a.document.body.appendChild(bd);;	
 }
 );
