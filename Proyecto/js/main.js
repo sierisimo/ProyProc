@@ -43,9 +43,10 @@ $('#play').click(function(){
 					html.table+="<td>" + Math.round(mSProc.system.taskLogger[i].timeArrival* 100) / 100 + "</td>";
 					html.table+="<td>" + Math.round(mSProc.system.taskLogger[i].timeStartService* 100) / 100 + "</td>";
 					html.table+="<td>" + Math.round(mSProc.system.taskLogger[i].timeDeparture* 100) / 100 + "</td>";
-					html.table+="<td>" + Math.round((mSProc.system.taskLogger[i].timeDeparture* 100) / 100 - mSProc.system.taskLogger[i].timeArrival) + "</td>";
-					html.table+="<td>" + Math.round((mSProc.system.taskLogger[i].timeDeparture* 100) / 100 - mSProc.system.taskLogger[i].timeStartService) + "</td>";
-				
+					html.table+="<td>" + Math.round((mSProc.system.taskLogger[i].timeDeparture - mSProc.system.taskLogger[i].timeArrival)* 100)/100 + "</td>";
+					html.table+="<td>" + Math.round((mSProc.system.taskLogger[i].timeDeparture - mSProc.system.taskLogger[i].timeStartService)* 100)/100 + "</td>";
+					
+					
 				html.table += "</tr>";
 			}
 			html.table += "</table>";

@@ -26,7 +26,7 @@ var SProc = function(config){
 		throw "System provided its not an SProc.System object.";
 	
 	this.system.Parent = this;
-	
+		
 	this.Cycle = 0;
 	this.Delta = config && config.Delta || 1;
 
