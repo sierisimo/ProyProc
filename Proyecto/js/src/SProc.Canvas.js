@@ -114,27 +114,17 @@ SProc.Canvas.prototype.arrival = function(task){
 	var Queue = this.Parent.system.queue,
 		taskWidth = Queue.x/Queue.capacity,
 		taskHeight = this.Parent.system.servers[0].height*.8,
-		canvas = this.canvas, color = task.color;
+		canvas = this.canvas, oldColor=canvas.fillStyle, color = task.color;
 
-	if(Queue.tasks.length >= 1){
 		task.x = Queue.x-taskWidth;
-		for(var i = 0; i < Queue.tasks.length ; i++){
+		for(var i = 0; i < Queue.getNumberTask(); i++){
 			task.x-=taskWidth;
 		}
 		task.y = Queue.y-(taskHeight/2);
 		task.width = taskWidth;
-		task.height = taskHeight;
+		task.height = taskHeight;	
 		canvas.fillStyle = color;
 		canvas.fillRect(task.x,task.y,taskWidth,taskHeight);
-	}else{
-		canvas.fillStyle = color;
-		canvas.fillRect(Queue.x-taskWidth,Queue.y-(taskHeight/2),taskWidth,taskHeight);	
-		task.x = Queue.x-taskWidth;
-		task.y = Queue.y-(taskHeight/2);
-		task.width = taskWidth;
-		task.height = taskHeight;
-	}
-
 };
 
 SProc.Canvas.prototype.attend = function(){
@@ -147,11 +137,11 @@ SProc.Canvas.prototype.step = function(){
 		taskWidth = Queue.x/Queue.capacity;
 	for(var i = 0; i<tasks.length ; i++){
 		if(tasks[i] != undefined){
-			canvas.fillStyle = tasks[i].color;
 			if(tasks[i].x==Queue.x-taskWidth){
 				canvas.clearRect(tasks[i].x,tasks[i].y,tasks[i].width,tasks[i].height);
 			}else if(tasks[i].x<Queue.x-taskWidth){
-				canvas.clearRect(tasks[i].x,tasks[i].y,tasks[i].width,tasks[i].height);
+				//canvas.clearRect(tasks[i].x,tasks[i].y,tasks[i].width,tasks[i].height);
+				canvas.fillStyle = tasks[i].color;
 				tasks[i].x+=taskWidth;
 				canvas.fillRect(tasks[i].x,tasks[i].y,tasks[i].width,tasks[i].height);
 			}
