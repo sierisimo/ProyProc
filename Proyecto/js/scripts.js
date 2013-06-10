@@ -137,8 +137,9 @@ $('#crear').click(function () {
     $('#generar').show('slow');
     for (var i = 1; i <= nservidor; i++) {
         if (parseFloat($('#vservidor' + i).val()) > 0)
-            tmp[i - 1] = parseFloat($('#vservidor' + i).val());
+            tmp.push(parseFloat($('#vservidor' + i).val()));
     };
+    console.log(tmp);
     velocidad = parseFloat($('#vvelocidad').val());
     general = parseFloat($('#vgeneral').val());
     var mSproc = new SProc({

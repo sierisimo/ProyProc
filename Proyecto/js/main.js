@@ -1,5 +1,5 @@
 $('#play').click(function(){
-	
+	window.sier = mSProc;
 	var  i = 0, $V=$('#vvelocidad').val(), a = setInterval(function(){
 		console.log("*****Inicio de ciclo " + mSProc.getTime());
 		mSProc.system.refresh();
