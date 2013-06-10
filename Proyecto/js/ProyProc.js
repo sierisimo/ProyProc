@@ -27,7 +27,7 @@ var SProc = function(config){
 		throw "System provided its not an SProc.System object.";
 	
 	this.system.Parent = this;
-	
+		
 	this.Cycle = 0;
 	this.Delta = config && config.Delta || 1;
 
@@ -184,27 +184,17 @@ SProc.Canvas.prototype.arrival = function(task){
 	var Queue = this.Parent.system.queue,
 		taskWidth = Queue.x/Queue.capacity,
 		taskHeight = this.Parent.system.servers[0].height*.8,
-		canvas = this.canvas, color = task.color;
+		canvas = this.canvas, oldColor=canvas.fillStyle, color = task.color;
 
-	if(Queue.tasks.length >= 1){
 		task.x = Queue.x-taskWidth;
-		for(var i = 0; i < Queue.tasks.length ; i++){
+		for(var i = 0; i < Queue.getNumberTask(); i++){
 			task.x-=taskWidth;
 		}
 		task.y = Queue.y-(taskHeight/2);
 		task.width = taskWidth;
-		task.height = taskHeight;
+		task.height = taskHeight;	
 		canvas.fillStyle = color;
 		canvas.fillRect(task.x,task.y,taskWidth,taskHeight);
-	}else{
-		canvas.fillStyle = color;
-		canvas.fillRect(Queue.x-taskWidth,Queue.y-(taskHeight/2),taskWidth,taskHeight);	
-		task.x = Queue.x-taskWidth;
-		task.y = Queue.y-(taskHeight/2);
-		task.width = taskWidth;
-		task.height = taskHeight;
-	}
-
 };
 
 SProc.Canvas.prototype.attend = function(){
@@ -217,11 +207,11 @@ SProc.Canvas.prototype.step = function(){
 		taskWidth = Queue.x/Queue.capacity;
 	for(var i = 0; i<tasks.length ; i++){
 		if(tasks[i] != undefined){
-			canvas.fillStyle = tasks[i].color;
 			if(tasks[i].x==Queue.x-taskWidth){
 				canvas.clearRect(tasks[i].x,tasks[i].y,tasks[i].width,tasks[i].height);
 			}else if(tasks[i].x<Queue.x-taskWidth){
-				canvas.clearRect(tasks[i].x,tasks[i].y,tasks[i].width,tasks[i].height);
+				//canvas.clearRect(tasks[i].x,tasks[i].y,tasks[i].width,tasks[i].height);
+				canvas.fillStyle = tasks[i].color;
 				tasks[i].x+=taskWidth;
 				canvas.fillRect(tasks[i].x,tasks[i].y,tasks[i].width,tasks[i].height);
 			}
@@ -452,10 +442,11 @@ SProc.Queue.prototype.arrival = function(myqueue){
 		var configObject = new Object();
 		configObject.timeArrival = this.Parent.Parent.getTime();
 		var newTask = new SProc.Task(configObject);
+		this.Parent.Parent.Canvas.arrival(newTask);
 		myqueue.tasks[capacity - tasksCount - 1] = newTask;
 		this.timeWithoutArrival = -this.Parent.Parent.Delta;
 		console.log("Ha llegado una tarea");
-		this.Parent.Parent.Canvas.arrival(newTask);
+		
 	}
 
 }
@@ -463,7 +454,7 @@ SProc.Queue.prototype.refresh = function(){
 	var mySystem = this.Parent;
 	var t = this.Parent.Parent.getTime();
 	this.attention(mySystem);
-	if (this.timeWithoutArrival >= this.Mu_a){
+	if (this.timeWithoutArrival >= this.Mu_a-this.Parent.Parent.Delta){
 		this.arrival(this);
 		if (this.getNumberTask() == 1){
 			this.attention(mySystem);
@@ -545,7 +536,7 @@ SProc.Task = function(configObject){
 	this.timeArrival = configObject.timeArrival
 	this.timeStartService = (configObject && configObject.timeStartService) || -1;
 	this.timeDeparture = (configObject && configObject.timeDeparture) || -1;
-	this.color = "#" + Math.random().toString(16).slice(2, 8);
+	this.color = '#'+Math.floor(Math.random()*16777215).toString(16);
 	this.x = 0;
 	this.y = 0;
 	this.width = 0;

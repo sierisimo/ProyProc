@@ -1,16 +1,16 @@
 $('#play').click(function(){
 	
-	var  i = 0, a = setInterval(function(){
+	var  i = 0, $V=$('#vvelocidad').val(), a = setInterval(function(){
 		console.log("*****Inicio de ciclo " + mSProc.getTime());
 		mSProc.system.refresh();
 		mSProc.cycle();
 		console.log("*****Fin de ciclo",i);
 		i++;
-		if(i>=30){
+		if(i>=300){
 			clearInterval(a);
 			b();
 		}
-	},100);
+	},1000/$V);
 		
 	function b(){
 		for (i = 0; i < mSProc.system.servers.length ; i++){

@@ -121,10 +121,11 @@ SProc.Queue.prototype.arrival = function(myqueue){
 		var configObject = new Object();
 		configObject.timeArrival = this.Parent.Parent.getTime();
 		var newTask = new SProc.Task(configObject);
+		this.Parent.Parent.Canvas.arrival(newTask);
 		myqueue.tasks[capacity - tasksCount - 1] = newTask;
 		this.timeWithoutArrival = -this.Parent.Parent.Delta;
 		console.log("Ha llegado una tarea");
-		this.Parent.Parent.Canvas.arrival(newTask);
+		
 	}
 
 }
@@ -132,7 +133,7 @@ SProc.Queue.prototype.refresh = function(){
 	var mySystem = this.Parent;
 	var t = this.Parent.Parent.getTime();
 	this.attention(mySystem);
-	if (this.timeWithoutArrival >= this.Mu_a){
+	if (this.timeWithoutArrival >= this.Mu_a-this.Parent.Parent.Delta){
 		this.arrival(this);
 		if (this.getNumberTask() == 1){
 			this.attention(mySystem);
