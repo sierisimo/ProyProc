@@ -160,11 +160,23 @@ SProc.Canvas.prototype.arrival = function(task){
 };
 
 SProc.Canvas.prototype.attend = function(){
-
+	
 };
 
 SProc.Canvas.prototype.step = function(){
-	
+	var Queue = this.Parent.system.queue,
+		tasks = Queue.tasks, canvas = this.canvas,
+		taskWidth = Queue.x/Queue.capacity;
+	for(var i = 0; i<tasks.length ; i++){
+		canvas.fillStyle = tasks[i].color;
+		if(tasks[i].x==Queue.x-taskWidth){
+			canvas.clearRect(tasks[i].x,tasks[i].y,tasks[i].width,tasks[i].height);
+		}else if(tasks[i].x<Queue.x-taskWidth){
+			canvas.clearRect(tasks[i].x,tasks[i].y,tasks[i].width,tasks[i].height);
+			tasks[i].x+=taskWidth;
+			canvas.fillRect(tasks[i].x,tasks[i].y,tasks[i].width,tasks[i].height);
+		}
+	}
 };
 
 
