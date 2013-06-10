@@ -47,63 +47,79 @@
 				<section>
 					<h2>Definición</h2>
 					<ul>
-						<p class="fragment">Consiste en un flujo de entidades que llegan a una infraestructura a solictar un determinado servicio.</p>
-						<p class="fragment">Esta infraestructura tiene capacidad limitada.</p>
-						<p class="fragment">Por lo que no puede atender a todas las entidades simultaneamente.</p>
+						<p class="fragment">Consiste en un flujo de entidades que llegan a una infraestructura a solicitar un determinado servicio.</p>
+						<p class="fragment">Esta infraestructura tiene una capacidad teóricamente ilimitada sin
+							embargo, la implementación tiene una capacidad limitada.</p>
+						<p class="fragment">Por lo que no puede atender a todas las entidades simultáneamente.</p>
 					</ul>
 				</section>
 
 				<section>
 					<ul>
-						<p class="fragment">El proceso de llegada de las entidades al sistema es de caracter aleatorio.</p>
-						<p class="fragment">Tambien el proceso de servicio.</p>
-						<p class="fragment">Consiste en un flujo de entidades que llegan a una infraestructura a solictar un determinado servicio.</p>
+						<p class="fragment">El proceso de llegada de las entidades al sistema es de caracter determinístico.</p>
+						<p class="fragment">La política de servicio puede ser alguna de las siguientes:</p>
+						<p class="fragment">
+							<ul>
+								<li class ="fragment">El servidor más rápido disponible.</li>
+								<li class ="fragment">Primer servidor disponible en el orden que fueron creados.</li>
+								<li class ="fragment">Aleatorio.</li>
+							</ul>
+						</p>
+	
 					</ul>
 				</section>
 
 				<section>
+					<h2>Objetivo</h2>
 					<ul>
-						<p class="fragment">Nos interesa averiguar la congestion o demara que producen estos sistemas.</p>
-						<p class="fragment">Desde un punto de vista de su variación estócastica.</p>
+						<p class="fragment">Sería interesante conocer como distintas politicas de servicio
+							afectan al número de tareas atendidas.</p>
+						<p class="fragment">De igual manera, nos interesa poder comparar algunas propiedades 
+							teóricas de los sistemas M/M/1 con las obtenidas mediante la simulación.</p>	
+						
 					</ul>
 				</section>
 		
 				<section>
 						<section data-state="soothe">
-					<h2>Elementos de un sistema de espera</h2>
+					<h2>Elementos y características de un sistema de colas</h2>
 				</section>
 		
 				<section>
 					<ol>
-						<li ><code>Los procesos de llegada al sistema</code></li>
-						<li class="fragment"><code>La infraestructura de antención de entidades y</code></li>
-						<li class="fragment"><code>La politica de antención.</code></li>
+						<li ><code>Las tareas.
+								<ul>
+									<li class="fragment">Promedio de arribo.</li>
+								</ul>
+							</code></li>
+						<li class="fragment"><code>
+											La cola.
+												<ul>
+													<li class="fragment">Capacidad.</li>
+													<li class="fragment">Politica de servicio.</li>
+													<li class="fragment">Tiempo promedio de espera.</li>
+												</ul>	
+											</code></li>
+						<li class="fragment"><code>Los servidores.
+												<ul>
+													<li class="fragment">Promedio de servicio.</li>
+													<li class="fragment">Número de tareas atendidas</li>
+												</ul>	
+											</code></li>						
+						<li class="fragment"><code>El sistema.
+												<ul>
+													<li class="fragment">Tiempo promedio de respuesta.</li>
+													<li class="fragment">Número promedio de tareas en el sistema.</li>
+													<li class="fragment">Número de servidores</li>
+												</ul>
+											</code></li>
 					</ol>	
-				</section>
-
-				<section data-state="soothe">
-					<h2>"Adicionalmente"</h2>
-				</section>
-
-				<section >
-					<li ><code>Tiempo promedio</code></li>
-					<li class="fragment"><code>largo promedio de las colas</code></li>
-					<li class="fragment"><code>porcentajes de tiempo de ocio.</code></li>
-					
-				</section>
-
-				<section data-state="soothe">
-					<h2>"Más finas aún"</h2>
-				</section>
-
-				<section >
-					<li ><code>Porcentaje de las entidades que deberan esperar mas que un cierto monto de tiempo</code></li>
 				</section>
 
 				</section>	
 
 				<section>
-						<h2>Ejemplo de un sistema de espera</h2>
+						<h2>Ejemplo de un <br>sistema de espera</h2>
 						<a>
 							<img width="512" height="300" src="img/sis.JPG">
 						</a>
@@ -112,7 +128,7 @@
 				<section >
 					<h2>¿Se generará congestión?</h2>
 					<li class="fragment">El tiempo de ingreso de una entidad y la siguiente es menor que su valor esperado y/o</li>
-					<li class="fragment">El tiempo de servicio de alguna de las cajas sera mayor que su valor esperado.</li>
+					<li class="fragment">El tiempo de servicio de alguna de los servidores sera mayor que su valor esperado.</li>
 				</section>
 					<section>
 						<section data-state="soothe">
@@ -123,15 +139,15 @@
 						<h2>M/M/1</h2>
 						<li class="fragment">M Procesos de llegada</li>
 						<li class="fragment">M Procesos de un servidor</li>
-						<li class="fragment">1 caja en servicio</li>
+						<li class="fragment">1 servidor en servicio</li>
 					</section>
 
 					<section >
 						<h2>M/M/C</h2>
-						<li class="fragment">Similar al anterior, solo que este tiene n cajas en paralelo.</li>
-						<li class="fragment">Los tiempos de servicio de las cajas so V.A.I.I:D.</li>
-						<li class="fragment">distribuciòn exponencial a tasa U.</li>
-						<li class="fragment">Las entidades se incorporan a una cola única que va alimentando las cajas que se desocupan.</li>
+						<li class="fragment">Similar al anterior, solo que éste tiene n servidores en paralelo.</li>
+						<li class="fragment">Los tiempos de servicio de los servidores son V.A.I.I:D.</li>
+						<li class="fragment">Distribución exponencial a tasa U.</li>
+						<li class="fragment">Las entidades se incorporan a una cola única que va alimentando los servidores que se desocupan.</li>
 					</section>
 				</section>
 				<section data-state="alert">
