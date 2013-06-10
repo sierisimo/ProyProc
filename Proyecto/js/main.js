@@ -10,7 +10,7 @@ $('#play').click(function(){
 			clearInterval(a);
 			b();
 		}
-	},1);
+	},1000);
 		
 	function b(){
 		for (i = 0; i < mSProc.system.servers.length ; i++){
@@ -43,13 +43,23 @@ $('#play').click(function(){
 					html.table+="<td>" + Math.round(mSProc.system.taskLogger[i].timeArrival* 100) / 100 + "</td>";
 					html.table+="<td>" + Math.round(mSProc.system.taskLogger[i].timeStartService* 100) / 100 + "</td>";
 					html.table+="<td>" + Math.round(mSProc.system.taskLogger[i].timeDeparture* 100) / 100 + "</td>";
-					html.table+="<td>" + Math.round((mSProc.system.taskLogger[i].timeDeparture - mSProc.system.taskLogger[i].timeArrival)* 100)/100 + "</td>";
-					html.table+="<td>" + Math.round((mSProc.system.taskLogger[i].timeDeparture - mSProc.system.taskLogger[i].timeStartService)* 100)/100 + "</td>";
+					
+					mSProc.system.taskLogger[i].timeResponse = Math.round((mSProc.system.taskLogger[i].timeDeparture - mSProc.system.taskLogger[i].timeArrival)* 100)/100;
+					mSProc.system.taskLogger[i].timeWait = Math.round((mSProc.system.taskLogger[i].timeDeparture - mSProc.system.taskLogger[i].timeStartService)* 100)/100
+
+					html.table+="<td>" + mSProc.system.taskLogger[i].timeResponse + "</td>";
+					html.table+="<td>" + mSProc.system.taskLogger[i].timeWait + "</td>";
+
+					//html.table+="<td>" + Math.round((mSProc.system.taskLogger[i].timeDeparture - mSProc.system.taskLogger[i].timeArrival)* 100)/100 + "</td>";
+					//html.table+="<td>" + Math.round((mSProc.system.taskLogger[i].timeDeparture - mSProc.system.taskLogger[i].timeStartService)* 100)/100 + "</td>";
 					
 					
 				html.table += "</tr>";
 			}
 			html.table += "</table>";
+
+			document.getElementById("generar").disabled = false;
+
 
 			var a = window.open("","Resultados","height=500,width=400,location=no,menubar=no",false);
 			var header = document.createElement('LINK'); 
@@ -61,6 +71,7 @@ $('#play').click(function(){
 			header.rel="stylesheet";	
 			a.document.head.appendChild(header);
 			a.document.body.appendChild(bd);;	
+
 		}
 	}
 );

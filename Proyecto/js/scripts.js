@@ -159,6 +159,10 @@ $('#crear').click(function () {
 });
 
 $('#generar').click(function () {
+    if (mSProc.system.taskLogger != undefined && mSProc.system.taskLogger[0].timeResponse == undefined){
+        alert("Simulación en proceso. Por favor, espere a que concluya.");
+        return;
+    }
     $("#myTab  a").tab('show');
     for (var i = 1; i <= nservidor; i++) {
         var temp;
