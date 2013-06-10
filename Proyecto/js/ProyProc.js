@@ -201,6 +201,8 @@ SProc.System = function(config){
 	this.Parent = {};
 	this.Mu_s = config.Mu_s;
 	this.servers = new Array();
+	this.attentionPolicy = (config && config.attentionPolicy) || "rapido" ;
+	//primero || rapido || aleatorio
 	//Añade servidores personalizados
 	for (var i = 0; i < config.servers.length ; i++){
 		var tempObject = new Object();

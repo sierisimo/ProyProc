@@ -50,12 +50,19 @@ SProc.Queue.prototype.setTask = function(newTask){
 SProc.Queue.prototype.attention = function(mysystem){
 	var numberTask = this.getNumberTask();
 	if(numberTask >= 1 && mysystem.tasksOnService() != mysystem.servers.length){
-		for(var i=0;i<mysystem.servers.length;i++){
-			if(mysystem.servers[i].getState() == false){
-				break; //Change this to a better sustitution
-					//policy in next version
-			}
-		}
+		switch (mysystem.attentionPolicy){
+			case "primero":
+				for(var i=0;i<mysystem.servers.length;i++){
+					if(mysystem.servers[i].getState() == false){
+					break; 		
+					}
+				}
+			break;
+			case "rapido":
+				for(var i = 0	
+		}		
+
+		
 		var firstTask = this.getFirstTask();
 		firstTask.setTimeStartService(this.Parent.Parent.getTime()); 
 		mysystem.servers[i].attend(firstTask);
