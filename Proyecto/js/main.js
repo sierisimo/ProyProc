@@ -1,21 +1,21 @@
 $(document).ready(function(){
 	var temp = new Object();
-	temp.Mu_a = 1;
+	temp.Mu_a = .3;
 	temp.capacity = 4;
 
 
 	var newQueue = new SProc.Queue(temp);
 
 	var obj = new Object();
-	obj.Mu_s = 6;
-	obj.servers = [6,10];
+	obj.Mu_s = 2.32;
+	obj.servers = [4.32,1.32];
 
 	obj.queue = newQueue;
-	obj.nservers = 2;
+	obj.nservers = 5;
 
 	var mySystem = new SProc.System(obj);
 
-	var fSProc = new SProc({System:mySystem,Delta:.5});	
+	var fSProc = new SProc({System:mySystem,Delta:.1});	
 	for (var i = 0 ; i < 200 ;i++){
 		console.log("*****Inicio de ciclo " + fSProc.getTime());
 		fSProc.system.refresh();

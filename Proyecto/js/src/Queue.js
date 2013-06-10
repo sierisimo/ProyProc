@@ -54,12 +54,28 @@ SProc.Queue.prototype.attention = function(mysystem){
 			case "primero":
 				for(var i=0;i<mysystem.servers.length;i++){
 					if(mysystem.servers[i].getState() == false){
-					break; 		
+						break; 		
 					}
 				}
 			break;
 			case "rapido":
-				for(var i = 0	
+				var menor = 0;
+				for(var i=0;i<mysystem.servers.length;i++){
+					if(mysystem.servers[i].getState() == false){
+						break; 		
+					}
+				}
+				menor = i;
+				for(var j = 1;i<mysystem.servers.length;i++){
+					if(mysystem.servers[menor] > mysystem.servers[j].Mu_s && !mysystem.servers[j].getState()){
+						menor = j;
+					}
+				}
+				i = menor;
+			break;
+			case "aleatorio":
+				var i = Math.floor(Math.random() * (mysystem.servers.length));
+			break;
 		}		
 
 		
