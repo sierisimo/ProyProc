@@ -1,0 +1,16 @@
+<script type="text/javascript" src="js/jquery-2.0.2.min.js"></script>
+<button id="ventanita">LoadVentanita</button>
+<script type="text/javascript">
+	var button = $('#ventanita');
+	$(button).on('click',function(){
+		var a = window.open("","Ventanita","height=500,width=400,location=no,menubar=no",false);
+		var html = document.createElement('LINK'), h1=document.createElement('H1');
+		html.href="css/estilos.css";
+		html.type="text/css";
+		html.rel="stylesheet";
+		h1.innerHTML="Sier";	
+		a.document.head.appendChild(html);
+		a.document.body.appendChild(h1);
+		
+	});
+</script>
