@@ -263,7 +263,7 @@ $('#generar').click(function () {
         [
             $('<span>', {
                 class: 'p',
-                html: er,
+                html: Math.round(er*100)/100,
             })
         ]);
 
@@ -271,7 +271,7 @@ $('#generar').click(function () {
         [
             $('<span>', {
                 class: 'p',
-                html: ew,
+                html: Math.round(ew*100)/100,
             })
         ]);
 
@@ -279,7 +279,7 @@ $('#generar').click(function () {
         [
             $('<span>', {
                 class: 'p',
-                html: ex,
+                html: Math.round(ex*100)/100,
             })
         ]);
 
@@ -287,7 +287,7 @@ $('#generar').click(function () {
         [
             $('<span>', {
                 class: 'p',
-                html: exw,
+                html: Math.round(exw*100)/100,
             })
         ]);
 

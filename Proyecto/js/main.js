@@ -10,7 +10,7 @@ $('#play').click(function(){
 			clearInterval(a);
 			b();
 		}
-	},1000);
+	},100);
 		
 	function b(){
 		for (i = 0; i < mSProc.system.servers.length ; i++){
@@ -58,12 +58,43 @@ $('#play').click(function(){
 			}
 			html.table += "</table>";
 
+			var responseAverage = 0;
+			var limit = mSProc.system.taskLogger.length;
+			for (i = 0; i<limit ; i++){
+				responseAverage += mSProc.system.taskLogger[i].timeResponse;
+			}
+			responseAverage /= limit;
+			
+			var waitAverage = 0;
+			limit = mSProc.system.taskLogger.length;
+			for (i = 0; i<limit ; i++){
+				waitAverage += mSProc.system.taskLogger[i].timeWait;
+			}
+			waitAverage /= limit;
+
+			var tasksOnSystem = 0;
+			limit = mSProc.system.logger.length;
+			for (i = 0; i<limit ; i++){
+				tasksOnSystem += mSProc.system.logger[i].X_t;
+			}
+			tasksOnSystem /= limit;
+
+			var tasksOnQueue = 0;
+			limit = mSProc.system.logger.length;
+			for (i = 0; i<limit ; i++){
+				tasksOnQueue += mSProc.system.logger[i].X_w;
+			}
+			tasksOnQueue /= limit;
+			alert("E[R] = " +responseAverage);
+			alert("E[W] = " +waitAverage);
+			alert("E[X] = " +tasksOnSystem);
+			alert("E[X_w] = " +tasksOnQueue);
+
 			document.getElementById("generar").disabled = false;
-
-
-			var a = window.open("","Resultados","height=500,width=400,location=no,menubar=no",false);
+			a = window.open("","Resultados","height=500,width=400,location=no,menubar=no",false);
 			var header = document.createElement('LINK'); 
 			var bd = document.createElement('div');
+			promedioRespuesta /= limit;
 			bd.innerHTML = html.table;
 
 			header.href="css/bootstrap.css";
